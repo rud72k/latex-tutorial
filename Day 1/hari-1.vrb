@@ -1,0 +1,14 @@
+\frametitle{Mendiagnosis proyek besar}
+\small
+\begin{tabular}{@{}p{.36\linewidth}p{.59\linewidth}@{}}
+\toprule
+Gejala & Pemeriksaan pertama\\\midrule
+Berkas tidak ditemukan & Cocokkan nama, huruf besar/kecil, dan jalur dari berkas utama.\\
+Perintah tidak dikenal & Periksa ejaan, paket, dan urutan definisi.\\
+Label ganda atau \texttt{??} & Cari label yang berulang atau salah, lalu kompilasi ulang.\\
+Sitasi tidak terisi & Periksa kunci, berkas \texttt{.bib}, dan log Biber.\\
+\texttt{Overfull} & Periksa baris, tabel, atau gambar yang terlalu lebar.\\
+\bottomrule
+\end{tabular}
+\tugas{Pada salinan proyek, ubah satu jalur berkas. Baca kesalahan pertama,
+temukan penyebabnya, lalu pulihkan jalur tersebut.}

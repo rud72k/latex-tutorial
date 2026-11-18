@@ -1,0 +1,10 @@
+\frametitle{Pemeriksaan kompilasi dan tampilan}
+\begin{lstlisting}[style=terminal]
+latexmk -pdf hari-2.tex
+\end{lstlisting}
+\begin{itemize}
+  \item Tidak ada error yang tersisa.
+  \item Tidak ada teks atau grafik yang keluar dari batas frame.
+  \item Semua label sumbu, angka, dan simbol terbaca.
+  \item Setiap frame mendukung narasi lisan.
+\end{itemize}

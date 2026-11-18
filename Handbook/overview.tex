@@ -1,0 +1,435 @@
+\documentclass[11pt,a4paper,oneside]{book}
+
+\usepackage{fontspec}
+
+\usepackage[indonesian]{babel}
+\usepackage{geometry}
+\geometry{margin=2.6cm}
+\usepackage{microtype}
+\usepackage{xcolor}
+\definecolor{biru}{HTML}{145A86}
+\definecolor{jingga}{HTML}{C66A12}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{graphicx}
+\usepackage{booktabs,tabularx,array}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,angles,quotes,positioning,calc,decorations.pathreplacing}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,backgroundcolor=\color{gray!8},keywordstyle=\color{biru},commentstyle=\color{gray!70!black}}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=biru,urlcolor=biru,citecolor=biru,pdftitle={Ikhtisar Pelatihan LaTeX}}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setlength{\headheight}{14pt}
+\fancyhf{}
+\fancyhead[L]{Ikhtisar Pelatihan LaTeX}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+\newcommand{\tujuan}[1]{\begin{quote}\textbf{Tujuan belajar.} #1\end{quote}}
+\newcommand{\latihan}[1]{\begin{quote}\textcolor{jingga}{\textbf{Latihan.}} #1\end{quote}}
+\newcommand{\kode}[1]{\texttt{#1}}
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{}
+
+\title{\textcolor{biru}{Ikhtisar Pelatihan LaTeX}\\
+\large Penyusunan Dokumen Akademik, Presentasi, dan Tata Letak}
+\author{Bahan pelatihan berbahasa Indonesia}
+\date{2026}
+
+\begin{document}
+\hypersetup{pageanchor=false}
+\maketitle
+\frontmatter
+\hypersetup{pageanchor=true}
+\chapter*{Cara menggunakan ikhtisar}
+Ikhtisar ini merangkum tiga hari pelatihan. Setiap hari terdiri atas empat sesi utama berdurasi 75 menit. Peserta sebaiknya membuka editor LaTeX secara langsung dan mengetik ulang contoh-contoh pendek sebelum mengembangkan dokumen praktik.
+
+Contoh utama menggunakan tema eksperimen ayunan sederhana. Dengan satu konteks, peserta berlatih menulis teori, persamaan, tabel, gambar, grafik, sitasi, dan presentasi Beamer.
+
+\tableofcontents
+\mainmatter
+
+\chapter{Hari 1: Dasar LaTeX dan dokumen akademik}
+\tujuan{Pada akhir hari pertama, peserta mampu membuat dokumen akademik dasar yang berisi teks terstruktur, persamaan, tabel, gambar, rujukan silang, dan daftar pustaka.}
+
+\section{Sesi 1: Mengenal LaTeX dan lingkungan kerja}
+LaTeX adalah sistem penyusunan dokumen berbasis teks. Penulis memisahkan isi dari instruksi tata letak; berkas sumber kemudian dikompilasi menjadi PDF. Cara kerja ini cocok untuk dokumen panjang, persamaan matematika, dan naskah yang memerlukan konsistensi.
+
+Contoh dokumen paling sederhana:
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\documentclass{article}
+\begin{document}
+Halo, LaTeX!
+\end{document}
+\end{lstlisting}
+
+Perintah \verb|\documentclass| memilih kelas dokumen. Tulis isi di antara \verb|\begin{document}| dan \verb|\end{document}|. Bagian sebelumnya disebut prambule. Di sana penulis memuat paket dan menetapkan judul.
+
+\subsection{Kompilasi dan struktur berkas}
+Alur kerja umum adalah: tulis sumber, kompilasi, baca pesan kesalahan, periksa PDF, lalu ulangi. Gunakan nama berkas yang jelas, misalnya \kode{eksperimen.tex}. Untuk proyek besar, pisahkan isi ke beberapa berkas dengan \kode{input} atau \kode{include}.
+
+Di Overleaf, buat proyek kosong dan ketik contoh pada berkas utama. Pilih XeLaTeX sebagai mesin kompilasi lalu jalankan kompilasi. Untuk bekerja secara lokal, simpan berkas sebagai \texttt{eksperimen.tex} dan jalankan \texttt{latexmk -xelatex eksperimen.tex}. Bila kompilasi terhenti, baca pesan kesalahan pertama dan periksa juga baris sebelumnya.
+
+Tambahkan identitas berikut sebelum \verb|\begin{document}|. Letakkan \verb|\maketitle| tepat sesudahnya.
+\begin{lstlisting}
+\title{Mengukur periode ayunan}
+\author{Nama peserta}
+\date{\today}
+\end{lstlisting}
+\latihan{Buat dokumen berkelas \texttt{article} yang memiliki judul, nama penulis, tanggal, satu paragraf, dan satu daftar sederhana. Sengaja hilangkan satu kurung kurawal, kompilasikan, lalu perbaiki pesan kesalahannya.}
+
+\section{Sesi 2: Struktur dan format dokumen}
+Kelas \texttt{book} dan \texttt{report} menyediakan tingkat bab. Untuk laporan berkelas \texttt{article}, mulailah dari bagian (\verb|\section|).
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\chapter{Pendahuluan}
+\section{Latar Belakang}
+\subsection{Tujuan}
+\paragraph{Catatan} Isi paragraf.
+\end{lstlisting}
+
+Paragraf baru dibuat dengan satu baris kosong. Perintah \verb|\\| sebaiknya digunakan terbatas karena ia memaksa pemutusan baris, bukan membuat paragraf baru. Format teks dapat ditulis dengan \verb|\textbf{tebal}|, \verb|\textit{miring}|, dan \verb|\underline{garis bawah}|.
+
+Gunakan \texttt{itemize} untuk daftar berpoin dan \texttt{enumerate} untuk daftar bernomor.
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{enumerate}
+  \item Siapkan data.
+  \item Tulis metode.
+  \item Bahas hasil.
+\end{enumerate}
+\end{lstlisting}
+
+\latihan{Buat kerangka laporan eksperimen dengan bagian Pendahuluan, Metode, Hasil, dan Kesimpulan. Tambahkan daftar alat dan langkah kerja.}
+
+\section{Sesi 3: Matematika, tabel, gambar, dan referensi}
+Matematika di dalam baris ditulis dengan tanda dolar, misalnya \verb|$T=2\pi\sqrt{L/g}$|. Persamaan penting sebaiknya diberi nomor:
+\begin{equation}\label{eq:pendulum}
+  T=2\pi\sqrt{\frac{L}{g}}.
+\end{equation}
+Model ini berlaku sebagai pendekatan untuk simpangan sudut kecil, tali ringan yang panjangnya tetap, dan redaman yang dapat diabaikan. Ukur $L$ dari titik gantung sampai pusat massa beban. Dengan menguadratkan Persamaan~\ref{eq:pendulum}, diperoleh $T^2=4\pi^2L/g$. Bentuk ini berguna untuk membuat grafik linear.
+
+Contoh tabel pengamatan:
+\begin{table}[ht]
+\centering
+\caption{Data ilustratif untuk menghitung periode dari sepuluh getaran.}\label{tab:data-ayunan}
+\begin{tabular}{rrrr}
+\toprule
+Panjang $L$ (m) & Getaran & Waktu (s) & Periode $T$ (s)\\
+\midrule
+0,40 & 10 & 12,7 & 1,27\\
+0,60 & 10 & 15,6 & 1,56\\
+0,80 & 10 & 18,0 & 1,80\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Gambar dan tabel adalah \emph{float}; LaTeX dapat memindahkannya ke posisi yang sesuai. Gunakan \verb|\label| setelah \verb|\caption|, kemudian panggil dengan \verb|\ref|. Hindari menulis ``lihat halaman 3'' karena nomor dapat berubah.
+
+\subsection{Gambar eksperimen dengan TikZ}
+Garis putus-putus menunjukkan posisi setimbang. Sudut pada gambar diperbesar agar mudah dibaca.
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}[scale=1,>=Latex]
+  \coordinate (O) at (0,2);
+  \coordinate (B) at ($(O)+(-65:2.6)$);
+  \draw[thick] (-1,2)--(1,2);
+  \draw[dashed] (O)--++(0,-2.8);
+  \draw[thick] (O)--(B) node[midway,right] {$L$};
+  \draw (O)++(-90:0.85) arc (-90:-65:0.85);
+  \node at ($(O)+(-77:1.22)$) {$\theta$};
+  \fill[biru] (B) circle (0.14) node[right=4pt] {beban};
+\end{tikzpicture}
+\caption{Diagram skematis ayunan sederhana.}\label{fig:ayunan}
+\end{figure}
+
+\subsection{Rujukan dan daftar pustaka}
+Untuk latihan awal, daftar pustaka dapat dibuat manual dengan lingkungan \texttt{thebibliography}. Pada proyek yang lebih besar, gunakan BibTeX atau biblatex agar data referensi terpisah dari isi naskah.
+
+Letakkan contoh ini sebelum \verb|\end{document}|. Nama kunci pada kedua perintah harus sama.
+\begin{lstlisting}
+Cara memberi nomor persamaan dibahas dalam manual \cite{manual}.
+\begin{thebibliography}{9}
+\bibitem{manual} LaTeX2e: An unofficial reference manual,
+  bab 16, 2026.
+\end{thebibliography}
+\end{lstlisting}
+
+\section{Sesi 4: Praktik dokumen akademik}
+Untuk membuat tabel sendiri, mulai dari dua kolom. Huruf \texttt{r} meratakan bilangan ke kanan. Tambahkan satu baris untuk setiap pengukuran.
+\begin{lstlisting}
+\begin{table}[htbp]
+  \centering
+  \caption{Periode untuk setiap panjang tali}\label{tab:periode}
+  \begin{tabular}{rr}
+    Panjang (m) & Periode (s) \\ \hline
+    0,40 & 1,27 \\
+  \end{tabular}
+\end{table}
+Tabel~\ref{tab:periode} memuat hasil pengukuran.
+\end{lstlisting}
+Gabungkan materi sebelumnya menjadi laporan mini-proyek. Dokumen minimal berisi judul, tujuan, teori, metode, diagram, tabel data, satu persamaan bernomor, pembahasan, dan kesimpulan.
+
+\latihan{Kompilasi laporan sampai tidak ada error. Periksa apakah semua tabel, gambar, dan persamaan yang dirujuk benar-benar memiliki label.}
+
+\chapter{Hari 2: Presentasi akademik dengan Beamer}
+\tujuan{Pada akhir hari kedua, peserta mampu mengubah laporan menjadi presentasi Beamer yang ringkas, terbaca, dan konsisten secara visual.}
+
+\section{Sesi 1: Struktur dasar Beamer}
+Beamer adalah kelas dokumen untuk membuat presentasi. Satu halaman presentasi disebut \emph{frame}. Contoh minimum:
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\documentclass{beamer}
+\usetheme{Madrid}
+\title{Eksperimen Ayunan Sederhana}
+\author{Nama Peserta}
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+\begin{frame}{Tujuan}
+  \begin{itemize}
+    \item Mengukur periode ayunan.
+    \item Mengestimasi percepatan gravitasi.
+  \end{itemize}
+\end{frame}
+\end{document}
+\end{lstlisting}
+
+Gunakan \verb|\section| untuk struktur navigasi, \texttt{block} untuk menonjolkan gagasan, dan \texttt{alertblock} secara hemat untuk peringatan atau hasil utama.
+
+\section{Sesi 2: Matematika dan visual}
+Persamaan pada slide harus lebih besar dan lebih singkat daripada di laporan. Satu frame sebaiknya menyampaikan satu gagasan utama. Tabel dapat dipadatkan dengan hanya menampilkan kolom yang diperlukan untuk argumen.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\begin{frame}{Model matematis}
+  \begin{block}{Hubungan periode dan panjang tali}
+    \[T=2\pi\sqrt{L/g}\]
+  \end{block}
+  Jika $T^2$ diplot terhadap $L$, kemiringan garis berkaitan
+  dengan nilai $g$.
+\end{frame}
+\end{lstlisting}
+
+TikZ cocok untuk diagram yang harus konsisten dengan font dan warna dokumen. \texttt{pgfplots} cocok untuk grafik data; data kecil dapat ditulis langsung dalam lingkungan \texttt{axis}.
+
+\begin{figure}[ht]
+\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.78\textwidth,height=5.2cm,grid=major,xlabel={$L$ (m)},ylabel={$T^2$ (s$^2$)},title={Contoh hubungan $T^2$ dan $L$}]
+\addplot[only marks,mark=*,biru] coordinates {(0.4,1.613) (0.6,2.434) (0.8,3.240)};
+\addplot[no markers,jingga,domain=0.35:0.85] {4.05*x};
+\end{axis}
+\end{tikzpicture}
+\caption{Contoh grafik yang dapat dimasukkan ke slide.}
+\end{figure}
+
+Pada satu \emph{frame}, tampilkan pengukuran terlebih dahulu agar peserta sempat memprediksi hasil. Angka di dalam kurung sudut menentukan tahap kemunculan.
+\begin{lstlisting}
+\begin{frame}{Berapa lama satu getaran?}
+  \begin{enumerate}
+    \item<1-> Sepuluh getaran memerlukan 12,7 s.
+    \item<2-> Periode satu getaran adalah 1,27 s.
+  \end{enumerate}
+\end{frame}
+\end{lstlisting}
+
+\section{Sesi 3: Desain presentasi}
+Tempatkan pengaturan ini setelah pemilihan tema. Periksa judul dan blok pada layar proyektor dari kursi paling belakang.
+\begin{lstlisting}
+\definecolor{laut}{HTML}{145A86}
+\setbeamercolor{frametitle}{fg=white,bg=laut}
+\setbeamerfont{frametitle}{series=\bfseries}
+\setbeamertemplate{navigation symbols}{}
+\end{lstlisting}
+Pilih tema, ukuran huruf, dan warna yang mendukung isi. Kontras harus cukup; teks tidak boleh terlalu kecil; dan setiap slide perlu memiliki ruang kosong. Untuk kebutuhan institusi, buat satu preamble bersama agar semua presentasi memiliki identitas yang sama.
+
+Dengan XeLaTeX, font modern dan dukungan bahasa dapat diatur melalui \texttt{fontspec}. Untuk presentasi Bahasa Indonesia, konsistensi istilah lebih penting daripada banyaknya efek visual.
+
+\latihan{Buat lima frame: judul, pertanyaan, metode, hasil berbentuk grafik, dan kesimpulan. Pastikan audiens dapat membaca isi setiap frame dari jarak jauh.}
+
+\section{Sesi 4: Praktik Beamer}
+Ubah laporan eksperimen menjadi presentasi 5--7 menit. Gunakan satu frame untuk masalah, satu untuk teori, satu untuk metode, dua untuk hasil, dan satu untuk kesimpulan. Tambahkan overlay hanya jika membantu urutan penjelasan.
+
+\chapter{Hari 3: Tata letak, template, dan finalisasi}
+\tujuan{Pada akhir hari ketiga, peserta mampu mengatur halaman, membangun template sederhana, mengelola proyek multi-file, dan memeriksa dokumen sebelum dibagikan.}
+
+\section{Sesi 1: Tata letak dokumen}
+Atur margin dengan \texttt{geometry}, header dan footer dengan \texttt{fancyhdr}, serta penomoran dan daftar isi dengan perintah standar LaTeX. Gunakan panjang relatif seperti \verb|\textwidth| dan \verb|\linewidth| agar tabel atau gambar beradaptasi dengan lebar halaman.
+
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{Judul Dokumen}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+\end{lstlisting}
+
+Untuk buku cetak bolak-balik, gunakan opsi kelas \texttt{twoside} dan tetapkan margin \texttt{inner} serta \texttt{outer} pada \texttt{geometry}. Cetak dua halaman berhadapan untuk memeriksa ruang jilid. Pada kelas \texttt{book}, susun bagian buku seperti berikut.
+\begin{lstlisting}
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+\mainmatter
+\input{bab/metode}
+\backmatter
+\end{lstlisting}
+Simpan isi bab mulai dari \verb|\chapter{Metode}| di \texttt{bab/metode.tex}. Kompilasi berkas utama agar nomor halaman dan rujukan diperbarui bersama.
+
+\section{Sesi 2: Template dan kustomisasi}
+Template yang baik menyimpan keputusan desain di satu tempat. Pisahkan preamble, isi bab, gambar, dan referensi. Perintah khusus dapat mengurangi pengulangan:
+\begin{lstlisting}[language={[LaTeX]TeX}]
+\usepackage{xcolor}
+\definecolor{biru}{HTML}{145A86}
+\newcommand{\hasilutama}[1]{\textcolor{biru}{\textbf{#1}}}
+\newenvironment{catatan}{\begin{quote}\small}{\end{quote}}
+\end{lstlisting}
+
+Untuk templat dengan argumen opsional, gunakan bentuk berikut dari panduan penulis LaTeX. Penanda \texttt{m} berarti argumen wajib dan \texttt{O\{s\}} memberi satuan bawaan detik.
+\begin{lstlisting}
+\NewDocumentCommand{\ukuran}{m O{s}}{#1\,\mathrm{#2}}
+% Dalam isi dokumen:
+$T=\ukuran{1{,}27}$ dan $L=\ukuran{0{,}40}[m]$.
+\end{lstlisting}
+
+Pada tahap lebih lanjut, pengguna dapat membuat class file sendiri. Untuk pelatihan, pahami dulu hubungan antara class, package, preamble, dan isi dokumen sebelum menulis class baru.
+
+\section{Sesi 3: Fitur penerbitan dan materi khusus}
+Dokumen akademik panjang dapat memerlukan daftar isi, daftar gambar, indeks, glossary, nomenclature, dan bibliografi. Bibliografi dapat dikelola dengan BibTeX, natbib, atau biblatex; pilih satu alur dan konsisten.
+
+Untuk kode, gunakan \texttt{listings} atau \texttt{minted} sesuai kebutuhan lingkungan kompilasi. Theorem dan proof dapat ditulis dengan \texttt{amsthm}; soal ujian, formula kimia, diagram rangkaian, dan grafik data dapat ditambahkan sebagai modul pilihan.
+
+Bahasa Indonesia dapat dikombinasikan dengan dukungan font dan bahasa melalui \texttt{babel} atau \texttt{polyglossia}. Periksa tanda kutip, pemenggalan kata, dan font sebelum dokumen final dibagikan.
+
+Untuk mencoba alur \texttt{biblatex}, buat berkas \texttt{pustaka.bib} dengan satu entri berikut.
+\begin{lstlisting}
+@manual{pgf,
+  author = {Till Tantau},
+  title  = {The TikZ and PGF Packages},
+  year   = {2026}
+}
+\end{lstlisting}
+Muat \verb|\usepackage[backend=biber]{biblatex}| dan \verb|\addbibresource{pustaka.bib}| di prambule. Di dalam bab, tulis \verb|Diagram dibuat dengan TikZ \cite{pgf}.| Cetak daftar pustaka dengan \verb|\printbibliography|. Untuk kompilasi manual, jalankan XeLaTeX, Biber pada nama dasar berkas utama, lalu XeLaTeX dua kali.
+
+\section{Sesi 4: Pengerjaan dan finalisasi}
+Gunakan daftar pemeriksaan berikut:
+\begin{enumerate}[leftmargin=*]
+  \item Semua bagian memiliki struktur dan judul yang konsisten.
+  \item Tidak ada pesan error atau warning penting yang diabaikan.
+  \item Semua gambar dan tabel memiliki caption serta label bila dirujuk.
+  \item Persamaan, daftar isi, daftar gambar, dan bibliografi telah diperbarui.
+  \item Margin, header, footer, penomoran, dan tipografi telah diperiksa secara visual.
+  \item Dokumen dapat dikompilasi ulang dari berkas sumber yang bersih.
+\end{enumerate}
+
+\chapter{Lembar kerja mini-proyek}
+\section{Eksperimen ayunan sederhana}
+\textbf{Pertanyaan utama:} bagaimana memperkirakan $g$ dari pengukuran panjang tali dan periode ayunan?
+
+\begin{enumerate}
+  \item Pilih sedikitnya tiga panjang tali.
+  \item Ukur waktu untuk beberapa getaran pada setiap panjang.
+  \item Hitung $T=t/N$.
+  \item Hitung $T^2$ dan buat tabel hasil.
+  \item Buat grafik $T^2$ terhadap $L$.
+  \item Jelaskan sumber ketidakpastian dan bandingkan estimasi $g$ dengan nilai rujukan.
+\end{enumerate}
+
+\subsection*{Contoh analisis dan pembuktian}
+\textbf{Proposisi.} Dalam model ayunan sudut kecil dengan $g$ tetap, panjang empat kali lipat menghasilkan periode dua kali lipat.
+
+\textit{Bukti.} Bagi rumus periode untuk $4L$ dengan rumus untuk $L$. Faktor $2\pi$ saling menghapus sehingga $T(4L)/T(L)=\sqrt{4L/L}=2$. Untuk mengujinya, pilih dua panjang dengan rasio $4:1$ dan bandingkan periode yang diukur.
+
+Pada baris pertama Tabel~\ref{tab:data-ayunan}, $T=12{,}7/10=1{,}27$ s dan $g=4\pi^2 L/T^2\approx9{,}79$ m/s$^2$. Tambahkan kolom $T^2$ dan $g$ untuk dua baris lain. Garis pada grafik contoh memiliki kemiringan sekitar $4{,}05$ s$^2$/m sehingga estimasi dari grafik adalah $4\pi^2/4{,}05\approx9{,}75$ m/s$^2$. Dalam percobaan sendiri, ulangi pengukuran tiga kali untuk setiap panjang. Mulai dan hentikan pencacahan ketika beban melewati titik yang sama dalam arah yang sama. Bahas pengaruh waktu reaksi pada pengukuran satu getaran dan sepuluh getaran.
+
+\clearpage
+\section{Latihan tabel trigonometri}
+Diagram berikut mengadaptasi konstruksi lingkaran satuan pada tutorial Karl dalam manual TikZ. Panjang proyeksi horizontal memberikan kosinus dan tinggi titik memberikan sinus.
+\begin{center}
+\begin{tikzpicture}[scale=1.65,>=Latex]
+  \draw[gray] (0,0) circle (1);
+  \draw[->] (-1.15,0)--(1.35,0) node[right] {$x$};
+  \draw[->] (0,-1.1)--(0,1.25) node[above] {$y$};
+  \coordinate (P) at (30:1);
+  \draw[thick,biru] (0,0)--(P) node[above right] {$P$};
+  \draw[dashed] (P)--(P |- 0,0);
+  \draw (0.42,0) arc (0:30:0.42);
+  \node at (15:0.63) {\small $30^\circ$};
+\end{tikzpicture}
+\end{center}
+Buat tabel sudut $0^\circ$ sampai $90^\circ$ dengan kolom $\sin\theta$, $\cos\theta$, dan $\tan\theta$. Gunakan pembulatan yang konsisten dan beri catatan bahwa $\tan 90^\circ$ tidak terdefinisi.
+
+\begin{table}[ht]
+\centering
+\caption{Format tabel trigonometri untuk diisi peserta.}
+\begin{tabular}{rrrr}
+\toprule
+$\theta$ & $\sin\theta$ & $\cos\theta$ & $\tan\theta$\\
+\midrule
+$0^\circ$ & & & \\
+$30^\circ$ & & & \\
+$45^\circ$ & & & \\
+$60^\circ$ & & & \\
+$90^\circ$ & & & tidak terdefinisi\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\appendix
+\chapter{Contoh untuk bahan ajar dan buku}
+\section{Menulis langkah perhitungan}
+Muat \verb|\usepackage{amsmath}| di prambule. Pada lingkungan \texttt{align}, tanda \verb|&| menandai titik perataan. Untuk mencoba contoh ini, ubah waktu sepuluh getaran menjadi 15,6 s dan panjang menjadi 0,60 m, lalu perbarui hasilnya.
+\begin{lstlisting}
+\begin{align}
+  T_1 &= \frac{t_1}{N} = \frac{12{,}7}{10}\,\mathrm{s},\\
+  g_1 &= \frac{4\pi^2 L_1}{T_1^2}
+       \approx 9{,}79\,\mathrm{m\,s^{-2}}.
+\end{align}
+\end{lstlisting}
+Untuk soal matriks, integral, dan penjumlahan, coba tiga bentuk ini di dalam isi dokumen. Ganti elemen matriks dengan pasangan panjang dan periode hasil pengamatan.
+\begin{lstlisting}
+\[
+ A=\begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix},\quad
+ \int_0^1 x^2\,dx=\frac13,\quad
+ \bar T=\frac{1}{n}\sum_{i=1}^{n}T_i .
+\]
+\end{lstlisting}
+\section{Mengubah data menjadi grafik}
+Muat \verb|\usepackage{pgfplots}| dan \verb|\pgfplotsset{compat=1.18}| di prambule. Salin contoh ini ke dalam laporan atau sebuah \emph{frame}. Setiap pasangan koordinat memuat panjang dan kuadrat periode. PGFPlots membaca titik sebagai pemisah desimal dalam data sumber.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \begin{axis}[width=.75\linewidth,height=4.6cm,
+    xlabel={$L$ (m)},ylabel={$T^2$ (s$^2$)},grid=major]
+    \addplot[only marks] coordinates {
+      (0.40,1.613) (0.60,2.434) (0.80,3.240)};
+  \end{axis}
+\end{tikzpicture}
+\end{lstlisting}
+\section{Menyiapkan templat buku guru}
+Gunakan \verb|\footnote{...}| untuk keterangan yang dibaca di kaki halaman dan \verb|\marginpar{...}| untuk petunjuk singkat di tepi halaman. Dalam buku dua sisi, periksa posisi catatan pada halaman kiri dan kanan. Untuk lembar soal dua kolom, muat paket \texttt{multicol}, lalu apit daftar soal dengan \verb|\begin{multicols}{2}| dan \verb|\end{multicols}|.
+
+Jika penerbit meminta indeks, muat \texttt{makeidx} dan jalankan \verb|\makeindex| di prambule. Tandai kemunculan istilah dengan \verb|periode\index{periode}| dan tempatkan \verb|\printindex| di belakang buku. Setelah kompilasi pertama, jalankan \texttt{makeindex} pada nama dasar berkas utama, lalu kompilasi ulang. Indeks menunjukkan halaman tempat istilah muncul. Glosarium memberi definisi istilah, sedangkan daftar lambang menjelaskan simbol seperti $L$, $T$, dan $g$ beserta satuannya.
+
+\section{Mendiagnosis hasil kompilasi}
+\begin{description}
+\item[Nomor rujukan muncul sebagai tanda tanya.] Cocokkan kunci pada \verb|\ref| dengan \verb|\label|. Letakkan label setelah judul gambar atau tabel dan kompilasi ulang.
+\item[Pesan \texttt{Undefined control sequence}.] Periksa ejaan perintah dan paket penyedianya. Contohnya, lingkungan grafik \texttt{axis} memerlukan paket \texttt{pgfplots}.
+\item[Pesan \texttt{Missing \$ inserted}.] Periksa apakah indeks bawah atau pangkat ditulis di luar modus matematika. Tulis \verb|$T_1^2$| untuk kuadrat periode pertama.
+\item[Teks melewati margin.] Cari \texttt{Overfull} pada log. Periksa baris yang disebutkan, pendekkan judul kolom atau gunakan kolom paragraf pada tabel.
+\end{description}
+\latihan{Tukar berkas sumber dengan rekan. Kompilasi dokumen dari berkas utama, temukan satu hasil pengukuran melalui rujukan dalam teks, lalu periksa apakah angka pada laporan sama dengan angka pada slide.}
+
+\backmatter
+\renewcommand{\bibname}{Panduan bacaan}
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Panduan bacaan}
+\begin{thebibliography}{9}
+\bibitem{latexuser} LaTeX Project, \emph{LaTeX for authors: current version}, panduan pengguna LaTeX.
+\bibitem{beamer} Till Tantau, Joseph Wright, dan Vedran Miletić, \emph{The beamer class: User Guide}.
+\bibitem{tikz} Till Tantau, \emph{The TikZ and PGF Manual}.
+\bibitem{refmanual} \emph{LaTeX2e: An unofficial reference manual}, Juni 2026. Pelajari Bab 7 untuk rujukan silang, Bab 16 untuk rumus, dan Bab 24 untuk proyek beberapa berkas.
+\end{thebibliography}
+
+\end{document}

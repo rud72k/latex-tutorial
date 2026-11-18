@@ -1,0 +1,5 @@
+\babel@toc {indonesian}{}\relax 
+\beamer@sectionintoc {1}{Sesi 1. Struktur dasar Beamer}{4}{0}{1}
+\beamer@sectionintoc {2}{Sesi 2. Materi matematis dan visual}{10}{0}{2}
+\beamer@sectionintoc {3}{Sesi 3. Desain presentasi}{18}{0}{3}
+\beamer@sectionintoc {4}{Sesi 4. Hands-on Beamer}{22}{0}{4}

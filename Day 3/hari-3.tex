@@ -1,0 +1,354 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[indonesian]{babel}
+\usepackage{booktabs,tikz,listings,amsmath,hyperref,multicol}
+\usetheme{metropolis}
+\usebeamercolor{normal text}\colorlet{codeink}{normal text.fg}
+\usebeamercolor{alerted text}\colorlet{codeaccent}{alerted text.fg!60!codeink}
+\lstset{language={[LaTeX]TeX},basicstyle=\ttfamily\small\color{codeink},
+  texcsstyle=*\bfseries\color{codeaccent},columns=fullflexible,keepspaces=true,
+  showstringspaces=false,backgroundcolor=\color{codeink!6},frame=l,
+  rulecolor=\color{codeaccent},xleftmargin=5pt,aboveskip=4pt,belowskip=4pt}
+\lstdefinestyle{bib}{basicstyle=\ttfamily\scriptsize,breaklines=true}
+\lstdefinestyle{terminal}{language=bash,basicstyle=\ttfamily\small\color{codeink},breaklines=true}
+\newcommand{\tugas}[1]{\par\medskip\alert{\textbf{Coba sendiri}}\quad #1}
+\title{Menulis dokumen akademik dengan \LaTeX}
+\subtitle{Hari 3 --- Tata letak, kustomisasi, dan finalisasi}
+\author{Pelatihan Universitas Terbuka dan Departemen Matematika FMIPA UGM}
+\date{Yogyakarta, 19 November 2026}
+\begin{document}
+\begin{frame}[plain]\usebeamerfont{title}\inserttitle\par\usebeamerfont{subtitle}\insertsubtitle\par\medskip\usebeamertemplate{title separator}\par\medskip\usebeamerfont{author}\insertauthor\par\smallskip\usebeamerfont{date}\insertdate\end{frame}
+\begin{frame}{Tujuan belajar Hari 3}
+\begin{enumerate}
+\item Mengendalikan tata letak dokumen panjang secara konsisten.
+\item Membaca dan memodifikasi template, kelas, paket, perintah, dan lingkungan.
+\item Menambahkan bibliografi, indeks, glossary, kode, bahasa, dan materi khusus.
+\item Memeriksa sumber, layout, referensi, dan hasil akhir sebelum diserahkan.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Peta belajar Hari 3}
+\tableofcontents
+\end{frame}
+\section{Tata letak dokumen}
+\begin{frame}{Tata letak dokumen panjang}
+Tata letak yang baik membuat pembaca dapat mengikuti struktur tanpa menebak.
+\medskip
+\begin{itemize}
+\item ukuran kertas dan margin mengikuti kebutuhan institusi;
+\item header, footer, dan nomor halaman memberi orientasi;
+\item judul, paragraf, daftar, tabel, dan gambar memakai gaya yang berulang;
+\item semua keputusan format disimpan di prambule atau berkas gaya.
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Ukuran kertas dan margin}
+\begin{lstlisting}
+\documentclass[a4paper,12pt]{book}
+\usepackage[a4paper,margin=3cm]{geometry}
+% atau margin berbeda untuk sisi dalam dan luar
+\usepackage[inner=3.5cm,outer=2.5cm,top=3cm,bottom=3cm]{geometry}
+\end{lstlisting}
+Gunakan satu sumber kebenaran untuk ukuran halaman. Periksa juga area cetak,
+ruang jilid, dan persyaratan template institusi.
+\tugas{Bandingkan PDF dengan margin 2 cm dan 3 cm.}
+\end{frame}
+\begin{frame}[fragile]{Single-sided dan double-sided}
+\begin{lstlisting}
+\documentclass[oneside]{book}  % halaman semua satu sisi
+\documentclass[twoside,openright]{book}
+\cleardoublepage                % bab baru pada halaman kanan
+\end{lstlisting}
+Pada mode dua sisi, halaman ganjil dan genap dapat memiliki header berbeda.
+Sisakan ruang jilid pada margin dalam dan uji halaman kosong yang sengaja muncul.
+\end{frame}
+\begin{frame}[fragile]{Header, footer, dan nomor halaman}
+\begin{lstlisting}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[LE]{\nouppercase{\leftmark}}
+\fancyhead[RO]{\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\fancypagestyle{plain}{\fancyhf{}\fancyfoot[C]{\thepage}}
+\end{lstlisting}
+Jangan menimpa gaya halaman judul tanpa sengaja. Untuk dokumen akademik,
+cek apakah nomor halaman awal memakai angka Romawi dan isi memakai angka Arab.
+\end{frame}
+\begin{frame}[fragile]{Paragraf dan jarak vertikal}
+\begin{lstlisting}
+\usepackage{parskip}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\end{lstlisting}
+Pilih satu pola: indentasi paragraf atau jarak antarparagraf. Hindari menambah
+\lstinline|\\| berulang kali untuk mengatur jarak karena hasilnya rapuh.
+\tugas{Buat dua paragraf dan bandingkan \texttt{parskip} dengan indentasi.}
+\end{frame}
+\begin{frame}[fragile]{Multiple columns}
+\begin{lstlisting}
+\usepackage{multicol}
+\begin{multicols}{2}
+Teks akan mengalir dari kolom kiri ke kolom kanan.
+\end{multicols}
+\end{lstlisting}
+Kolom cocok untuk daftar istilah atau ringkasan. Hindari kolom sempit untuk
+paragraf panjang dan pastikan judul, tabel, serta gambar tidak terpotong.
+\end{frame}
+\begin{frame}[fragile]{Counters dan penomoran}
+\begin{lstlisting}
+\newcounter{contoh}
+\setcounter{contoh}{0}
+\newcommand{\contoh}{\stepcounter{contoh}Contoh \thecontoh}
+\renewcommand{\thefigure}{\thesection.\arabic{figure}}
+\end{lstlisting}
+Gunakan counter untuk sesuatu yang benar-benar perlu bernomor. Biarkan LaTeX
+mengatur nomor tabel, gambar, persamaan, dan bagian secara otomatis.
+\end{frame}
+\begin{frame}[fragile]{Daftar isi dan daftar gambar}
+\begin{lstlisting}
+\tableofcontents
+\listoffigures
+\listoftables
+\section[Singkat di daftar]{Judul bagian yang panjang di halaman}
+\caption[Judul singkat]{Keterangan lengkap gambar}
+\end{lstlisting}
+Kompilasi beberapa kali atau gunakan \texttt{latexmk} agar berkas bantu diperbarui.
+Judul pendek menjaga daftar tetap terbaca.
+\end{frame}
+\begin{frame}{Konsistensi gaya}
+Tetapkan keputusan sebelum menulis banyak halaman:
+\begin{itemize}
+\item satuan margin, ukuran heading, dan jarak antarbagian;
+\item bentuk caption, label tabel, dan penulisan istilah;
+\item aturan untuk kutipan, daftar, URL, dan nomor persamaan;
+\item warna dan jenis huruf yang dapat dibaca saat dicetak hitam putih.
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Pengelolaan proyek besar}
+\begin{lstlisting}
+main.tex
+chapters/pendahuluan.tex
+chapters/metode.tex
+figures/alat.pdf
+references.bib
+\input{chapters/pendahuluan}
+\include{chapters/metode}
+\end{lstlisting}
+Simpan satu sumber utama untuk urutan dokumen. Pisahkan isi, gambar,
+referensi, dan konfigurasi agar perubahan mudah ditinjau.
+\end{frame}
+\section{Template dan kustomisasi}
+\begin{frame}{Template, kelas, dan paket}
+\begin{description}
+\item[Template] susunan awal dan gaya yang siap digunakan.
+\item[Kelas \texttt{.cls}] aturan dasar jenis dokumen, misalnya artikel atau buku.
+\item[Paket \texttt{.sty}] fitur tambahan yang dapat dimuat sesuai kebutuhan.
+\item[Prambule] tempat untuk konfigurasi yang berlaku di seluruh dokumen.
+\end{description}
+\end{frame}
+\begin{frame}[fragile]{Memodifikasi template dengan aman}
+\begin{lstlisting}
+% Jangan mengubah file .cls asli.
+\documentclass{template-institusi}
+\usepackage{microtype}
+\usepackage{csquotes}
+\newcommand{\namauniversitas}{Universitas Terbuka}
+\end{lstlisting}
+Buat berkas konfigurasi sendiri atau gunakan opsi kelas. Catat perubahan
+yang diperlukan agar template dapat dipakai ulang oleh peserta lain.
+\end{frame}
+\begin{frame}[fragile]{Mendefinisikan commands}
+\begin{lstlisting}
+\newcommand{\hasilutama}[1]{\textbf{#1}}
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\argmin}{arg\,min}
+\hasilutama{Kesimpulan utama} berada di $\R^n$.
+\end{lstlisting}
+Perintah mengurangi pengulangan dan menjaga istilah tetap seragam.
+Gunakan nama yang jelas dan definisikan setiap perintah hanya sekali.
+\end{frame}
+\begin{frame}[fragile]{Membuat environments}
+\begin{lstlisting}
+\newenvironment{catatan}[1][Catatan]
+  {\begin{quote}\textbf{#1.}\ }
+  {\end{quote}}
+\begin{catatan}[Perhatian]
+Periksa sumber data sebelum menyimpulkan.
+\end{catatan}
+\end{lstlisting}
+Environment cocok untuk pola isi yang berulang. Pilih struktur yang
+semantis, bukan sekadar cara cepat mengubah jarak.
+\end{frame}
+\begin{frame}{Gaya institusi dan proyek multi-file}
+Gaya institusi sebaiknya memusatkan identitas visual dan aturan format.
+\medskip
+\begin{itemize}
+\item buat paket atau berkas konfigurasi untuk warna, logo, dan heading;
+\item simpan bab dalam berkas terpisah dengan \texttt{\\input} atau \texttt{\\include};
+\item gunakan Git atau riwayat versi untuk meninjau perubahan;
+\item dokumentasikan dependensi dan cara kompilasi.
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Hyperlinks dan format akademik}
+\begin{lstlisting}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={Laporan penelitian},pdfauthor={Nama}}
+\href{https://www.example.org}{Situs resmi}
+\url{https://www.example.org}
+\end{lstlisting}
+Gunakan label dan rujukan internal untuk navigasi. Uji tautan setelah
+memindahkan bagian atau mengganti nama berkas.
+\end{frame}
+\section{Fitur penerbitan dan materi khusus}
+\begin{frame}[fragile]{Bibliography dengan BibTeX atau biblatex}
+\begin{lstlisting}
+\usepackage[backend=biber,style=authoryear]{biblatex}
+\addbibresource{references.bib}
+Menurut \textcite{lamport1994}, struktur sumber penting.
+\printbibliography
+\end{lstlisting}
+Pilih satu alur kerja sesuai template. Jangan mencampur perintah BibTeX
+lama dan biblatex tanpa alasan yang jelas.
+\end{frame}
+\begin{frame}[fragile]{Berkas BibTeX dan gaya sitasi}
+\begin{lstlisting}[style=bib]
+@book{lamport1994,
+  author    = {Lamport, Leslie},
+  title     = {LaTeX: A Document Preparation System},
+  year      = {1994},
+  publisher = {Addison-Wesley}
+}
+\end{lstlisting}
+Gaya sitasi ditentukan oleh disiplin dan panduan penerbit. Periksa nama,
+tahun, judul, DOI, dan URL sebelum menyerahkan dokumen.
+\end{frame}
+\begin{frame}{Indeks, glossary, dan nomenclature}
+\begin{itemize}
+\item indeks membantu pembaca menemukan istilah di banyak halaman;
+\item glossary menjelaskan istilah teknis dan singkatannya;
+\item nomenclature mengumpulkan simbol beserta definisinya.
+\end{itemize}
+Ketiganya memerlukan langkah kompilasi tambahan. Pastikan istilah yang
+ditampilkan memang dipakai dan urutannya konsisten.
+\end{frame}
+\begin{frame}[fragile]{Kode dengan minted}
+\begin{lstlisting}
+\usepackage{minted}
+\begin{minted}[fontsize=\small,linenos]{python}
+for value in data:
+    print(value)
+\end{minted}
+\end{lstlisting}
+\texttt{minted} memakai Pygments dan biasanya memerlukan opsi kompilasi
+\texttt{-shell-escape}. Gunakan hanya pada lingkungan yang dipercaya.
+\end{frame}
+\begin{frame}[fragile]{Kutipan dan tanda kutip}
+\begin{lstlisting}
+\usepackage{csquotes}
+\enquote{Kutipan pendek mengikuti aturan bahasa.}
+\begin{displayquote}
+Kutipan panjang ditempatkan sebagai blok tersendiri.
+\end{displayquote}
+\end{lstlisting}
+Jangan mengetik tanda kutip lurus sebagai pengganti tanda kutip tipografis.
+Panjang kutipan dan aturan indentasi mengikuti gaya publikasi.
+\end{frame}
+\begin{frame}[fragile]{Bahasa Indonesia dan bahasa internasional}
+\begin{lstlisting}
+\usepackage[indonesian,english]{babel}
+\selectlanguage{indonesian}
+\foreignlanguage{english}{Abstract}
+\end{lstlisting}
+Periksa pemenggalan kata, nama bulan, judul otomatis, tanda baca, dan
+aturan huruf kapital. Pilih font yang mendukung semua karakter yang dipakai.
+\end{frame}
+\begin{frame}[fragile]{Theorems dan proofs}
+\begin{lstlisting}
+\usepackage{amsthm}
+\newtheorem{teorema}{Teorema}[section]
+\begin{teorema}
+Jumlah dua bilangan genap adalah genap.
+\end{teorema}
+\begin{proof}
+Tuliskan alasan matematis secara lengkap.
+\end{proof}
+\end{lstlisting}
+Gunakan lingkungan teorema hanya untuk pernyataan yang memang memiliki
+status matematis yang jelas. Bedakan definisi, lemma, teorema, dan bukti.
+\end{frame}
+\begin{frame}{Materi khusus}
+LaTeX dapat menangani banyak bidang dengan paket yang tepat:
+\begin{itemize}
+\item ujian dengan kelas atau paket khusus;
+\item formula kimia dengan \texttt{mhchem};
+\item satuan dengan \texttt{siunitx};
+\item diagram dan notasi bidang melalui paket yang didukung komunitas.
+\end{itemize}
+Selalu cek dokumentasi paket dan kebutuhan kompilasi sebelum mengadopsinya.
+\end{frame}
+\section{Pengerjaan dan finalisasi}
+\begin{frame}{Integrasi seluruh komponen}
+Urutan integrasi yang aman:
+\begin{enumerate}
+\item pastikan struktur bab dan subbab sudah stabil;
+\item masukkan tabel, gambar, persamaan, dan rujukan silang;
+\item aktifkan bibliografi, indeks, glossary, dan daftar isi;
+\item kompilasi dari sumber utama dan simpan log yang bersih.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Pemeriksaan struktur}
+\begin{itemize}
+\item semua bagian penting memiliki heading yang sesuai;
+\item urutan bab, lampiran, dan halaman awal mengikuti panduan;
+\item setiap gambar dan tabel dirujuk dari teks;
+\item tidak ada judul kosong, label ganda, atau berkas yang tertinggal.
+\end{itemize}
+\end{frame}
+\begin{frame}{Pemeriksaan layout dan typography}
+Cari dan perbaiki:
+\begin{itemize}
+\item teks melewati margin atau ruang kosong yang mengganggu;
+\item judul terpisah dari paragraf atau caption dari objeknya;
+\item font, spasi, tanda kutip, dan notasi berubah tanpa alasan;
+\item halaman pembuka bab, header, footer, dan nomor halaman tidak konsisten.
+\end{itemize}
+\end{frame}
+\begin{frame}[fragile]{Pemeriksaan referensi dan kompilasi}
+\begin{lstlisting}[style=terminal]
+latexmk -pdf main.tex
+% periksa log untuk Undefined references dan citations
+% kompilasi ulang sampai daftar isi dan nomor stabil
+\end{lstlisting}
+Perbaiki error pertama, bukan semua pesan sekaligus. Warnings tetap perlu
+dibaca, terutama \texttt{overfull \textbackslash hbox}, referensi tak terdefinisi,
+dan sitasi yang hilang.
+\end{frame}
+\begin{frame}{Konsultasi berdasarkan dokumen peserta}
+Gunakan dokumen peserta sebagai bahan diagnosis:
+\begin{itemize}
+\item minta sumber minimal yang dapat dikompilasi;
+\item pisahkan masalah isi, struktur, layout, dan toolchain;
+\item ubah satu hal pada satu waktu lalu bandingkan PDF;
+\item simpan solusi yang berulang sebagai perintah atau template.
+\end{itemize}
+\end{frame}
+\begin{frame}{Checklist finalisasi}
+\begin{enumerate}
+\item PDF dapat dikompilasi dari sumber utama.
+\item Daftar isi, daftar tabel, dan daftar gambar sudah diperbarui.
+\item Semua sitasi, referensi silang, indeks, dan glossary terisi.
+\item Tidak ada error, referensi hilang, atau teks keluar margin.
+\item Folder proyek berisi berkas yang diperlukan dan instruksi kompilasi.
+\end{enumerate}
+\end{frame}
+\begin{frame}{Latihan akhir}
+Ambil salah satu dokumen peserta dan lakukan finalisasi singkat:
+\begin{enumerate}
+\item rapikan layout halaman dan gaya heading;
+\item pisahkan isi menjadi beberapa berkas;
+\item tambahkan satu referensi, satu rujukan silang, dan satu daftar otomatis;
+\item jalankan kompilasi bersih dan catat perubahan.
+\end{enumerate}
+\end{frame}
+\begin{frame}[plain]
+\centering\Large Pertanyaan dan konsultasi\par\bigskip\normalsize
+Simpan sumber, log, dan PDF final bersama-sama.
+\end{frame}
+\end{document}
