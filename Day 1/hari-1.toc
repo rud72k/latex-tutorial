@@ -1,5 +1,0 @@
-\babel@toc {indonesian}{}\relax 
-\beamer@sectionintoc {1}{Sesi 1. Pengenalan, struktur, dan format dokumen}{4}{0}{1}
-\beamer@sectionintoc {2}{Sesi 2. Elemen dokumen akademik}{19}{0}{2}
-\beamer@sectionintoc {3}{Sesi 3. Proyek dokumen akademik lengkap}{34}{0}{3}
-\beamer@sectionintoc {4}{Sesi 4. Manajemen proyek LaTeX untuk dokumen akademik besar}{41}{0}{4}
