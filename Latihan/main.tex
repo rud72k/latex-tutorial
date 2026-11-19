@@ -1,95 +1,32 @@
-\documentclass[11pt,a4paper]{article}
-\usepackage[spanish]{babel}
-\usepackage{lipsum}
-\usepackage{nccmath}
-\usepackage{amsmath,amssymb}
-\title{Mengukur periode ayunan}
+\documentclass[11pt,a4paper]{book}
+\input{Latihan/konfigurasi}
+
+\title{
+    \includegraphics[width=2cm]{Latihan/gambar/ugm.png}\\[0.5em] 
+    Mengukur ayunan
+}
 \author{Rudi}
 \date{\today}
 
 \begin{document}
 \maketitle
+\vfill
+\tableofcontents
+\vfill
+\newpage
 
-\section{Pendahuluan}
-    \subsection{Pertanyaan penelitian}
-        \subsubsection{Asumsi model}
-        Berapa lama satu getaran berlangsung? 
-\section{Metode}
-    Baris sumber pertama\\
-    masih menjadi paragraf yang sama.
-    
-    Ini \textbf{paragraf} baru. Nilai galat adalah 2\%.
-    Tabel~1 tidak memisahkan kata dan nomor.
-    
-    Simbol khusus: \& \_ \# \$ \{ \}
-    
-    
-    Seteleah tanda \% tidak akan terbaca. % ini tidak terbaca
-
-\section{Metode}
-    \begin{itemize}
-        \item Tali, beban, dan penyangga
-        \item Mistar dan pencatat waktu
-    \end{itemize}
-    \begin{enumerate}
-        \item Ukur panjang dari titik gantung ke pusat beban.
-        \item Catat waktu untuk sepuluh getaran.
-    \end{enumerate}
-    \begin{description}
-        \item[Periode] Waktu untuk satu getaran.
-        \item[Panjang] Jarak titik gantung ke pusat beban.
-    \end{description}
-    Data ini\footnote{check} bersifat ilustratif.\footnote{Bukan hasil eksperimen.}
-    Periksa pengukuran awal.\marginpar{Ukur ulang}
-\section{Hasil dan pembahasan}
-    \label{sec:hasil}
-    Satu periode adalah $T=t/N$, dengan $N$ jumlah getaran.
-    \begin{equation}\label{eq:periode}
-    T \approx 2\pi\sqrt{\frac{L}{g}}.
-    \end{equation}
-
-    \begin{fleqn}
-        \begin{align}
-        \int f(x) \, dx = F(x) + C
-        \end{align}
-    \end{fleqn}
-
-    % \begin{freqn}
-    %     \begin{align}
-    %         \frac{dF(x)}{dx} = f(x)
-    %     \end{align}
-    % \end{freqn}
-            
-    Persamaan~\ref{eq:periode} dan persamaan~\eqref{eq:periode} pada subbab \ref{sec:hasil} berlaku untuk sudut kecil.
-\section{Kesimpulan}
-    % \noindent \lipsum[5]
-    \begin{itemize}
-        \item List satu
-        \item List dua 
-    \end{itemize}
-    
-    % \lipsum[4]
-    Ini di halaman kedua\footnote{mencoba footnote.}.
-    \[
-        T_{10}^2,\quad \frac{a+b}{c},\quad \binom{n}{k},
-        \qquad \left(\frac{T_2}{T_1}\right)^2
-    \]
-    \[
-        ( \int_a^b \frac{\left[f(x)+g(x)\right]}{2}\ dx )^3 = F(x_{2})
-    \]
-    \[
-        \left( \int_a^b \frac{\left[f(x)+g(x)\right]}{2}\ dx \right)^3 = F(x_{2})
-    \]
-
-    \[
-        A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix},
-        \qquad
-        \mathbf{t} = \begin{bmatrix} T_1 \\ T_2 \end{bmatrix} 
-        \mathbf{t} = \begin{Bmatrix} T_1 \\ T_2 \end{Bmatrix} 
-        \qquad 
-        % \mathbf{t} = \begin{cmatrix} T_1 \\ T_2 \end{cmatrix}
-    \]
+\chapter{Tes}
+\input{Latihan/abstrak}
+\input{Latihan/section/metode}
+\input{Latihan/section/metodegambar}
+\chapter{Tos}
+\input{Latihan/section/hasil}
+\input{Latihan/section/kesimpulan}
 
 
+% \bibliographystyle{plain}
+% \bibliography{eg}
+
+\printbibliography
 
 \end{document}
