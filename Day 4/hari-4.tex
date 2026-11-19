@@ -1,0 +1,544 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[indonesian]{babel}
+\usepackage{amsmath,amssymb,booktabs,listings,tikz,xcolor,hyperref}
+\usetheme{metropolis}
+\usefonttheme{professionalfonts}
+\metroset{progressbar=frametitle,block=fill}
+\usebeamercolor{normal text}\colorlet{codeink}{normal text.fg}
+\usebeamercolor{alerted text}\colorlet{codeaccent}{alerted text.fg!60!codeink}
+\lstset{language={[LaTeX]TeX},basicstyle=\ttfamily\scriptsize\color{codeink},
+  texcsstyle=*\bfseries\color{codeaccent},columns=fullflexible,keepspaces=true,
+  showstringspaces=false,backgroundcolor=\color{codeink!6},frame=l,
+  rulecolor=\color{codeaccent},xleftmargin=5pt,aboveskip=4pt,belowskip=4pt,
+  breaklines=true}
+\lstdefinestyle{terminal}{language=bash,basicstyle=\ttfamily\scriptsize\color{codeink},
+  keywordstyle=\bfseries\color{codeaccent},breaklines=true}
+\lstdefinestyle{plain}{language={},basicstyle=\ttfamily\scriptsize\color{codeink},
+  columns=fullflexible,keepspaces=true,breaklines=true}
+\newcommand{\tugas}[1]{\par\medskip\alert{\textbf{Coba sendiri}}\quad #1}
+\title{Membuat kelas dan paket \LaTeX}
+\subtitle{Hari 4 --- Arsitektur, implementasi, dan distribusi}
+\author{Pelatihan Universitas Terbuka dan Departemen Matematika FMIPA UGM}
+\date{Materi lanjutan}
+
+\begin{document}
+\begin{frame}[plain]
+\usebeamerfont{title}\inserttitle\par
+\usebeamerfont{subtitle}\insertsubtitle\par\medskip
+\usebeamertemplate{title separator}\par\medskip
+\usebeamerfont{author}\insertauthor\par\smallskip
+\usebeamerfont{date}\insertdate
+\end{frame}
+
+\begin{frame}{Tujuan belajar Hari 4}
+\begin{enumerate}
+  \item Membedakan tanggung jawab dokumen, kelas \texttt{.cls}, dan paket \texttt{.sty}.
+  \item Menulis paket kecil yang memiliki opsi, perintah, dan environment yang dapat digunakan ulang.
+  \item Membuat kelas dokumen yang mewarisi kelas standar lalu menambahkan aturan institusi.
+  \item Menguji, mendokumentasikan, dan mengemas hasil agar mudah dipakai orang lain.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Peta belajar Hari 4}
+\tableofcontents
+\end{frame}
+
+\section{Sesi 1. Arsitektur kelas dan paket}
+
+\begin{frame}{Sesi 1 --- Arsitektur kelas dan paket}
+\large 08.30--10.00 \quad 90 menit
+\medskip
+\begin{itemize}
+  \item 20 menit: hubungan dokumen, kelas, paket, dan toolchain
+  \item 25 menit: anatomi berkas \texttt{.sty} dan \texttt{.cls}
+  \item 25 menit: pewarisan kelas dan pemrosesan opsi
+  \item 20 menit: latihan membaca template dan memetakan dependensi
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Empat lapisan yang perlu dipisahkan}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.23\textwidth}\centering
+  \textbf{Dokumen}\par\smallskip
+  Isi, struktur, dan metadata.
+\end{column}
+\begin{column}{.23\textwidth}\centering
+  \textbf{Kelas}\par\smallskip
+  Aturan dasar jenis dokumen.
+\end{column}
+\begin{column}{.23\textwidth}\centering
+  \textbf{Paket}\par\smallskip
+  Fitur tambahan yang dapat dipilih.
+\end{column}
+\begin{column}{.23\textwidth}\centering
+  \textbf{Mesin}\par\smallskip
+  LaTeX, XeLaTeX, atau LuaLaTeX.
+\end{column}
+\end{columns}
+\bigskip
+\begin{block}{Prinsip desain}
+Simpan keputusan yang berulang pada lapisan yang paling tepat. Isi jangan
+mengetahui detail warna institusi, dan kelas jangan memaksa fitur yang hanya
+dibutuhkan satu dokumen.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Memilih kelas atau paket}
+\begin{lstlisting}
+\documentclass[12pt,a4paper]{article} % memilih jenis dokumen
+\usepackage{utstyle}                   % menambah fitur atau gaya
+\begin{document}
+Isi dokumen tetap berada di berkas utama.
+\end{document}
+\end{lstlisting}
+\begin{itemize}
+  \item Gunakan kelas untuk aturan global: ukuran halaman, struktur, judul, dan heading.
+  \item Gunakan paket untuk fitur yang dapat dipakai lintas kelas.
+  \item Gunakan prambule biasa untuk keputusan lokal pada satu dokumen.
+\end{itemize}
+\tugas{Temukan tiga baris pada dokumen peserta yang seharusnya dipindahkan ke paket.}
+\end{frame}
+
+\begin{frame}[fragile]{Anatomi minimal paket \texttt{.sty}}
+\begin{lstlisting}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utstyle}[2026/11/19 v0.1 Gaya dokumen UT]
+\RequirePackage{xcolor}
+\newcommand{\institusi}{Universitas Terbuka}
+\endinput
+\end{lstlisting}
+\begin{description}
+  \item[\texttt{\textbackslash NeedsTeXFormat}] menyatakan format minimum yang diharapkan.
+  \item[\texttt{\textbackslash ProvidesPackage}] memberi nama, tanggal, dan versi.
+  \item[\texttt{\textbackslash RequirePackage}] memuat dependensi paket.
+  \item[\texttt{\textbackslash endinput}] menandai akhir kode yang diproses.
+\end{description}
+\end{frame}
+
+\begin{frame}[fragile]{Anatomi minimal kelas \texttt{.cls}}
+\begin{lstlisting}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{utreport}[2026/11/19 v0.1 Kelas laporan UT]
+\LoadClass[12pt,a4paper]{article}
+\RequirePackage{geometry}
+\geometry{margin=3cm}
+\endinput
+\end{lstlisting}
+Kelas biasanya memuat kelas lain dengan \lstinline|\LoadClass|, kemudian
+menambahkan aturan yang menjadi identitas seluruh dokumen. Hindari menyalin
+isi \texttt{article.cls} atau \texttt{book.cls} ke berkas sendiri.
+\end{frame}
+
+\begin{frame}[fragile]{Waktu pemrosesan perintah}
+\begin{lstlisting}
+\documentclass{utreport}  % kelas dibaca lebih dahulu
+\usepackage{utstyle}      % paket dibaca sesudah kelas
+\begin{document}          % isi dokumen dimulai
+\end{lstlisting}
+\begin{itemize}
+  \item Kelas dapat menentukan opsi dan memuat dependensi dasar.
+  \item Paket dapat dipanggil setelah kelas, sehingga tidak boleh mengasumsikan isi dokumen sudah dimulai.
+  \item Perintah yang harus dijalankan setelah semua paket tersedia dapat ditempatkan pada hook.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pewarisan kelas dengan \texttt{\textbackslash LoadClass}}
+\begin{lstlisting}
+\DeclareOption{draft}{\PassOptionsToClass{draft}{article}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{article}}
+\ProcessOptions\relax
+\LoadClass[12pt,a4paper]{article}
+\end{lstlisting}
+\begin{itemize}
+  \item Teruskan opsi yang memang dimengerti kelas induk.
+  \item Jangan menerima opsi diam-diam jika opsi itu mengubah hasil secara penting.
+  \item Dokumentasikan opsi publik dan perilaku defaultnya.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Opsi paket dengan \texttt{\textbackslash DeclareOption}}
+\begin{lstlisting}
+\newif\ifut@compact
+\DeclareOption{compact}{\ut@compacttrue}
+\DeclareOption{spacious}{\ut@compactfalse}
+\DeclareOption*{\PackageWarning{utstyle}{Opsi tidak dikenal: \CurrentOption}}
+\ProcessOptions\relax
+\ifut@compact
+  \setlength{\parskip}{3pt}
+\else
+  \setlength{\parskip}{8pt}
+\fi
+\end{lstlisting}
+Opsi adalah antarmuka publik. Nama opsi perlu stabil, sedangkan cara
+implementasinya boleh berubah di versi berikutnya.
+\end{frame}
+
+\begin{frame}{Kontrak antarmuka sebuah paket}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.47\textwidth}
+\textbf{Publik}\par\smallskip
+Perintah, environment, opsi, dan nama warna yang sengaja didokumentasikan.
+\end{column}
+\begin{column}{.47\textwidth}
+\textbf{Internal}\par\smallskip
+Counter, flag, helper, dan nama teknis yang dapat berubah tanpa memecahkan dokumen.
+\end{column}
+\end{columns}
+\bigskip
+Gunakan awalan nama yang konsisten, misalnya \texttt{\textbackslash ut...}, untuk mengurangi
+risiko benturan dengan paket lain. Jangan membuat ulang perintah umum tanpa
+memeriksa apakah nama tersebut sudah dipakai.
+\end{frame}
+
+\begin{frame}{Latihan pemetaan dependensi}
+Ambil satu template yang pernah digunakan, lalu buat tabel kecil:
+\begin{enumerate}
+  \item nama berkas utama, kelas, dan semua paket;
+  \item perintah atau environment yang disediakan tiap paket;
+  \item bagian yang hanya mengatur gaya institusi;
+  \item opsi dan mesin kompilasi yang diperlukan.
+\end{enumerate}
+\tugas{Tandai satu aturan yang sebaiknya menjadi kelas dan satu aturan yang sebaiknya tetap menjadi paket.}
+\end{frame}
+
+\section{Sesi 2. Menulis paket reusable}
+
+\begin{frame}{Sesi 2 --- Menulis paket reusable}
+\large 10.15--11.45 \quad 90 menit
+\medskip
+\begin{itemize}
+  \item 15 menit: memilih antarmuka dan nama perintah
+  \item 25 menit: membangun paket \texttt{utstyle.sty} secara bertahap
+  \item 25 menit: commands, environments, warna, dan konfigurasi
+  \item 25 menit: latihan menguji paket pada dua dokumen berbeda
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Mulai dari antarmuka, bukan dari dekorasi}
+Tuliskan kebutuhan pengguna dalam bentuk yang dapat diuji.
+\begin{lstlisting}
+\usepackage[blue]{utstyle}
+\namauniversitas{Universitas Terbuka}
+\begin{tujuan}
+Peserta mampu membuat paket yang dapat digunakan ulang.
+\end{tujuan}
+\end{lstlisting}
+Kemudian tentukan: apakah perintah menerima argumen, kapan dipanggil, apa
+hasil defaultnya, dan pesan apa yang muncul jika pengguna salah memakainya.
+\end{frame}
+
+\begin{frame}[fragile]{Paket gaya kecil: metadata dan dependensi}
+\begin{lstlisting}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utstyle}[2026/11/19 v0.1 Gaya pelatihan]
+\RequirePackage{xcolor}
+\RequirePackage{etoolbox}
+\definecolor{utblue}{HTML}{005B96}
+\newcommand{\namauniversitas}[1]{\def\ut@university{#1}}
+\namauniversitas{Universitas Terbuka}
+\end{lstlisting}
+Nama internal memakai awalan khusus. Untuk memakai karakter \texttt{@} dalam
+definisi yang benar-benar dieksekusi, gunakan \lstinline|\makeatletter| dan
+\lstinline|\makeatother| bila diperlukan.
+\end{frame}
+
+\begin{frame}[fragile]{Perintah dengan argumen wajib dan opsional}
+\begin{lstlisting}
+\newcommand{\hasil}[1]{\textbf{Hasil:} #1}
+\newcommand{\catatan}[2][Catatan]{\textit{#1:} #2}
+\hasil{Periode bertambah ketika tali diperpanjang.}
+\catatan{Periksa satuan sebelum menghitung.}
+\catatan[Perhatian]{Jangan campur cm dan m.}
+\end{lstlisting}
+Pilih perintah yang menyatakan makna, bukan sekadar tampilan. Jika definisi
+mulai memiliki banyak cabang, pertimbangkan environment atau key--value.
+\end{frame}
+
+\begin{frame}[fragile]{Environment untuk pola isi berulang}
+\begin{lstlisting}
+\newenvironment{tujuan}
+  {\begin{block}{Tujuan sesi}}
+  {\end{block}}
+\newenvironment{peringatan}
+  {\begin{alertblock}{Perhatian}}
+  {\end{alertblock}}
+\end{lstlisting}
+Environment mengelompokkan awal dan akhir suatu pola. Pengguna cukup menulis
+isi semantis, sedangkan pilihan tampilan dipusatkan pada paket.
+\end{frame}
+
+\begin{frame}[fragile]{Pengaturan warna dan gaya}
+\begin{lstlisting}
+\definecolor{utblue}{HTML}{005B96}
+\colorlet{utaccent}{utblue!80!black}
+\newcommand{\judulwarna}[1]{\textcolor{utaccent}{\textbf{#1}}}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\end{lstlisting}
+Simpan angka, warna, dan nama gaya di satu tempat. Hindari memaksa font atau
+ukuran yang bertentangan dengan kelas dan kebutuhan pembaca.
+\end{frame}
+
+\begin{frame}[fragile]{Hook untuk konfigurasi setelah paket dimuat}
+\begin{lstlisting}
+\AtBeginDocument{%
+  \providecommand{\judulpelatihan}{Pelatihan LaTeX}%
+}
+\AtBeginEnvironment{figure}{\centering}
+\end{lstlisting}
+Gunakan hook dengan hati-hati. Dependensi antar-paket yang tidak jelas akan
+menyulitkan diagnosis. Jika urutan penting, dokumentasikan alasannya.
+\end{frame}
+
+\begin{frame}[fragile]{Validasi input sederhana}
+\begin{lstlisting}
+\newcommand{\tahun}[1]{%
+  \ifnum#1<2000
+    \PackageError{utstyle}{Tahun terlalu kecil}{Gunakan tahun 2000 atau lebih.}%
+  \else
+    \def\ut@year{#1}%
+  \fi
+}
+\end{lstlisting}
+Pesan error yang baik menyebutkan apa yang salah dan bagaimana memperbaikinya.
+Validasi secukupnya: jangan membuat paket menjadi lebih rumit daripada
+masalah yang hendak diselesaikan.
+\end{frame}
+
+\begin{frame}[fragile]{Paket yang sudah dirakit}
+\begin{lstlisting}
+% utstyle.sty
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{utstyle}[2026/11/19 v0.1 Gaya pelatihan]
+\RequirePackage{xcolor}
+\definecolor{utblue}{HTML}{005B96}
+\newcommand{\hasil}[1]{\textcolor{utblue}{\textbf{Hasil:} #1}}
+\newenvironment{tujuan}{\begin{quote}\textbf{Tujuan.}\ }{\end{quote}}
+\endinput
+\end{lstlisting}
+\begin{lstlisting}
+% main.tex
+\documentclass{article}
+\usepackage{utstyle}
+\begin{document}
+\begin{tujuan}Membuat paket yang dapat digunakan ulang.\end{tujuan}
+\hasil{Paket berhasil dimuat.}
+\end{document}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Pengujian pada dokumen minimal}
+Buat dokumen uji sekecil mungkin agar sumber masalah cepat terlihat:
+\begin{enumerate}
+  \item satu kelas standar;
+  \item satu paket yang sedang dikembangkan;
+  \item satu contoh untuk setiap perintah dan environment;
+  \item satu contoh input yang salah untuk memeriksa pesan error.
+\end{enumerate}
+\tugas{Kompilasi dengan kelas \texttt{article} dan \texttt{book}. Catat perilaku yang memang berbeda.}
+\end{frame}
+
+\begin{frame}[fragile]{Uji cepat dan pemeriksaan log}
+\begin{lstlisting}[style=terminal]
+latexmk -pdf -interaction=nonstopmode test-utstyle.tex
+rg "Undefined|Error|Warning|Overfull" test-utstyle.log
+\end{lstlisting}
+Uji PDF, bukan hanya keberhasilan kompilasi. Periksa judul, margin, warna,
+nomor, rujukan, dan hasil saat paket dimuat bersama paket lain.
+\end{frame}
+
+\begin{frame}{Rilis kecil yang dapat dipercaya}
+Sebelum membagikan paket:
+\begin{itemize}
+  \item naikkan versi jika antarmuka berubah;
+  \item tulis daftar dependensi dan versi minimum;
+  \item sertakan contoh minimal dan cara kompilasi;
+  \item bedakan error yang harus menghentikan kompilasi dari warning informatif;
+  \item catat perubahan pada berkas changelog.
+\end{itemize}
+\end{frame}
+
+\section{Sesi 3. Menulis kelas dan mendistribusikannya}
+
+\begin{frame}{Sesi 3 --- Menulis kelas dan mendistribusikannya}
+\large 13.00--14.30 \quad 90 menit
+\medskip
+\begin{itemize}
+  \item 20 menit: merancang kelas di atas \texttt{article} atau \texttt{report}
+  \item 25 menit: judul, heading, metadata, dan opsi kelas
+  \item 25 menit: proyek mini \texttt{utreport.cls}
+  \item 20 menit: pengujian, dokumentasi, dan paket distribusi
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kapan membuat kelas baru?}
+\begin{itemize}
+  \item Buat paket jika fitur dapat dipakai pada beberapa jenis dokumen.
+  \item Buat kelas jika struktur dan aturan global memang berbeda.
+  \item Perluas kelas standar jika sebagian besar perilakunya masih sesuai.
+\end{itemize}
+\begin{lstlisting}
+\ProvidesClass{utreport}[2026/11/19 v0.1 Kelas laporan]
+\LoadClass[12pt,a4paper]{report}
+\RequirePackage{geometry}
+\RequirePackage{fancyhdr}
+\geometry{margin=3cm}
+\end{lstlisting}
+Mulai dari pewarisan. Menulis kelas dari nol membuat banyak keputusan
+internal yang tidak perlu dan meningkatkan biaya pemeliharaan.
+\end{frame}
+
+\begin{frame}[fragile]{Opsi kelas yang diteruskan}
+\begin{lstlisting}
+\DeclareOption{twoside}{\PassOptionsToClass{twoside}{report}}
+\DeclareOption{draft}{\PassOptionsToClass{draft}{report}}
+\DeclareOption{final}{\PassOptionsToClass{final}{report}}
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\ProcessOptions\relax
+\LoadClass[12pt,a4paper]{report}
+\end{lstlisting}
+Jangan memanggil \lstinline|\LoadClass| sebelum opsi diproses jika opsi itu
+harus diteruskan ke kelas induk. Buat daftar opsi publik dalam dokumentasi.
+\end{frame}
+
+\begin{frame}[fragile]{Mengatur metadata dan halaman judul}
+\begin{lstlisting}
+\newcommand{\judulresmi}[1]{\def\ut@title{#1}}
+\newcommand{\penulisresmi}[1]{\def\ut@author{#1}}
+\renewcommand{\maketitle}{%
+  \begin{titlepage}
+    \centering
+    {\Large\bfseries \ut@university\par\vfill}
+    {\huge\bfseries \ut@title\par\medskip}
+    {\large \ut@author\par\vfill}
+  \end{titlepage}}
+\end{lstlisting}
+Sediakan default yang aman atau berikan error yang jelas jika metadata wajib
+belum diisi. Jangan mengandalkan urutan internal yang tidak terdokumentasi.
+\end{frame}
+
+\begin{frame}[fragile]{Heading dan gaya halaman}
+\begin{lstlisting}
+\RequirePackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\Large}
+  {\chaptertitlename\ \thechapter}{8pt}{\Huge}
+\RequirePackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\nouppercase{\rightmark}}
+\fancyhead[RE]{\nouppercase{\leftmark}}
+\end{lstlisting}
+Pastikan perubahan berlaku pada halaman biasa, halaman pembuka bab, dan mode
+\texttt{twoside}. Uji juga judul panjang dan halaman kosong.
+\end{frame}
+
+\begin{frame}[fragile]{Kelas mini \texttt{utreport.cls}}
+\begin{lstlisting}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesClass{utreport}[2026/11/19 v0.1 Kelas laporan UT]
+\DeclareOption*{\PassOptionsToClass{\CurrentOption}{report}}
+\ProcessOptions\relax
+\LoadClass[12pt,a4paper]{report}
+\RequirePackage{geometry}
+\RequirePackage{utstyle}
+\geometry{margin=3cm}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\endinput
+\end{lstlisting}
+Kelas ini memusatkan keputusan yang berlaku untuk semua dokumen laporan.
+Fitur semantis yang dapat dipakai lintas kelas tetap berada di \texttt{utstyle}.
+\end{frame}
+
+\begin{frame}[fragile]{Memakai kelas mini}
+\begin{lstlisting}
+\documentclass[oneside]{utreport}
+\title{Laporan Eksperimen Ayunan}
+\author{Nama Peserta}
+\date{19 November 2026}
+\begin{document}
+\maketitle
+\tableofcontents
+\chapter{Pendahuluan}
+Pertanyaan penelitian dan konteks eksperimen.
+\end{document}
+\end{lstlisting}
+\begin{block}{Kriteria selesai}
+Dokumen pengguna hanya memilih kelas dan menulis isi. Detail margin,
+indentasi, warna, serta dependensi tidak diulang di setiap proyek.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Struktur proyek untuk distribusi}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.43\textwidth}
+\begin{lstlisting}[style=plain]
+utreport/
+  utreport.cls
+  utstyle.sty
+  README.md
+  CHANGELOG.md
+  example.tex
+  LICENSE
+\end{lstlisting}
+\end{column}
+\begin{column}{.52\textwidth}
+\begin{itemize}
+  \item README menjelaskan pemasangan dan kompilasi.
+  \item Contoh menunjukkan antarmuka publik, bukan detail internal.
+  \item Changelog mencatat perubahan yang terlihat pengguna.
+  \item Lisensi mengikuti sumber dan kebijakan institusi.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Kompilasi bersih dan mesin kompilasi}
+\begin{lstlisting}[style=terminal]
+latexmk -C
+latexmk -pdf example.tex
+% atau, untuk font dan bahasa modern:
+latexmk -xelatex example.tex
+\end{lstlisting}
+Uji dari folder proyek baru agar paket tidak kebetulan ditemukan dari folder
+kerja pribadi. Jika kelas akan dipasang secara global, dokumentasikan lokasi
+dan cara menghapus versi lama.
+\end{frame}
+
+\begin{frame}{Checklist API dan kualitas}
+\begin{enumerate}
+  \item Nama kelas dan paket memiliki versi serta tanggal.
+  \item Opsi, perintah, environment, dan dependensi terdokumentasi.
+  \item Nama internal tidak bocor sebagai API publik.
+  \item Dokumen minimal berhasil dikompilasi dengan kelas dan mesin target.
+  \item Pesan error membantu pengguna memperbaiki sumber.
+  \item Contoh dan changelog diperbarui bersama kode.
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Proyek akhir Hari 4}
+Buat paket atau kelas kecil untuk kebutuhan nyata peserta:
+\begin{enumerate}
+  \item tulis satu paragraf kebutuhan pengguna;
+  \item definisikan API minimal dengan paling banyak tiga perintah publik;
+  \item buat satu berkas \texttt{.sty} atau \texttt{.cls} dan satu contoh;
+  \item uji dokumen pada kompilasi bersih;
+  \item minta rekan menggunakan contoh tanpa melihat implementasinya.
+\end{enumerate}
+\tugas{Serahkan sumber, PDF contoh, README, dan catatan batasan versi pertama.}
+\end{frame}
+
+\begin{frame}{Ringkasan Hari 4}
+\begin{itemize}
+  \item Kelas mengatur kerangka dokumen; paket menyediakan fitur yang dapat digunakan ulang.
+  \item Antarmuka publik perlu kecil, jelas, berversi, dan diuji.
+  \item Pewarisan kelas standar biasanya lebih aman daripada menulis dari nol.
+  \item Distribusi yang baik mencakup contoh, dokumentasi, changelog, dan kompilasi bersih.
+\end{itemize}
+\bigskip
+\centering\large Pertanyaan dan konsultasi
+\end{frame}
+
+\end{document}

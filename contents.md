@@ -1,4 +1,4 @@
-# Panduan Program Pelatihan LaTeX 3 Hari
+# Panduan Program Pelatihan LaTeX 4 Hari
 
 Dokumen ini menjadi panduan kerja untuk penyusunan materi beamer terlebih dahulu, kemudian handbook pelatihan. Bahasa pengantar: Bahasa Indonesia.
 
@@ -14,7 +14,7 @@ Gunakan penyorotan sintaks sesuai bahasa untuk semua contoh kode. Tampilkan cont
 
 Ikhtisar program tersedia dalam [Ikhtisar Pelatihan LaTeX](Handbook/overview.pdf) dengan [sumber LaTeX](Handbook/overview.tex). Handbook lengkap akan dikembangkan setelah materi Beamer selesai.
 
-Program berlangsung selama tiga hari dengan satu presentasi Beamer per hari. Awali setiap sesi dengan satu perintah `\section{...}` agar Metropolis menampilkan halaman pemisah sesi secara otomatis. Durasi empat sesi Hari 1 berturut-turut adalah 75, 90, 75, dan 90 menit.
+Program berlangsung selama empat hari dengan satu presentasi Beamer per hari. Awali setiap sesi dengan satu perintah `\section{...}` agar Metropolis menampilkan halaman pemisah sesi secara otomatis. Durasi empat sesi Hari 1 berturut-turut adalah 75, 90, 75, dan 90 menit.
 
 ## Hari 1 — Dasar LaTeX, dokumen akademik, dan manajemen proyek
 
@@ -215,6 +215,47 @@ Materi bahasa internasional selain Bahasa Indonesia dijadikan materi pilihan ata
 - Konsultasi berdasarkan dokumen peserta
 - Finalisasi dokumen atau template
 
+## Hari 4 — Membuat kelas dan paket LaTeX
+
+Hari 4 merupakan materi lanjutan untuk peserta yang ingin mengubah aturan format
+yang berulang menjadi komponen LaTeX yang dapat dipakai ulang.
+
+### Sesi 1 — Arsitektur kelas dan paket
+
+08.30–10.00 (90 menit).
+
+- Membedakan tanggung jawab dokumen, kelas `.cls`, paket `.sty`, dan mesin kompilasi
+- Anatomi `\NeedsTeXFormat`, `\ProvidesPackage`, `\ProvidesClass`, `\RequirePackage`, dan `\LoadClass`
+- Pewarisan kelas standar dan pemrosesan opsi
+- Kontrak antarmuka publik dan nama internal
+- Pemetaan dependensi pada template yang sudah ada
+
+Hasil sesi: peta dependensi dan rancangan antarmuka untuk satu komponen yang akan dibuat.
+
+### Sesi 2 — Menulis paket reusable
+
+10.15–11.45 (90 menit).
+
+- Merancang perintah dan environment berdasarkan kebutuhan semantis
+- Menambahkan argumen wajib dan opsional
+- Memusatkan warna, ukuran, metadata, dan gaya
+- Menggunakan hook, validasi input, dan pesan error
+- Menguji paket pada dokumen minimal dengan lebih dari satu kelas
+
+Hasil sesi: paket `.sty` kecil dengan metadata, dependensi, perintah, environment, contoh, dan uji minimal.
+
+### Sesi 3 — Menulis kelas dan mendistribusikannya
+
+13.00–14.30 (90 menit).
+
+- Memilih kapan perlu kelas baru dan kapan cukup memakai paket
+- Meneruskan opsi ke `article` atau `report` dengan `\LoadClass`
+- Mengatur metadata, halaman judul, heading, header, footer, dan margin
+- Menyusun kelas mini yang mewarisi kelas standar
+- Menyiapkan README, changelog, contoh, lisensi, dan kompilasi bersih
+
+Hasil sesi: kelas atau paket siap uji yang dapat dipakai pada proyek baru tanpa menyalin ulang konfigurasi.
+
 ## Prioritas materi
 
 ### Materi inti
@@ -238,6 +279,7 @@ Materi digunakan jika relevan dengan dokumen peserta, khususnya matematika, sain
 1. Hari 1: peserta mampu membuat dokumen akademik lengkap dan mengorganisasikan sumbernya menjadi proyek beberapa berkas dengan format dan rujukan yang konsisten.
 2. Hari 2: peserta mampu membuat presentasi akademik dengan Beamer.
 3. Hari 3: peserta mampu mengembangkan template dan menyelesaikan dokumen yang lebih kompleks.
+4. Hari 4: peserta mampu membuat, menguji, dan mendistribusikan kelas atau paket LaTeX kecil.
 
 ## Mini-proyek praktik utama: eksperimen ayunan sederhana
 
