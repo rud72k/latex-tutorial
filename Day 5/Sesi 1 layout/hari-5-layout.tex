@@ -1,0 +1,559 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+
+\usepackage[indonesian]{babel}
+\usepackage{amsmath,booktabs,array,tabularx,tikz,listings,xcolor}
+\usetikzlibrary{arrows.meta,calc,positioning,decorations.pathreplacing}
+\usetheme{metropolis}
+\metroset{progressbar=frametitle,block=fill}
+\setbeamertemplate{title page}{%
+  {\usebeamerfont{title}\inserttitle\par}
+  {\usebeamerfont{subtitle}\insertsubtitle\par}
+  \usebeamertemplate{title separator}\medskip
+  {\usebeamerfont{author}\insertauthor\par}
+  {\usebeamerfont{date}\insertdate\par}}
+
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{subtitle}{size=\normalsize}
+\usebeamercolor{normal text}\colorlet{codeink}{normal text.fg}
+\usebeamercolor{alerted text}\colorlet{codeaccent}{alerted text.fg!60!codeink}
+
+\lstset{
+  language={[LaTeX]TeX},
+  basicstyle=\ttfamily\scriptsize\color{codeink},
+  texcsstyle=*\bfseries\color{codeaccent},
+  columns=fullflexible,
+  keepspaces=true,
+  showstringspaces=false,
+  breaklines=true,
+  backgroundcolor=\color{codeink!6},
+  frame=l,
+  rulecolor=\color{codeaccent},
+  xleftmargin=5pt,
+  aboveskip=4pt,
+  belowskip=4pt
+}
+\lstdefinestyle{plaincode}{basicstyle=\ttfamily\small\color{codeink},breaklines=true}
+\newcommand{\tugas}[1]{\par\medskip\alert{\textbf{Coba sendiri}}\quad #1}
+\newcommand{\dimensi}[1]{\texttt{\detokenize{#1}}}
+
+\title{Tata Letak Dokumen \LaTeX}
+\subtitle{Hari 5 --- Margin, padding, spacing, dan layout}
+\author{Pelatihan LaTeX}
+\date{21 November 2026}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+\begin{frame}{Tujuan belajar Hari 5}
+  Pada akhir sesi, peserta dapat:
+  \begin{enumerate}
+    \item membaca model geometris halaman dan membedakan margin dari area teks;
+    \item mengatur ukuran halaman, margin, header, footer, dan ruang jilid;
+    \item membedakan \emph{padding}, \emph{gap}, indentasi, dan jarak antarbaris;
+    \item menyusun teks dengan panjang relatif seperti \dimensi{\textwidth} dan \dimensi{\linewidth};
+    \item mengendalikan kotak, kolom, float, dan posisi elemen secara aman;
+    \item mendiagnosis \emph{overfull box} dan memeriksa layout secara visual.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}{Peta belajar}
+  \tableofcontents
+\end{frame}
+
+\section{Model halaman}
+
+\begin{frame}{Layout adalah sistem koordinat, bukan kumpulan spasi}
+\small
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.55\textwidth}
+\centering
+\begin{tikzpicture}[x=0.72cm,y=0.72cm,>=Latex]
+  \fill[codeink!5] (0,0) rectangle (5,7);
+  \draw[thick,codeink!70] (0,0) rectangle (5,7);
+  \fill[teal!16] (1,1) rectangle (4.2,6.1);
+  \draw[dashed,teal!70!black] (1,1) rectangle (4.2,6.1);
+  \draw[<->] (0,-.35)--node[below,font=\scriptsize]{margin kiri} (1,-.35);
+  \draw[<->] (4.2,-.35)--node[below,font=\scriptsize]{margin kanan} (5,-.35);
+  \draw[<->] (0,7.35)--node[above,font=\scriptsize]{lebar kertas} (5,7.35);
+  \draw[<->] (4.55,1)--node[right,font=\scriptsize,align=left]{area teks} (4.55,6.1);
+  \node[font=\scriptsize,align=center] at (2.6,6.45) {header};
+  \node[font=\scriptsize,align=center] at (2.6,.62) {footer};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (0,0)--(0,1)
+    node[midway,left=5pt,font=\scriptsize,align=right]{margin\ bawah};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (0,6.1)--(0,7)
+    node[midway,left=5pt,font=\scriptsize,align=right]{margin\ atas};
+\end{tikzpicture}
+\end{column}
+\begin{column}{.41\textwidth}
+  \small
+  \textbf{Empat lapisan yang perlu dibedakan:}
+  \begin{enumerate}
+    \item kertas: \dimensi{\paperwidth}, \dimensi{\paperheight};
+    \item area teks: \dimensi{\textwidth}, \dimensi{\textheight};
+    \item isi lokal: \dimensi{\linewidth}, \dimensi{\columnwidth};
+    \item jarak internal: padding, indentasi, dan glue.
+  \end{enumerate}
+  Hindari mengakali margin dengan menambah \dimensi{\vspace} berulang.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Ukuran penting yang dapat dibaca atau dipakai ulang}
+\begin{lstlisting}
+\paperwidth   \paperheight   % ukuran kertas
+\textwidth    \textheight    % area teks utama
+\linewidth                    % lebar baris saat ini
+\columnwidth                  % lebar kolom atau minipage
+\baselineskip                 % jarak dasar antarbaris
+\parindent    \parskip       % indentasi dan jarak paragraf
+\headheight   \headsep       % tinggi header dan jaraknya
+\footskip                     % jarak baseline terakhir ke footer
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\textwidth} biasanya tetap untuk halaman utama.
+  \item \dimensi{\linewidth} mengikuti konteks: kolom, daftar, minipage, atau kotak.
+  \item Untuk gambar dan tabel di dalam kolom, gunakan \dimensi{\linewidth}, bukan \dimensi{\textwidth}.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Margin dengan paket \texttt{geometry}}
+\footnotesize
+\begin{lstlisting}
+\documentclass[a4paper,12pt]{article}
+\usepackage[
+  a4paper,
+  top=2.8cm,bottom=2.5cm,
+  left=3cm,right=2cm,
+  includehead,includefoot,
+  bindingoffset=6mm
+]{geometry}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{top}, \dimensi{bottom}, \dimensi{left}, dan \dimensi{right} menetapkan margin.
+  \item \dimensi{includehead} dan \dimensi{includefoot} memasukkan header/footer dalam perhitungan area teks.
+  \item \dimensi{bindingoffset} menambah ruang untuk jilid; gunakan bersama \dimensi{inner}/\dimensi{outer} pada dokumen dua sisi.
+\end{itemize}
+\tugas{Uji margin 3 cm dan 25 mm; bandingkan area teksnya.}
+\end{frame}
+
+\begin{frame}[fragile]{Margin global dan margin lokal}
+\begin{lstlisting}
+% Pemeriksaan visual saat pengembangan
+\usepackage[showframe]{geometry}
+
+% Mengubah beberapa halaman saja
+\newgeometry{top=1.5cm,bottom=1.5cm,left=2cm,right=2cm}
+Halaman dengan layout khusus.
+\restoregeometry
+
+% Jangan mencampur geometry dengan perubahan manual
+% pada \hoffset, \voffset, dan \oddsidemargin
+\end{lstlisting}
+\begin{block}{Prinsip aman}
+  Tetapkan geometri di satu tempat. Bila template sudah memuat \texttt{geometry}, ubah opsinya melalui mekanisme template, bukan dengan menimpa panjang internal secara acak.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Header, footer, dan ruang vertikal}
+\begin{lstlisting}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{Judul pendek}
+\fancyhead[R]{\leftmark}
+\fancyfoot[C]{\thepage}
+
+% Sediakan ruang yang cukup untuk header
+\setlength{\headheight}{14pt}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\headheight}: tinggi isi header, bukan jarak dari tepi kertas.
+  \item \dimensi{\headsep}: jarak antara header dan area teks.
+  \item \dimensi{\footskip}: jarak dari baseline baris terakhir ke baseline footer.
+  \item Jika header terlalu tinggi, perbaiki \dimensi{\headheight} atau gunakan \texttt{geometry}, bukan \dimensi{\vspace} negatif.
+\end{itemize}
+\end{frame}
+
+\section{Jarak dan padding}
+
+\begin{frame}{Margin, padding, dan gap}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[orange!12] (0,0) rectangle (10,4.2);
+  \draw[orange!70!black,thick] (0,0) rectangle (10,4.2);
+  \fill[teal!17] (1.25,.8) rectangle (8.75,3.4);
+  \draw[teal!70!black,thick] (1.25,.8) rectangle (8.75,3.4);
+  \fill[violet!18] (2.1,1.45) rectangle (7.9,2.75);
+  \draw[violet!70!black,thick] (2.1,1.45) rectangle (7.9,2.75);
+  \node[font=\small] at (5,3.85) {margin: ruang di luar objek};
+  \node[font=\small] at (5,1.1) {padding: ruang di dalam kotak};
+  \node[font=\small] at (5,2.1) {isi};
+  \draw[<->,>=Latex] (8.75,3.65)--node[above,font=\scriptsize]{margin} (10,3.65);
+  \draw[<->,>=Latex] (7.9,3.05)--node[above,font=\scriptsize]{padding} (8.75,3.05);
+  \draw[<->,>=Latex] (2.1,1.2)--node[below,font=\scriptsize]{padding} (7.9,1.2);
+\end{tikzpicture}
+\medskip
+\begin{itemize}
+  \item \textbf{Margin}: jarak objek dari tepi halaman atau objek lain.
+  \item \textbf{Padding}: jarak isi dari tepi kotaknya.
+  \item \textbf{Gap}: jarak antara dua objek yang berdampingan.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Padding pada kotak: \texttt{fboxsep} dan \texttt{tcolorbox}}
+\begin{lstlisting}
+% Kotak LaTeX sederhana
+\setlength{\fboxsep}{8pt}       % padding semua sisi
+\setlength{\fboxrule}{0.5pt}    % tebal garis
+\fbox{\parbox{.72\linewidth}{Isi kotak yang dapat membungkus baris.}}
+
+% Kotak dengan padding per sisi
+\begin{tcolorbox}[
+  left=8mm,right=8mm,top=3mm,bottom=3mm,
+  boxrule=.4pt,arc=1mm]
+Isi kotak dengan pengaturan yang lebih terukur.
+\end{tcolorbox}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\fboxsep} berlaku untuk \dimensi{\fbox}, \dimensi{\framebox}, dan beberapa kotak standar.
+  \item Untuk kotak berulang, pusatkan aturan pada gaya atau environment agar konsisten.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Indentasi dan jarak antarparagraf}
+\footnotesize
+\begin{lstlisting}
+% Pola A: paragraf menjorok, tanpa jarak ekstra
+\setlength{\parindent}{1.5em}
+\setlength{\parskip}{0pt}
+
+% Pola B: tanpa indentasi, ada jarak antarparagraf
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+\end{lstlisting}
+\begin{block}{Pilih satu pola}
+  Indentasi dan \dimensi{\parskip} sama-sama memberi sinyal awal paragraf; gunakan salah satu secara konsisten.
+\end{block}
+\begin{alertblock}{Kesalahan umum}
+  \texttt{\\} memaksa ganti baris, bukan membuat paragraf. Paragraf baru memakai baris kosong atau \texttt{\\par}.
+\end{alertblock}
+\end{frame}
+
+\begin{frame}[fragile]{Jarak antarbaris dan glue vertikal}
+\begin{lstlisting}
+\usepackage{setspace}
+\setstretch{1.15}       % seluruh dokumen atau satu grup
+{\setstretch{1.30} Teks yang lebih renggang.}
+
+\smallskip              % jarak semantik kecil
+\medskip
+\bigskip
+\vspace{8pt}            % jarak eksplisit
+\vspace*{8pt}           % tetap dipertahankan di awal/akhir halaman
+\addvspace{8pt}         % tidak menumpuk berlebihan dengan jarak serupa
+\end{lstlisting}
+\begin{itemize}
+  \item Gunakan \dimensi{\smallskip}/\dimensi{\medskip}/\dimensi{\bigskip} untuk hubungan logis.
+  \item Gunakan \dimensi{\vspace} untuk koreksi lokal yang benar-benar diperlukan.
+  \item Spasi vertikal dapat menghilang di batas halaman; \dimensi{\vspace*} memaksanya tetap ada.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Jarak pada float dan caption}
+\begin{lstlisting}
+\setlength{\intextsep}{10pt plus 2pt minus 2pt}
+\setlength{\textfloatsep}{12pt plus 2pt minus 2pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{0pt}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\intextsep}: jarak float yang berada di tengah teks.
+  \item \dimensi{\textfloatsep}: jarak float di atas/bawah halaman dengan teks.
+  \item \dimensi{\floatsep}: jarak antara dua float.
+  \item Lebih baik mengubah panjang ini daripada menambah \dimensi{\vspace} di setiap gambar.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Jarak horizontal dan glue fleksibel}
+\begin{lstlisting}
+Teks\hspace{1em}teks\quad teks\qquad teks
+
+Kiri\hfill Kanan
+
+% Glue dengan lebar alami, dapat meregang dan menyusut
+\hspace{1em plus .5em minus .2em}
+\hfill
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\hspace} adalah jarak eksplisit; \dimensi{\hfill} adalah ruang yang meregang sampai batas baris.
+  \item TeX mengisi ruang dengan \emph{glue}: ukuran alami + kemampuan meregang + kemampuan menyusut.
+  \item Karena itu, gunakan panjang elastis untuk distribusi; jangan membuat setiap posisi dengan angka mutlak.
+\end{itemize}
+\end{frame}
+
+\section{Kotak, kolom, dan struktur lokal}
+
+\begin{frame}[fragile]{\texttt{minipage}: area teks mandiri}
+\begin{lstlisting}
+\begin{minipage}[t]{.46\linewidth}
+  \textbf{Kolom kiri}\par
+  Lebar mengikuti konteks saat ini.
+\end{minipage}\hfill
+\begin{minipage}[t]{.46\linewidth}
+  \textbf{Kolom kanan}\par
+  Tinggi mengikuti isi kolom.
+\end{minipage}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{[t]} menyelaraskan bagian atas; gunakan \dimensi{[c]} atau \dimensi{[b]} bila diperlukan.
+  \item Di dalam \texttt{minipage}, \dimensi{\linewidth} berubah menjadi lebar minipage.
+  \item \dimensi{\hfill} di antara dua minipage mengisi ruang yang tersedia.
+\end{itemize}
+\tugas{Buat dua kotak dengan lebar .45\dimensi{\linewidth}; tambahkan tabel kecil hanya pada kolom kanan.}
+\end{frame}
+
+\begin{frame}[fragile]{Lebar relatif: \texttt{linewidth} mengalahkan \texttt{textwidth}}
+\begin{lstlisting}
+\begin{minipage}{.48\textwidth}
+  \includegraphics[width=\linewidth]{gambar.pdf}
+\end{minipage}
+
+\begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}Xr@{}}
+  Deskripsi fleksibel & Nilai \\
+\end{tabularx}
+\end{lstlisting}
+\begin{block}{Aturan praktis}
+  Gunakan \dimensi{\textwidth} untuk ukuran halaman utama; gunakan \dimensi{\linewidth} untuk isi yang harus mengikuti wadah saat ini.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Daftar: spacing tanpa mengubah isi}
+\begin{lstlisting}
+\usepackage{enumitem}
+\begin{itemize}[leftmargin=*,itemsep=2pt,topsep=3pt]
+  \item Item pertama.
+  \item Item kedua dengan jarak yang terukur.
+\end{itemize}
+
+% Aturan global yang dapat ditinjau ulang
+\setlist[enumerate]{itemsep=2pt,parsep=0pt}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{leftmargin}: posisi label dan isi terhadap batas kiri.
+  \item \dimensi{itemsep}: jarak antaritem; \dimensi{topsep}: jarak daftar dengan teks sekitarnya.
+  \item Opsi lokal lebih mudah dipelihara daripada banyak \dimensi{\vspace} di antara item.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kotak horizontal dan vertikal untuk koreksi kecil}
+\begin{lstlisting}
+\makebox[.8\linewidth][l]{Judul rata kiri dalam lebar tetap}
+\makebox[.8\linewidth][c]{Judul rata tengah}
+
+\raisebox{2pt}[0pt][0pt]{Teks dinaikkan 2 pt}
+\phantom{teks}      % ruang seukuran teks, tetapi tidak terlihat
+\llap{label}        % menjorok ke kiri tanpa menggeser isi berikutnya
+\rlap{label}        % menjorok ke kanan tanpa menggeser isi berikutnya
+\end{lstlisting}
+\begin{alertblock}{Gunakan dengan hemat}
+  Perintah ini berguna untuk label, ikon, dan penyelarasan kecil. Jika dipakai untuk menyusun seluruh halaman, struktur dokumen biasanya perlu diperbaiki.
+\end{alertblock}
+\end{frame}
+
+\section{Manipulasi layout}
+
+\begin{frame}[fragile]{Kontrol pemutusan halaman}
+\begin{lstlisting}
+\pagebreak       % minta pemutusan halaman
+\newpage         % mulai halaman baru
+\clearpage       % kosongkan semua float, lalu halaman baru
+\cleardoublepage % halaman kanan pada dokumen twoside
+
+% Hindari pemutusan buruk di sekitar judul
+\nopagebreak[4]
+\needspace{5\baselineskip} % dari paket needspace
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\newpage} tidak memaksa float keluar; \dimensi{\clearpage} melakukannya.
+  \item Jangan menambahkan \dimensi{\newpage} setelah setiap bagian hanya karena satu halaman tampak kurang penuh.
+  \item Untuk blok yang harus tetap utuh, sediakan ruang terlebih dahulu atau gunakan environment yang sesuai.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Float: biarkan LaTeX mencari posisi yang baik}
+\begin{lstlisting}
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=.75\linewidth]{hasil.pdf}
+  \caption{Hasil pengukuran.}
+  \label{fig:hasil}
+\end{figure}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{h}: here, \dimensi{t}: top, \dimensi{b}: bottom, \dimensi{p}: halaman float.
+  \item Urutan \dimensi{[htbp]} adalah preferensi, bukan koordinat mutlak.
+  \item Jika gambar harus benar-benar berada di lokasi tertentu, tanyakan dulu apakah float memang tepat untuk elemen tersebut.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Posisi absolut dengan TikZ: cocok untuk anotasi}
+\begin{lstlisting}
+\begin{tikzpicture}[remember picture,overlay]
+  \node[anchor=north east,xshift=-8mm,yshift=-8mm]
+    at (current page.north east) {Catatan};
+\end{tikzpicture}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{remember picture} memungkinkan TikZ merujuk koordinat halaman.
+  \item \dimensi{overlay} membuat gambar tidak mengambil ruang layout biasa.
+  \item Gunakan untuk watermark, nomor, panah, atau anotasi; jangan gunakan untuk paragraf utama yang harus mengalir.
+\end{itemize}
+\begin{block}{Pertanyaan desain}
+  Apakah objek ini bagian dari aliran teks, atau hanya lapisan visual di atasnya? Jawaban itu menentukan apakah kita memakai layout normal atau posisi absolut.
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Mendiagnosis baris yang keluar margin}
+\footnotesize
+\begin{lstlisting}
+% Tanda hitam pada baris overfull saat debugging
+\overfullrule=5pt
+
+% Beri kelonggaran kecil pada pemenggalan paragraf
+\emergencystretch=2em
+
+% Pilihan terakhir untuk paragraf yang sulit
+\raggedright
+\sloppy
+\end{lstlisting}
+\begin{itemize}
+  \item \texttt{Overfull hbox} berarti isi terlalu lebar; cari kata, URL, tabel, atau rumus penyebabnya.
+  \item Pendekkan teks, izinkan pemenggalan, gunakan \dimensi{\url}, atau ubah lebar kolom.
+  \item \dimensi{\sloppy} adalah pilihan terakhir karena dapat merusak jarak antarkata.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Pemeriksaan visual layout}
+\begin{lstlisting}
+\usepackage[showframe]{geometry} % bingkai area halaman
+\usepackage{layout}
+\begin{document}
+\layout                       % diagram ukuran halaman
+\end{document}
+\end{lstlisting}
+\begin{enumerate}
+  \item Periksa PDF pada ukuran sebenarnya, bukan hanya pada zoom editor.
+  \item Baca log untuk \texttt{Overfull} dan \texttt{Underfull}.
+  \item Uji halaman kiri dan kanan untuk dokumen \texttt{twoside}.
+  \item Hapus \texttt{showframe}, \texttt{layout}, dan aturan debug sebelum rilis.
+\end{enumerate}
+\end{frame}
+
+\section{Khusus Beamer}
+
+\begin{frame}{Beamer: area teks juga memiliki margin}
+\begin{columns}[T,onlytextwidth]
+\begin{column}{.52\textwidth}
+\begin{block}{Ukuran global frame}
+  \begin{itemize}
+    \item margin teks kiri dan kanan;
+    \item tinggi frametitle, headline, dan footline;
+    \item area isi yang tersisa untuk frame.
+  \end{itemize}
+\end{block}
+\end{column}
+\begin{column}{.43\textwidth}
+  Jangan memakai \texttt{geometry} untuk mengubah margin Beamer secara sembarang. Beamer memiliki mekanisme sendiri untuk isi frame dan template presentasi.
+\end{column}
+\end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Mengatur margin dan alignment pada Beamer}
+\begin{lstlisting}
+\setbeamersize{text margin left=8mm,text margin right=8mm}
+\end{lstlisting}
+Untuk frame tertentu, tambahkan opsi \texttt{[t]} agar isi dimulai dari atas.
+Frame berisi kode verbatim menggunakan opsi \texttt{[fragile]}.
+\begin{itemize}
+  \item \dimensi{[t]}, \dimensi{[c]}, dan \dimensi{[b]} mengatur alignment vertikal isi frame.
+  \item Frame berisi \texttt{verbatim} atau \texttt{lstlisting} membutuhkan \dimensi{[fragile]}.
+  \item Uji margin pada frame judul, frame dua kolom, dan frame kode; hasilnya tidak selalu sama.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Kolom Beamer: gunakan \texttt{onlytextwidth}}
+\begin{lstlisting}
+\begin{columns}[T,onlytextwidth]
+  \begin{column}{.48\textwidth}
+    Isi kiri; \linewidth menyesuaikan kolom.
+  \end{column}
+  \begin{column}{.48\textwidth}
+    \includegraphics[width=\linewidth]{hasil.pdf}
+  \end{column}
+\end{columns}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{[T]} menyelaraskan bagian atas kolom.
+  \item \dimensi{onlytextwidth} membuat kolom memakai lebar area teks, bukan menambah ruang ekstra.
+  \item Dua kolom .48\dimensi{\textwidth} menyisakan ruang untuk gap di tengah.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Ruang elastis di dalam frame}
+\begin{lstlisting}
+  \textbf{Pesan utama}
+  \medskip
+  Penjelasan singkat.
+  \vfill
+  \begin{alertblock}{Kesimpulan}
+    Isi ini didorong ke bagian bawah frame.
+  \end{alertblock}
+\end{lstlisting}
+\begin{itemize}
+  \item \dimensi{\vfill} mengisi sisa ruang vertikal dan berguna untuk memisahkan pesan utama dari kesimpulan.
+  \item Jika slide terlalu penuh, kurangi isi atau pecah menjadi dua frame; jangan hanya mengecilkan font.
+  \item Jarak kosong adalah alat hierarki: ia mengelompokkan isi yang berhubungan.
+\end{itemize}
+\end{frame}
+
+\section{Latihan dan ringkasan}
+
+\begin{frame}{Latihan inti: bedah layout}
+  Ambil satu dokumen artikel atau laporan yang pernah dibuat.
+  \begin{enumerate}
+    \item Tampilkan frame halaman dengan \texttt{showframe}; catat ukuran kertas, margin, dan area teks.
+    \item Buat satu kotak dengan padding berbeda untuk atas/bawah dan kiri/kanan.
+    \item Susun dua minipage dengan lebar relatif dan gambar selebar \texttt{\\linewidth}.
+    \item Atur jarak paragraf atau jarak antaritem tanpa menambah \texttt{\\vspace} berulang.
+    \item Sengaja buat satu \texttt{Overfull hbox}; diagnosis dan perbaiki penyebabnya.
+  \end{enumerate}
+  \tugas{Bandingkan hasil sebelum dan sesudah. Jelaskan perubahan dengan nama panjang LaTeX yang tepat.}
+\end{frame}
+
+\begin{frame}{Ringkasan: urutan memilih alat}
+\footnotesize
+\begin{enumerate}
+  \item Atur kertas dan margin dengan \texttt{geometry}.
+  \item Atur header, footer, dan page style dengan paket yang sesuai.
+  \item Atur paragraf, daftar, dan float melalui panjang atau opsi environment.
+  \item Gunakan \texttt{minipage}, \texttt{tabularx}, dan \texttt{tcolorbox} untuk struktur lokal.
+  \item Pilih \texttt{\\linewidth} agar isi mengikuti wadah.
+  \item Gunakan \texttt{\\vspace}, \texttt{\\hspace}, dan posisi absolut hanya sebagai koreksi lokal.
+  \item Kompilasi, baca log, dan periksa PDF pada ukuran sebenarnya.
+\end{enumerate}
+\begin{block}{Prinsip akhir}
+  Layout kuat berasal dari struktur dan ukuran relatif; angka manual dipakai secara lokal.
+\end{block}
+\end{frame}
+
+\begin{frame}[plain]
+  \centering
+  {\usebeamerfont{title}Pertanyaan dan diskusi\par}
+  \medskip
+  Margin mana yang ingin Anda kendalikan lebih dulu?
+\end{frame}
+
+\end{document}

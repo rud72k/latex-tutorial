@@ -1,0 +1,185 @@
+% Keep this file next to textbookchapter.cls.
+% Build with: latexmk -pdf textbookchapter-example.tex
+% On Overleaf, upload both source files and select this file as Main document.
+% Run LaTeX at least twice when building by hand so the contents lists populate.
+\documentclass[11pt,letterpaper,oneside,openany]{textbookchapter}
+\usepackage{booktabs}
+
+\hypersetup{pdftitle={Foundations of Linear Algebra},pdfauthor={Sample textbook}}
+
+% To change the palette or the default labels, edit these lines and uncomment.
+% \definecolor{ChapterAccent}{HTML}{007D9E}
+% \definecolor{ChapterPale}{HTML}{E5F7FD}
+% \definecolor{ChapterInk}{HTML}{171717}
+% \renewcommand{\chaptercontentsname}{In This Chapter}
+% \renewcommand{\chapterintroductionname}{Overview}
+% \setcounter{tocdepth}{1} % Hide subsections in the book-wide contents only.
+
+\begin{document}
+
+\frontmatter
+\hypersetup{pageanchor=false}
+\begin{titlepage}
+  \vspace*{.19\textheight}
+  \noindent\textcolor{ChapterAccent}{\rule{34bp}{5bp}}\par
+  \vspace{17bp}
+  {\sffamily\raggedright\fontsize{36bp}{42bp}\selectfont
+   \noindent Foundations of\\Linear Algebra\par}
+  \vspace{18bp}
+  {\sffamily\large\noindent Sample textbook\par}
+\end{titlepage}
+\hypersetup{pageanchor=true}
+\tableofcontents
+
+\mainmatter
+
+% The optional short title keeps the forced line break out of the contents,
+% running header, and PDF bookmarks. It can be omitted for automatic wrapping.
+\chapter[Systems of Linear Equations and Matrices]{Systems of Linear\\Equations and Matrices}
+\label{ch:systems}
+% Place this before the first section. The list is generated automatically.
+\chaptercontents
+
+\begin{chapterintroduction}
+Many problems become easier to study when their quantities are arranged in rows
+and columns. A matrix keeps those quantities in order, so that the same rules
+can be applied to measurements, equations, and other kinds of data. In this
+chapter we use that idea to solve systems of linear equations and to explain
+what their solutions represent. For example, suppose two unknowns satisfy the
+equations
+\[
+  \begin{aligned}
+    5x+y &= 3,\\
+    2x-y &= 4.
+  \end{aligned}
+\]
+The same information is stored in the augmented matrix
+\(\left[\begin{smallmatrix}5&1&3\\2&-1&4\end{smallmatrix}\right]\).
+\end{chapterintroduction}
+
+% In this example the section text starts on the following page.
+\clearpage
+
+\section{Introduction to Systems of Linear Equations}
+\label{sec:systems}
+A system of equations collects several conditions on the same unknowns. A
+solution must satisfy every equation at once. In two variables, each equation
+with a nonzero coefficient describes a line. The lines may intersect once,
+coincide, or be parallel and distinct. These cases correspond to one solution,
+infinitely many solutions, or no solution.
+
+\section{Gaussian Elimination}
+Elimination replaces the equations with simpler ones that have the same
+solutions. Adding the sample equations from the introduction gives \(7x=7\),
+so \(x=1\). Substituting into either original equation gives \(y=-2\). The
+same steps can be recorded as operations on the rows of a matrix.
+
+\section{Matrices and Matrix Operations}
+Matrices can be added entry by entry when they have the same dimensions.
+Multiplication uses a different rule. An entry of the product comes from
+pairing a row of the left matrix with a column of the right matrix and adding
+the resulting products.
+
+\section{Inverses and Algebraic Properties of Matrices}
+The identity matrix leaves a matrix unchanged under multiplication wherever
+the product is defined. If a square matrix \(A\) has an inverse, multiplying
+by \(A^{-1}\) reverses the effect of multiplying by \(A\). For example, the
+equation \(A\mathbf{x}=\mathbf{b}\) has solution
+\(\mathbf{x}=A^{-1}\mathbf{b}\) when \(A\) is invertible.
+
+\section{Elementary Matrices and a Method for Finding
+  \texorpdfstring{\textcolor{ChapterAccent}{\(A^{-1}\)}}{A inverse}}
+An elementary matrix is obtained by applying one elementary row operation to
+an identity matrix. To find an inverse, apply the same row operations to both
+blocks of \([A\mid I]\). If the left block reduces to \(I\), the right
+block is the inverse.
+
+\section{More on Linear Systems and Invertible Matrices}
+An invertible coefficient matrix gives exactly one solution for every
+right-hand side. When that property fails, comparing the pivots of the
+coefficient and augmented matrices can help explain whether there are free
+variables or incompatible equations.
+
+\section{Diagonal, Triangular, and Symmetric Matrices}
+The position of zero entries often makes a computation easier. An upper
+triangular system can be solved from the last equation upward. A symmetric
+matrix has matching entries across its main diagonal and frequently arises
+when relationships are measured in both directions.
+
+\section{Applications of Linear Systems}
+The examples below use the same modeling procedure. Choose the unknowns,
+translate each constraint into an equation, and check the solution against
+the original setting.
+
+% Each subsection appears as a bullet in the chapter contents.
+\subsection{Network Analysis (Traffic Flow)}
+At an intersection with steady traffic, the total flow entering equals the
+total flow leaving. Writing this balance at every intersection produces a
+system for the unknown road flows.
+
+\subsection{Electrical Circuits}
+An ideal circuit can be described by recording current conservation at
+junctions and voltage changes around loops. The resulting equations can be
+solved for the branch currents.
+
+\subsection{Balancing Chemical Equations}
+The quantity of each element is the same on both sides of a balanced
+reaction. Assigning unknown coefficients to the formulas turns each element
+count into a linear equation.
+
+\subsection{Polynomial Interpolation}
+Substituting data points into a polynomial with unknown coefficients gives a
+system of equations. Solving it determines a polynomial that passes through
+the chosen points.
+
+\section{Leontief Input-Output Models}
+When industries buy from one another, their total output must cover both
+internal purchases and outside demand. If \(C\) records the input required
+per unit of output, total production \(\mathbf{x}\) satisfies
+\((I-C)\mathbf{x}=\mathbf{d}\), where \(\mathbf{d}\) is outside demand.
+Table~\ref{tab:inputs} gives one possible matrix \(C\). Each column represents
+an industry producing one unit of output.
+
+\begin{table}[htbp]
+  \centering
+  \caption{Input required per unit of output}
+  \label{tab:inputs}
+  \begin{tabular}{@{}lrrr@{}}
+    \toprule
+    Input from & Agriculture & Manufacturing & Transport \\
+    \midrule
+    Agriculture   & 0.20 & 0.10 & 0.05 \\
+    Manufacturing & 0.15 & 0.25 & 0.15 \\
+    Transport     & 0.05 & 0.10 & 0.20 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\chapter{Vectors and Linear Transformations}
+\chaptercontents
+
+% Both chapter commands accept an optional replacement heading.
+\begin{chapterintroduction}[Introduction]
+Vectors describe quantities such as displacement and velocity through their
+components. Using the matrices from Chapter~\ref{ch:systems}, we can represent
+transformations that rotate, stretch, or project vectors.
+\end{chapterintroduction}
+
+\section{Vectors in the Plane}
+A vector in the plane can be represented by an ordered pair. Adding two
+vectors combines the horizontal components and the vertical components
+separately. Geometrically, these additions describe the total displacement
+after following both vectors in sequence.
+
+\section{Linear Combinations and Span}
+A linear combination is obtained by scaling vectors and adding the results.
+The span of a collection consists of all the combinations that can be
+formed. Two nonparallel vectors in the plane span the entire plane.
+
+\section{Matrix Representations}
+The columns of a transformation matrix are the images of the standard basis
+vectors. Once those images are known, linearity determines the image of
+every vector. For instance, projection onto the horizontal axis maps
+\((x,y)\) to \((x,0)\).
+
+\end{document}
