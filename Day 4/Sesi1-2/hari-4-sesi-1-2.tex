@@ -1,0 +1,537 @@
+\documentclass[aspectratio=169,11pt]{beamer}
+\usepackage[indonesian]{babel}
+\usepackage{tikz,pgfplots,listings}
+\usetikzlibrary{positioning,arrows.meta,fit,backgrounds}
+\pgfplotsset{compat=1.18}
+\usetheme{metropolis}
+\setbeamerfont{title}{size=\Large}
+\setbeamerfont{author}{size=\small}
+\lstset{language={[LaTeX]TeX},basicstyle=\ttfamily\small,columns=fullflexible,keepspaces=true,showstringspaces=false,breaklines=true}
+\title{TikZ untuk pengajaran dan penelitian}
+\subtitle{Hari 4 --- TikZ Mindmap}
+\author{Pelatihan Universitas Terbuka dan Departemen Matematika FMIPA UGM}
+\date{}
+\begin{document}
+\begin{frame}
+  \maketitle
+\end{frame}
+\begin{frame}{Tujuan hari ini}
+\begin{enumerate}
+\item Sesi 1: membuat gambar dasar dan diagram yang mudah diubah.
+\item Sesi 2: grafik akademik, integrasi, dan proyek.
+\item Sesi 3: belum ditentukan
+\item Sesi 4: peta kuliah dengan TikZ
+\end{enumerate}
+\end{frame}
+\begin{frame}{Empat sesi}
+Sesi 1: dasar TikZ dan diagram terstruktur. Sesi 2: grafik akademik, integrasi Beamer, dan proyek akhir.
+\medskip
+
+Sesi 3 disiapkan kemudian. Untuk sesi 4, siapkan satu konsep atau tema mata kuliah dari bidang Anda.
+\end{frame}
+\section{Sesi 1: Dasar dan diagram yang dapat digunakan kembali}
+\begin{frame}{Sesi 1: tujuan dan alokasi 75 menit}
+\begin{itemize}
+\item 0--15: dokumen minimal, koordinat, garis, dan bentuk.
+\item 15--25: warna, label, dan latihan dasar singkat.
+\item 25--45: node bernama, positioning, gaya, dan scope.
+\item 45--60: latihan diagram; fit dan loop sebagai pengayaan.
+\item 60--70: diagnosis, refaktor, dan pembahasan.
+\item 70--75: exit ticket dan refleksi.
+\end{itemize}
+Target: membuat ilustrasi dasar dan diagram dengan node bernama serta gaya yang dapat dipakai ulang.
+\end{frame}
+\begin{frame}{Mengapa menggambar dengan TikZ?}
+\begin{itemize}
+\item Gambar berbasis vektor: tetap tajam saat diperbesar.
+\item Teks dan notasi matematika mengikuti tipografi dokumen.
+\item Sumber dapat disunting, dibandingkan, dan digunakan kembali.
+\item Tepat untuk diagram konseptual dan ilustrasi yang perlu konsisten.
+\end{itemize}
+Diskusi singkat: gambar apa yang sering Anda buat untuk kuliah atau penelitian?
+\end{frame}
+\begin{frame}[fragile]{Dokumen minimal: mulai dari sini}
+\begin{lstlisting}
+\documentclass{article}
+\usepackage{tikz}
+\begin{document}
+\begin{tikzpicture}
+  \draw (0,0) -- (2,1);
+\end{tikzpicture}
+\end{document}
+\end{lstlisting}
+Simpan sebagai \texttt{gambar.tex}, lalu kompilasi dengan pdfLaTeX. Periksa PDF dan log jika gagal.
+\end{frame}
+\begin{frame}[fragile]{Apa yang dilakukan perintah ini?}
+\begin{lstlisting}
+\draw[blue,thick,->] (0,0) -- (2,1);
+\end{lstlisting}
+\begin{itemize}
+\item \texttt{\textbackslash draw}: gambar path; opsi dalam kurung siku.
+\item \texttt{(0,0)} dan \texttt{(2,1)}: titik awal dan akhir.
+\item \texttt{--}: segmen garis lurus; titik koma mengakhiri path.
+\item \texttt{blue}, \texttt{thick}, dan \texttt{->}: warna, ketebalan, dan panah.
+\end{itemize}
+\end{frame}
+\begin{frame}{Model dasar}
+\begin{itemize}
+\item Koordinat menentukan posisi; path menghubungkan posisi.
+\item Node dapat menempatkan teks atau notasi matematika pada koordinat.
+\item Opsi mengatur tampilan; setiap perintah path berakhir dengan titik koma.
+\end{itemize}
+\begin{tikzpicture}
+\draw[->] (0,0) -- (3,0);
+\filldraw[fill=blue!15] (1,0) circle (5mm);
+\node[above] at (1,0.5) {Konsep};
+\end{tikzpicture}
+\end{frame}
+\begin{frame}[fragile]{Garis, bentuk, dan teks}
+\begin{lstlisting}
+\usepackage{tikz}  % di preambule
+\begin{tikzpicture}
+  \draw[->] (0,0) -- (3,0);
+  \draw (0,0) circle (5mm);
+  \fill[blue!20] (1,0) rectangle (2,1);
+  \node[above] at (2,1) {Label};
+\end{tikzpicture}
+\end{lstlisting}
+Ubah satu koordinat, prediksi hasilnya, lalu kompilasi.
+\end{frame}
+\begin{frame}[fragile]{Sistem koordinat}
+\begin{lstlisting}
+\draw[help lines,gray!40] (-1,-1) grid (3,2);
+\fill (2,1) circle (2pt) node[above] {Kartesius};
+\fill (30:2cm) circle (2pt) node[right] {Polar};
+\end{lstlisting}
+Secara default, satu unit pada sumbu $x$ atau $y$ bernilai 1 cm. Koordinat polar \texttt{(sudut:jarak)} memakai derajat. Grid membantu konstruksi dan dapat dihapus pada hasil akhir.
+\end{frame}
+\begin{frame}[fragile]{Koordinat dan path}
+\begin{lstlisting}
+\draw (0,0) -- (2,0) -- (2,1);
+\draw (0,0) -- +(1,0) -- +(0,1);
+\draw (0,0) -- ++(1,0) -- ++(0,1);
+\end{lstlisting}
+\texttt{+} relatif tanpa memperbarui posisi saat ini; \texttt{++} memperbaruinya. Perhatikan perbedaan hasil kedua path.
+\end{frame}
+\begin{frame}[fragile]{Perintah dasar dan apa yang dihasilkan}
+\begin{lstlisting}
+\draw[blue,thick] (0,0) -- (2,0);
+\fill[blue!20] (0,0) circle (4mm);
+\filldraw[fill=orange!20,draw=black]
+  (1,0) rectangle (2,1);
+\node[above] at (1,1) {Teks};
+\end{lstlisting}
+\texttt{draw} membuat garis tepi; \texttt{fill} mengisi; \texttt{filldraw} melakukan keduanya; \texttt{node} menempatkan isi.
+\end{frame}
+\begin{frame}[fragile]{Garis, panah, dan opsi}
+\begin{lstlisting}
+\draw[thin] (0,0) -- (2,0);
+\draw[thick,dashed,red] (0,1) -- (2,1);
+\draw[<->,blue] (0,2) -- (2,2);
+\end{lstlisting}
+Opsi memengaruhi path yang mengikutinya. Coba ubah ketebalan, jenis garis, dan arah panah; amati perubahan di PDF.
+\end{frame}
+\begin{frame}[fragile]{Path: gambar, isi, dan tutup}
+\begin{lstlisting}
+\draw[thick] (0,0) -- (1,1) -- (2,0);
+\fill[blue!20] (0,0) -- (1,1) -- (2,0) -- cycle;
+\filldraw[fill=orange!20,draw=black]
+  (3,0) rectangle (5,1);
+\draw[dashed] (6,0) circle (5mm);
+\end{lstlisting}
+\texttt{cycle} menutup path ke titik awal. Urutan menggambar menentukan elemen mana yang tampak di depan.
+\end{frame}
+\begin{frame}[fragile]{Teks dan notasi matematika}
+\begin{lstlisting}
+\node at (0,0) {Titik asal};
+\node[above] at (2,1) {$P=(2,1)$};
+\node[draw,rounded corners,align=center] at (4,0)
+  {Dua baris\\teks};
+\end{lstlisting}
+Gunakan \texttt{above}, \texttt{below}, \texttt{left}, atau \texttt{right} untuk menempatkan label relatif terhadap koordinat.
+\end{frame}
+\begin{frame}{Cek pemahaman: prediksi sebelum kompilasi}
+\begin{enumerate}
+\item Apa perbedaan garis \texttt{(0,0) -- +(1,0) -- +(0,1)} dan versi dengan \texttt{++}?
+\item Apa yang terjadi jika titik koma setelah \texttt{\textbackslash draw} hilang?
+\item Apa perbedaan \texttt{\textbackslash draw}, \texttt{\textbackslash fill}, dan \texttt{\textbackslash filldraw}?
+\end{enumerate}
+Diskusikan dengan pasangan selama 3 menit; uji prediksi di editor.
+\end{frame}
+\begin{frame}{Latihan 1A: ilustrasi dasar (10 menit)}
+\begin{enumerate}
+\item Gambar sumbu $x$ dan $y$ dengan panah serta label.
+\item Tambahkan sebuah lingkaran dan persegi panjang berwarna.
+\item Beri label teks dan satu notasi matematika.
+\item Tambahkan garis putus-putus atau koordinat relatif.
+\end{enumerate}
+Kriteria: dokumen dikompilasi, bentuk dan label terlihat, serta perintah dapat dijelaskan.
+\end{frame}
+\begin{frame}{Diagnosis: periksa kesalahan}
+Kerjakan lima potongan salah di \texttt{latihan.md}; baca kesalahan pertama pada log dan perbaiki satu hal setiap kali.
+\medskip
+
+Ubah warna atau bentuk dan jelaskan baris yang diubah. Bedakan \texttt{draw} dan \texttt{fill}. Bandingkan hasil dengan \texttt{contoh-sesi-1.tex}.
+\end{frame}
+\begin{frame}{Sesi 1: dari bentuk ke diagram terstruktur}
+Gunakan node bernama dan gaya untuk membangun hubungan yang tetap mudah diubah. Selanjutnya kita pelajari positioning, scope, pengelompokan, dan perulangan.
+\end{frame}
+\begin{frame}[fragile]{Node bernama, anchor, dan panah}
+\begin{lstlisting}
+\node[draw] (a) at (0,0) {Masalah};
+\node[draw] (b) at (3,0) {Metode};
+\draw[->] (a.east) -- node[above] {dipelajari} (b.west);
+\end{lstlisting}
+Nama node memungkinkan hubungan tetap jelas saat teks berubah. Anchor seperti \texttt{north}, \texttt{south}, \texttt{east}, dan \texttt{west} menunjukkan titik pada batas node.
+\end{frame}
+\begin{frame}{Mengapa struktur kode penting?}
+Bayangkan satu diagram dengan 12 node dan semua ukuran ditulis berulang. Perubahan desain mengharuskan banyak edit dan rawan tidak konsisten.
+\medskip
+
+Gunakan nama node untuk relasi, gaya untuk tampilan berulang, dan positioning untuk jarak antarnode. Uji dengan mengganti label menjadi lebih panjang.
+\end{frame}
+\begin{frame}[fragile]{Gaya dan positioning}
+\begin{lstlisting}
+\usetikzlibrary{positioning,arrows.meta}
+\tikzset{tahap/.style={draw,rounded corners,
+  fill=blue!10,align=center,minimum width=2cm}}
+\node[tahap] (a) {Rencana};
+\node[tahap,right=1cm of a] (b) {Analisis};
+\draw[-{Stealth}] (a) -- (b);
+\end{lstlisting}
+Ubah definisi gaya sekali untuk memperbarui semua node yang memakainya.
+\end{frame}
+\begin{frame}[fragile]{Scope, perulangan, dan pengelompokan}
+\begin{lstlisting}
+\begin{scope}[xshift=2cm,rotate=10]
+  \draw (0,0) -- (1,0);
+\end{scope}
+\foreach \x in {0,1,2} {\fill (\x,0) circle (2pt);}
+% dengan pustaka fit:
+\node[draw,fit=(a)(b),inner sep=4mm] {};
+\end{lstlisting}
+Latihan: alur bercabang dengan gaya, kelompok, dan elemen berulang. Periksa saat teks node berubah.
+\end{frame}
+\begin{frame}{Kualitas diagram}
+Apakah arah relasi benar? Apakah teks terbaca pada ukuran akhir? Apakah jarak dan perataan konsisten? Gunakan bentuk, label, atau pola selain warna untuk membedakan kategori.
+\end{frame}
+\begin{frame}[fragile]{Posisi relatif dan jarak}
+\begin{lstlisting}
+\usetikzlibrary{positioning}
+\begin{tikzpicture}[node distance=1cm and 2cm]
+\node[draw] (a) {Mulai};
+\node[draw,right=of a] (b) {Proses};
+\node[draw,below=of b] (c) {Selesai};
+\draw[->] (a) -- (b) -- (c);
+\end{tikzpicture}
+\end{lstlisting}
+\texttt{node distance} mengatur jarak vertikal dan horizontal antartepi node. Periksa perbedaan saat label node diperpanjang.
+\end{frame}
+\begin{frame}[fragile]{Refaktor: pisahkan gaya dan isi}
+\begin{lstlisting}
+\tikzset{
+  tahap/.style={draw,rounded corners,fill=blue!10,
+    minimum width=2.5cm,minimum height=8mm,align=center},
+  alur/.style={-{Stealth},thick}
+}
+\node[tahap] (a) {Pertanyaan};
+\node[tahap,right=of a] (b) {Data};
+\draw[alur] (a) -- (b);
+\end{lstlisting}
+Tugas singkat: ubah warna dan ketebalan melalui definisi gaya, lalu hitung berapa baris yang perlu diedit.
+\end{frame}
+\begin{frame}[fragile]{Percabangan dan jalur alternatif}
+\begin{lstlisting}
+\usetikzlibrary{shapes.geometric,positioning,arrows.meta}
+\node[draw,diamond,aspect=2] (cek) {Cukup?};
+\node[draw,above right=of cek] (ya) {Analisis};
+\node[draw,below right=of cek] (tidak) {Tambah data};
+\draw[-{Stealth}] (cek) -- node[above] {Ya} (ya);
+\draw[-{Stealth}] (cek) -- node[below] {Tidak} (tidak);
+\end{lstlisting}
+Label cabang memberi makna yang tidak bergantung pada warna.
+\end{frame}
+\begin{frame}[fragile]{Scope dan transformasi}
+\begin{lstlisting}
+\draw[help lines] (0,0) grid (4,2);
+\begin{scope}[xshift=2cm,rotate=30]
+  \draw[blue,thick,->] (0,0) -- (1,0);
+\end{scope}
+\draw[red,->] (0,0) -- (1,0);
+\end{lstlisting}
+Transformasi dan opsi di dalam scope bersifat lokal. Prediksi arah dan lokasi kedua panah sebelum mengompilasi.
+\end{frame}
+\begin{frame}[fragile]{Perulangan dan kelompok}
+\begin{lstlisting}
+\foreach \x in {0,1,2,3}
+  {\fill (0.4*\x,0) circle (2pt);}
+% Pustaka: fit, backgrounds
+\begin{scope}[on background layer]
+  \node[draw,dashed,fit=(a)(b),inner sep=4mm] {};
+\end{scope}
+\end{lstlisting}
+Loop cocok untuk elemen berulang; \texttt{fit} membungkus node yang sudah didefinisikan. Background menjaga kotak di belakang node.
+\end{frame}
+\begin{frame}{Latihan 1B: alur penelitian (15 menit)}
+Buat minimal tiga tahap, satu cabang, dua gaya, dan node bernama. Jika waktu cukup, tambahkan kelompok dengan \texttt{fit} dan elemen berulang dengan \texttt{\textbackslash foreach}.
+\medskip
+
+Uji dengan mengganti salah satu node menjadi dua baris. Apakah panah dan jarak masih masuk akal? Gunakan \texttt{contoh-sesi-2.tex} untuk membandingkan pendekatan.
+\end{frame}
+\begin{frame}{Review dan exit ticket}
+\begin{enumerate}
+\item Temukan satu contoh kode berulang dan ubah menjadi gaya.
+\item Periksa panah, label cabang, perataan, dan kontras.
+\item Jelaskan apa yang berubah ketika sebuah gaya diubah.
+\end{enumerate}
+Tantangan: tambahkan panah balik tanpa menutupi teks.
+\end{frame}
+\section{Sesi 2: Grafik akademik, integrasi, dan proyek}
+\begin{frame}{Sesi 2: tujuan dan alokasi 75 menit}
+\begin{itemize}
+\item 0--15: prinsip grafik dan demonstrasi kurva serta data.
+\item 15--35: latihan grafik, legenda, dan anotasi.
+\item 35--45: integrasi gambar pada dokumen dan Beamer.
+\item 45--60: adaptasi gambar untuk bahan ajar atau penelitian.
+\item 60--70: ulasan sejawat dan revisi; 70--75: penyerahan.
+\end{itemize}
+Target: grafik berlabel serta contoh gambar siap digunakan dalam dokumen atau presentasi.
+\end{frame}
+\begin{frame}{Diagram dan grafik menjawab pertanyaan berbeda}
+TikZ membantu menyatakan struktur dan hubungan; PGFPlots membangun sumbu serta memetakan nilai numerik ke posisi.
+\medskip
+
+Sebelum memplot, tentukan variabel, satuan, sumber data, audiens, dan pesan. Data dalam paket latihan bersifat fiktif dan hanya digunakan untuk demonstrasi.
+\end{frame}
+\begin{frame}[fragile]{Kurva dengan PGFPlots}
+\begin{lstlisting}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{tikzpicture}
+\begin{axis}[xlabel={$x$},ylabel={$f(x)$},grid=major]
+  \addplot[blue,domain=0:5] {x^2};
+\end{axis}
+\end{tikzpicture}
+\end{lstlisting}
+Cantumkan variabel, satuan bila ada, dan domain yang sesuai.
+\end{frame}
+\begin{frame}[fragile]{Data, legenda, dan anotasi}
+\begin{lstlisting}
+\addplot[mark=*] table[x=x,y=y,col sep=comma] {data.csv};
+\addlegendentry{Pengamatan}
+\node[anchor=south east] at (axis cs:5,21) {Akhir};
+\end{lstlisting}
+Latihan: bandingkan data fiktif dengan kurva acuan. Periksa sumber, satuan, skala, dan posisi legenda. Lihat \texttt{contoh-sesi-3.tex}.
+\end{frame}
+\begin{frame}[fragile]{Kontrol domain, sampel, dan batas sumbu}
+\begin{lstlisting}
+\begin{axis}[
+  xlabel={Waktu (minggu)}, ylabel={Nilai (satuan)},
+  xmin=0,xmax=5,ymin=0,ymax=24,grid=major
+]
+\addplot[blue,domain=0:5,samples=50] {10+2*x};
+\end{axis}
+\end{lstlisting}
+\texttt{domain} menentukan rentang fungsi yang dihitung; batas sumbu menentukan bagian yang ditampilkan. Bandingkan perubahan \texttt{ymin=0} dengan \texttt{ymin=10}.
+\end{frame}
+\begin{frame}[fragile]{Dari tabel CSV ke grafik}
+\begin{lstlisting}
+% data.csv:
+% x,y
+% 0,10
+% 1,13
+\addplot[blue,mark=*]
+  table[x=x,y=y,col sep=comma] {data.csv};
+\addlegendentry{Pengamatan fiktif}
+\end{lstlisting}
+Nama kolom harus sesuai header. Kompilasi dari folder yang memuat CSV atau sesuaikan jalurnya. Pastikan data dan sumber tersedia untuk reproduksi.
+\end{frame}
+\begin{frame}[fragile]{Bandingkan model dan pengamatan}
+\begin{lstlisting}
+\addplot[blue,mark=*] table[x=x,y=y,
+  col sep=comma] {data.csv};
+\addlegendentry{Pengamatan}
+\addplot[black,dashed,domain=0:5,samples=2] {10+2*x};
+\addlegendentry{Acuan}
+\end{lstlisting}
+Gunakan marker dan garis putus-putus untuk membedakan seri tanpa mengandalkan warna. Kurva acuan bukan bukti hubungan sebab akibat.
+\end{frame}
+\begin{frame}[fragile]{Anotasi dan koordinat sumbu}
+\begin{lstlisting}
+\node[anchor=south east,align=right]
+  at (axis cs:5,21) {Titik terakhir};
+\end{lstlisting}
+\texttt{axis cs} menggunakan koordinat data dalam sistem sumbu. Tempatkan anotasi agar tidak menutupi titik, garis, atau legenda. Tambahkan caption yang menyatakan konteks dan sumber.
+\end{frame}
+\begin{frame}{Diskusi: apa yang dapat menyesatkan?}
+\begin{itemize}
+\item Sumbu tanpa satuan atau tanpa penjelasan variabel.
+\item Pemotongan sumbu yang memperbesar kesan perbedaan.
+\item Menghubungkan pengamatan yang tidak tepat diperlakukan sebagai kontinu.
+\item Grafik tanpa sumber, periode, atau penjelasan data.
+\end{itemize}
+Skala tidak selalu harus mulai dari nol: pilih sesuai tujuan dan tunjukkan batas dengan jelas.
+\end{frame}
+\begin{frame}{Latihan 2: grafik dan diskusi (20 menit)}
+Plot \texttt{data.csv} terhadap waktu; tambahkan acuan $10+2x$, legenda, anotasi titik terakhir, dan caption. Cek nilai dengan membaca tabel.
+\medskip
+
+Bandingkan dua batas sumbu $y$. Jelaskan apa yang berubah secara visual dan apa yang tetap sama pada datanya. Tantangan: masukkan data Anda sendiri dan cantumkan sumbernya.
+\end{frame}
+\begin{frame}[fragile]{Gambar dalam dokumen akademik}
+\begin{lstlisting}
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    % gambar Anda
+  \end{tikzpicture}
+  \caption{Hubungan konsep dalam penelitian.}
+  \label{fig:konsep}
+\end{figure}
+Lihat Gambar~\ref{fig:konsep}.
+\end{lstlisting}
+Letakkan \texttt{\textbackslash label} setelah caption; kompilasi ulang untuk referensi silang.
+\end{frame}
+\begin{frame}{Merancang pengungkapan bertahap}
+Dalam presentasi, ungkap elemen menurut urutan penjelasan: pertanyaan, metode, lalu relasi ke hasil.
+\medskip
+
+Pastikan setiap tahap masih bermakna, teks tidak berpindah secara mengganggu, dan slide akhir tetap terbaca. Uji seluruh overlay dalam PDF.
+\end{frame}
+\begin{frame}[fragile]{Presentasi bertahap di Beamer}
+\begin{lstlisting}
+\only<2->{\draw[->] (a) -- (b);}
+\only<3->{\draw[->] (b) -- (c);}
+\end{lstlisting}
+Setiap overlay menambahkan relasi. Lihat \texttt{contoh-sesi-4.tex}, contoh Beamer untuk sesi 2.
+\end{frame}
+\begin{frame}[fragile]{Overlay: ruang dan urutan}
+\begin{lstlisting}
+% Node a, b, c sudah didefinisikan dalam tikzpicture
+\only<2->{\draw[->] (a) -- (b);}
+\only<3->{\draw[->] (b) -- (c);}
+\end{lstlisting}
+\texttt{\textbackslash only} tidak menempatkan isi pada overlay lain; perubahan batas gambar dapat menggeser letak. Uji PDF tiap tahap; pertahankan batas gambar atau gunakan mekanisme yang mempertahankan ruang bila diperlukan.
+\end{frame}
+\begin{frame}{Perencanaan proyek: lima menit}
+\begin{enumerate}
+\item Tulis satu kalimat pesan yang hendak disampaikan.
+\item Pilih pembaca dan media: artikel, handout, atau proyektor.
+\item Sketsa elemen dan relasinya; identifikasi apa yang perlu ditekankan.
+\item Pilih titik awal: salah satu berkas contoh dalam paket.
+\end{enumerate}
+Periksa kebenaran isi sebelum memperhalus gaya.
+\end{frame}
+\begin{frame}{Proyek akhir}
+Buat atau adaptasi gambar untuk satu materi kuliah atau penelitian. Sertakan caption atau legenda; gunakan gaya, node bernama, anotasi, dan scope jika sesuai dengan jenis gambar.
+\medskip
+
+Tukar dengan pasangan: periksa ketepatan isi, kompilasi, keterbacaan, dan kemudahan mengubah kode. Revisi lalu kumpulkan sumber dan PDF.
+\end{frame}
+\begin{frame}{Kriteria penilaian: 20 poin}
+Lima kriteria, masing-masing 0--4: ketepatan isi; kompilasi dan kelengkapan; penggunaan konsep TikZ; keterbacaan; dan pemeliharaan kode.
+\medskip
+
+Nilai 4 berarti benar dan konsisten; 3 baik dengan kekurangan kecil; 2 sebagian benar; 1 perlu banyak perbaikan; 0 belum ada. Panduan lengkap dan target kelulusan ada di \texttt{panduan-pengajar.md}.
+\end{frame}
+\begin{frame}{Umpan balik sejawat: 10 menit}
+\begin{enumerate}
+\item Jelaskan pesan gambar dalam satu kalimat tanpa bantuan pembuatnya.
+\item Periksa akurasi relasi atau data dan bagian yang sulit dibaca.
+\item Ubah satu label atau gaya untuk menguji kemudahan pemeliharaan.
+\item Beri satu kekuatan dan satu saran yang dapat ditindaklanjuti.
+\end{enumerate}
+Pembuat memilih revisi paling penting dan mengompilasi kembali.
+\end{frame}
+\begin{frame}{Presentasi dan penyerahan}
+Tunjukkan gambar selama satu menit: jelaskan konteks, pilihan desain, dan satu perubahan berdasarkan umpan balik.
+\medskip
+
+Kumpulkan \texttt{.tex}, PDF, dan data atau berkas pendukung yang diperlukan. Jelaskan secara singkat apa yang ingin dikembangkan berikutnya.
+\end{frame}
+\begin{frame}{Pemeriksaan akhir}
+\begin{enumerate}
+\item Apakah gambar menyampaikan satu pesan yang jelas dan benar?
+\item Apakah label, panah, skala, dan satuan dapat dipahami?
+\item Apakah teks terbaca dan kategori tetap berbeda dalam cetak abu-abu?
+\item Apakah kode dapat dikompilasi ulang bersama data yang diperlukan?
+\end{enumerate}
+\end{frame}
+\begin{frame}{Pengayaan opsional: peta kuliah}
+Contoh berikut dipertahankan sebagai bahan pengayaan atau pilihan proyek. Bagian ini berada di luar alokasi inti 75 menit.
+\end{frame}
+\begin{frame}{Dari tutorial ke peta yang dapat diajarkan}
+Tutorial \href{https://tikz.dev/tutorial-map}{A Lecture Map for Johannes} menyusun konsep, anotasi kuliah, latar, dan kalender.
+\medskip
+
+Di sini kita mempertahankan empat fungsi itu dengan perintah yang telah dipelajari: node, koordinat, garis, gaya, \texttt{positioning}, \texttt{fit}, dan \texttt{scope}. Jadwal berupa daftar pertemuan, bukan kalender otomatis.
+\end{frame}
+\begin{frame}{Rancang struktur sebelum menulis kode}
+\begin{enumerate}
+\item Pilih satu mata kuliah dan tiga konsep utama.
+\item Tentukan subkonsep dan relasi lintas cabang.
+\item Pilih dua pertemuan, tanggal, dan hasil belajar yang terukur.
+\item Tandai mana relasi hierarki dan mana relasi tambahan.
+\end{enumerate}
+Peta konsep bukan jadwal: satu pertemuan dapat membahas beberapa konsep dan satu konsep dapat muncul pada beberapa pertemuan.
+\end{frame}
+\begin{frame}[fragile]{Langkah 1: definisikan gaya}
+\begin{lstlisting}
+\usetikzlibrary{positioning,arrows.meta,fit,backgrounds}
+\tikzset{
+  konsep/.style={draw,rounded corners,fill=blue!10,
+    minimum width=2.2cm,align=center},
+  relasi/.style={-{Stealth},thick},
+  catatan/.style={draw,fill=white,align=left}
+}
+\end{lstlisting}
+Gaya memakai pola yang sudah dipraktikkan pada sesi 1.
+\end{frame}
+\begin{frame}[fragile]{Langkah 2: susun konsep dan relasi}
+\begin{lstlisting}
+\node[konsep] (pusat) {Metode penelitian};
+\node[konsep,above right=of pusat] (tanya) {Pertanyaan};
+\node[konsep,right=of pusat] (data) {Data};
+\node[konsep,below right=of pusat] (analisis) {Analisis};
+\draw[relasi] (pusat) -- (tanya);
+\draw[relasi] (pusat) -- (data);
+\draw[relasi] (pusat) -- (analisis);
+\draw[relasi,dashed] (data) -- (analisis);
+\end{lstlisting}
+Garis putus-putus menandai relasi lintas cabang; jelaskan artinya pada legenda.
+\end{frame}
+\begin{frame}[fragile]{Langkah 3: anotasi pertemuan}
+\begin{lstlisting}
+\node[catatan,right=of tanya] (kuliah1)
+  {P1: Merumuskan pertanyaan\\
+   Target: menyusun pertanyaan riset};
+\draw[relasi] (kuliah1.west) -- (tanya.east);
+\end{lstlisting}
+Gunakan target yang dapat diamati. Dalam contoh lengkap, jarak anotasi diatur agar tidak menutupi relasi lain.
+\end{frame}
+\begin{frame}[fragile]{Langkah 4: latar dan jadwal}
+\begin{lstlisting}
+\begin{scope}[on background layer]
+  \node[draw,fill=blue!5,fit=(pusat)(tanya)(data)(analisis),
+    inner sep=5mm] {};
+\end{scope}
+\node[catatan,below=of pusat,align=left]
+  {Jadwal (contoh)\\P1: 3 Mar\\P2: 10 Mar};
+\end{lstlisting}
+Latar diletakkan di belakang; tanggal adalah contoh dan dapat diubah. Peta lengkap ada di \texttt{peta-kuliah.tex}.
+\end{frame}
+\begin{frame}{Pengayaan: peta kuliah sendiri}
+Buat satu peta dengan konsep pusat, tiga konsep, dua subkonsep, satu hubungan lintas cabang, dua anotasi target belajar, latar kelompok, serta jadwal dua pertemuan.
+\medskip
+
+Gunakan paling sedikit dua gaya dan node bernama. Periksa keterbacaan, ruang antarelement, serta hubungan antara anotasi, konsep, dan jadwal.
+\end{frame}
+\begin{frame}{Ulasan dan exit ticket}
+Tukar peta: apakah hubungan konsep benar, target dapat diamati, dan setiap jadwal konsisten dengan anotasinya? Berikan satu saran dan revisi.
+\medskip
+
+Exit ticket: jelaskan satu keputusan desain dan tunjukkan perintah yang menghubungkan dua konsep. Kumpulkan sumber dan PDF.
+\end{frame}
+% Sesi 3: materi belum ditentukan.
+% Sesi 4: peta kuliah tersedia di folder ../Sesi 4.
+\end{document}

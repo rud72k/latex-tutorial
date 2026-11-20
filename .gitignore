@@ -1,5 +1,7 @@
 ./tmp/*
 .DS_Store
+./*/README.md
+*.md
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
