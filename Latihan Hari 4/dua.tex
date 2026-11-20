@@ -1,0 +1,31 @@
+\documentclass{article}
+\usepackage[top=1in]{geometry}
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+\begin{document}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            xlabel={$x$},
+            ylabel={$f(x)$},
+            % grid=both,
+            % major grid style={draw = blue!20}
+            % minor grid style={draw = black!20}
+            % minor tick num = 4,
+            xmin=-.5,
+            xmax=10,
+            ymin=-.5,
+            ymax=100,
+            legend pos = north west
+            ]
+            \addplot[blue,domain=0:10] {x^2};
+                \addlegendentry{$x^2$}
+            \addplot[black,dash dot,domain=0:10] {10*x};
+                \addlegendentry{$10x$}
+            \addplot[red,mark=*]
+                table[x=x,y=y,col sep=comma] {data.csv};
+                \addlegendentry{Pengamatan}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\end{document}

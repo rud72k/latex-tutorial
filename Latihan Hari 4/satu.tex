@@ -1,6 +1,17 @@
 \documentclass{article}
 \usepackage{tikz}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+\usepackage{mathrsfs}
+\usetikzlibrary{arrows, fit}
+
+
 \begin{document}
+
+
+\definecolor{zzttqq}{rgb}{0.6,0.2,0}
+\definecolor{ududff}{rgb}{0.30196078431372547,0.30196078431372547,1}
 % \begin{figure}
 %     \centering
 %         \begin{tikzpicture}
@@ -55,5 +66,35 @@
     \caption{Contoh aturan Phytagoras pada segitiga siku-siku}
     \label{fig:phytagoras}
 \end{figure}
+
+
+\newpage
+\begin{tikzpicture}
+    % \node[draw] (a) at (0,0) {Masalah};
+    % \node[draw] (b) at (3,0) {Metode};
+    % \draw[->] (a.west) -- node[above] {dipelajari} (b.east);
+    % \begin{scope}[xshift=2cm,rotate=45]
+    % \draw (0,0) -- (1,0) -- (0,1);
+    % \draw (0,1) -- (2,1);
+    % \end{scope}
+    
+    % \foreach \x in {0,1,2,4,6,7,8} {
+    %     \foreach \y in {0,1,2,3,4}
+    %         {\fill (\x,\y) circle (2pt);}
+    %     }
+    
+    
+    % dengan pustaka fit:
+    % \node[draw] (a) at (0,2){};
+    % \node[draw] (b) at (1,2){};
+    % \node[draw,fit=(a)(b),inner sep=4mm] {};
+
+    \usetikzlibrary{shapes.geometric,positioning,arrows.meta}
+    \node[draw,diamond,aspect=2] (cek) {Cukup?};
+    \node[draw,above right=of cek] (ya) {Analisis};
+    \node[draw,below right=of cek] (tidak) {Tambah data};
+    \draw[-{Stealth}] (cek) -- node[above] {Ya} (ya);
+    \draw[->] (cek) -- node[below] {Tidak} (tidak);
+\end{tikzpicture}
 
 \end{document}
