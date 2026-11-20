@@ -17,741 +17,743 @@
 \subtitle{Hari 1 --- Dasar penulisan dan manajemen proyek}
 \author{Pelatihan Universitas Terbuka dan Departemen Matematika FMIPA UGM}
 \date{Yogyakarta, 19 November 2026}
-\begin{document}
-\begin{frame}[plain]
-\usebeamerfont{title}\inserttitle\par
-\usebeamerfont{subtitle}\insertsubtitle\par\medskip
-\usebeamertemplate{title separator}\par\medskip
-\usebeamerfont{author}\insertauthor\par\smallskip
-\usebeamerfont{date}\insertdate
-\end{frame}
-\begin{frame}[fragile]{Pertanyaan yang akan kita jawab}
-Jika panjang tali dilipatduakan, apakah periode ayunan juga menjadi dua kali lebih lama?
-\medskip
+  \begin{document}
+  \begin{frame}[plain]
+  \usebeamerfont{title}\inserttitle\par
+  \usebeamerfont{subtitle}\insertsubtitle\par\medskip
+  \usebeamertemplate{title separator}\par\medskip
+  \usebeamerfont{author}\insertauthor\par\smallskip
+  \usebeamerfont{date}\insertdate
+  \end{frame}
+  \begin{frame}[fragile]{Pertanyaan yang akan kita jawab}
+  Jika panjang tali dilipatduakan, apakah periode ayunan juga menjadi dua kali lebih lama?
+  \medskip
 
-Hari ini Anda akan menyusun laporan pendek yang memuat dugaan, model matematika, data, gambar alat, dan kesimpulan. Simpan sumbernya. Pada hari kedua, hasil ini menjadi bahan presentasi Anda.
-\end{frame}
-\begin{frame}{Peta belajar Hari 1}
-\begin{enumerate}
-\item \textbf{Pengenalan, struktur, dan format dokumen}\\
-Membuat sumber yang dapat dikompilasi dan mudah dibaca.
-\item \textbf{Elemen akademik}\\
-Menulis rumus, tabel, gambar, dan rujukan otomatis.
-\item \textbf{Proyek dokumen akademik lengkap}\\
-Menggabungkan seluruh elemen menjadi laporan pendek.
-\item \textbf{Manajemen proyek dokumen akademik besar}\\
-Memisahkan berkas dan mengelola detail secara konsisten.
-\end{enumerate}
-\end{frame}
-\section{Sesi 1. Pengenalan, struktur, dan format dokumen}
-\begin{frame}[fragile]{Pengenalan, struktur, dan format dokumen}
-\relax{\large Sesi 1 \quad 08.30--09.45 \quad 75 menit}\par\bigskip
-10 menit mengenali LaTeX, editor, dan alur kompilasi\\[3pt]
-15 menit membuat dokumen, kelas, dan prambule\\[3pt]
-35 menit menyusun bagian, paragraf, format, daftar, dan catatan\\[3pt]
-15 menit membaca log dan memperbaiki kesalahan dasar
-\end{frame}
-\begin{frame}{Mengapa menggunakan LaTeX?}
-\begin{itemize}
-\item Struktur ditulis dalam sumber; tata letak mengikuti kelas dokumen.
-\item Rumus, penomoran, rujukan silang, dan daftar pustaka dapat dikelola secara konsisten.
-\item Sumber teks mudah dipisahkan, ditinjau, dan digunakan kembali.
-\end{itemize}
-\medskip
-\textbf{Alur kerja}\quad sumber \texttt{.tex} $\rightarrow$ kompilasi
-$\rightarrow$ PDF dan log $\rightarrow$ revisi sumber.
-\medskip
+  Hari ini Anda akan menyusun laporan pendek yang memuat dugaan, model matematika, data, gambar alat, dan kesimpulan. Simpan sumbernya. Pada hari kedua, hasil ini menjadi bahan presentasi Anda.
+  \end{frame}
 
-Overleaf menyediakan editor dan kompilasi di peramban. Secara lokal,
-Anda memerlukan editor serta distribusi TeX.
-\end{frame}
-\begin{frame}[fragile]{Proyek pertama}
-Di Overleaf, buat proyek kosong dan buka \texttt{main.tex}. Ketik contoh pada slide berikut, lalu tekan \textit{Recompile}.
+  
+  \begin{frame}{Peta belajar Hari 1}
+  \begin{enumerate}
+  \item \textbf{Pengenalan, struktur, dan format dokumen}\\
+  Membuat sumber yang dapat dikompilasi dan mudah dibaca.
+  \item \textbf{Elemen akademik}\\
+  Menulis rumus, tabel, gambar, dan rujukan otomatis.
+  \item \textbf{Proyek dokumen akademik lengkap}\\
+  Menggabungkan seluruh elemen menjadi laporan pendek.
+  \item \textbf{Manajemen proyek dokumen akademik besar}\\
+  Memisahkan berkas dan mengelola detail secara konsisten.
+  \end{enumerate}
+  \end{frame}
+  \section{Sesi 1. Pengenalan, struktur, dan format dokumen}
+  \begin{frame}[fragile]{Pengenalan, struktur, dan format dokumen}
+  \relax{\large Sesi 1 \quad 08.30--09.45 \quad 75 menit}\par\bigskip
+  10 menit mengenali LaTeX, editor, dan alur kompilasi\\[3pt]
+  15 menit membuat dokumen, kelas, dan \emph{preambule}\\[3pt]
+  35 menit menyusun bagian, paragraf, format, daftar, dan catatan\\[3pt]
+  15 menit membaca log dan memperbaiki kesalahan dasar
+  \end{frame}
+  \begin{frame}{Mengapa menggunakan LaTeX?}
+  \begin{itemize}
+  \item Struktur ditulis dalam sumber; tata letak mengikuti kelas dokumen.
+  \item Rumus, penomoran, rujukan silang, dan daftar pustaka dapat dikelola secara konsisten.
+  \item Sumber teks mudah dipisahkan, ditinjau, dan digunakan kembali.
+  \end{itemize}
+  \medskip
+  \textbf{Alur kerja}\quad sumber \texttt{.tex} $\rightarrow$ kompilasi
+  $\rightarrow$ PDF dan log $\rightarrow$ revisi sumber.
+  \medskip
 
-\medskip
-Jika bekerja secara lokal, simpan \texttt{main.tex} dalam folder proyek. Dengan distribusi TeX dan \texttt{latexmk} terpasang, jalankan di folder itu:
-\begin{lstlisting}[style=terminal]
-latexmk -pdf main.tex
-\end{lstlisting}
-Buka \texttt{main.pdf}. Jika kompilasi terhenti, pesan pertama pada log biasanya menunjukkan tempat terbaik untuk mulai memeriksa sumber.
-\end{frame}
-\begin{frame}[fragile]{Berkas pertama yang dapat dikompilasi}
-\begin{lstlisting}
-\documentclass[11pt,a4paper]{article}
-\usepackage[indonesian]{babel}
-\title{Mengukur periode ayunan}
-\author{Nama peserta}
-\date{}
-\begin{document}
-\maketitle
-Berapa lama satu getaran berlangsung?
-\end{document}
-\end{lstlisting}
-\tugas{Ganti nama penulis dan kompilasi lagi. Temukan perubahan itu di PDF.}
-\end{frame}
-\begin{frame}[fragile]{Di mana sebuah perubahan ditulis?}
-\begin{description}
-\item[Kelas] \lstinline|article| menyediakan bagian dan subbagian. Untuk buku yang memerlukan bab, kelas \lstinline|book| menyediakan \lstinline|\chapter|.
-\item[Prambule] Bagian sebelum \lstinline|\begin{document}| memuat paket dan identitas naskah.
-\item[Isi] Perintah \lstinline|\maketitle| mencetak identitas. Teks dan lingkungan seperti \lstinline|enumerate| ditempatkan di sini.
-\end{description}
-\tugas{Ubah opsi kelas dari \texttt{11pt} ke \texttt{12pt}. Bandingkan panjang baris pertama.}
-\end{frame}
-\begin{frame}[fragile]{Kelas, paket, perintah, dan lingkungan}
-\begin{lstlisting}
-\documentclass{article}        % kelas dokumen
-\usepackage{amsmath}          % paket tambahan
-% Isi berikut berada setelah \begin{document}
-\textbf{Hasil pengamatan}     % perintah + argumen
-\begin{itemize}               % awal lingkungan
-  \item Periode bertambah.
-\end{itemize}                 % akhir lingkungan
-\end{lstlisting}
-Kelas berasal dari berkas \texttt{.cls}; paket biasanya dari \texttt{.sty}.
-Muat paket di prambule. Pasangkan setiap lingkungan pembuka dan penutup.
-\end{frame}
-\begin{frame}[fragile]{Hierarki bagian dan bab}
-\begin{lstlisting}
-\section{Pendahuluan}
-\subsection{Pertanyaan penelitian}
-\subsubsection{Asumsi model}
-\section{Metode}
-\section{Hasil dan pembahasan}
-\section{Kesimpulan}
-\end{lstlisting}
-\lstinline|article| menggunakan bagian. Kelas \lstinline|report| dan
-\lstinline|book| juga menyediakan \lstinline|\chapter|.
-Versi berbintang, seperti \lstinline|\section*{Ucapan terima kasih}|,
-tidak diberi nomor.
-\tugas{Buat empat bagian utama laporan sebelum mengisi paragrafnya.}
-\end{frame}
-\begin{frame}[fragile]{Paragraf dan penekanan dalam naskah}
-\begin{lstlisting}
-Kami mengukur waktu untuk \textbf{sepuluh getaran}.
+  Overleaf menyediakan editor dan kompilasi di peramban. Secara lokal,
+  Anda memerlukan editor serta distribusi TeX.
+  \end{frame}
+  \begin{frame}[fragile]{Proyek pertama}
+  Di Overleaf, buat proyek kosong dan buka \texttt{main.tex}. Ketik contoh pada slide berikut, lalu tekan \textit{Recompile}.
 
-Satu getaran berakhir ketika beban kembali ke titik
-awal dengan \emph{arah gerak yang sama}.
-\end{lstlisting}
-Kami mengukur waktu untuk \textbf{sepuluh getaran}.
+  \medskip
+  Jika bekerja secara lokal, simpan \texttt{main.tex} dalam folder proyek. Dengan distribusi TeX dan \texttt{latexmk} terpasang, jalankan di folder itu:
+  \begin{lstlisting}[style=terminal]
+  latexmk -pdf main.tex
+  \end{lstlisting}
+  Buka \texttt{main.pdf}. Jika kompilasi terhenti, pesan pertama pada log biasanya menunjukkan tempat terbaik untuk mulai memeriksa sumber.
+  \end{frame}
+  \begin{frame}[fragile]{Berkas pertama yang dapat dikompilasi}
+  \begin{lstlisting}
+  \documentclass[11pt,a4paper]{article}
+  \usepackage[indonesian]{babel}
+  \title{Mengukur periode ayunan}
+  \author{Nama peserta}
+  \date{}
+  \begin{document}
+  \maketitle
+  Berapa lama satu getaran berlangsung?
+  \end{document}
+  \end{lstlisting}
+  \tugas{Ganti nama penulis dan kompilasi lagi. Temukan perubahan itu di PDF.}
+  \end{frame}
+  \begin{frame}[fragile]{Di mana sebuah perubahan ditulis?}
+  \begin{description}
+  \item[Kelas] \lstinline|article| menyediakan bagian dan subbagian. Untuk buku yang memerlukan bab, kelas \lstinline|book| menyediakan \lstinline|\chapter|.
+  \item[Prambule] Bagian sebelum \lstinline|\begin{document}| memuat paket dan identitas naskah.
+  \item[Isi] Perintah \lstinline|\maketitle| mencetak identitas. Teks dan lingkungan seperti \lstinline|enumerate| ditempatkan di sini.
+  \end{description}
+  \tugas{Ubah opsi kelas dari \texttt{11pt} ke \texttt{12pt}. Bandingkan panjang baris pertama.}
+  \end{frame}
+  \begin{frame}[fragile]{Kelas, paket, perintah, dan lingkungan}
+  \begin{lstlisting}
+  \documentclass{article}        % kelas dokumen
+  \usepackage{amsmath}          % paket tambahan
+  % Isi berikut berada setelah \begin{document}
+  \textbf{Hasil pengamatan}     % perintah + argumen
+  \begin{itemize}               % awal lingkungan
+    \item Periode bertambah.
+  \end{itemize}                 % akhir lingkungan
+  \end{lstlisting}
+  Kelas berasal dari berkas \texttt{.cls}; paket biasanya dari \texttt{.sty}.
+  Muat paket di \emph{preambule}. Pasangkan setiap lingkungan pembuka dan penutup.
+  \end{frame}
+  \begin{frame}[fragile]{Hierarki bagian dan bab}
+  \begin{lstlisting}
+  \section{Pendahuluan}
+  \subsection{Pertanyaan penelitian}
+  \subsubsection{Asumsi model}
+  \section{Metode}
+  \section{Hasil dan pembahasan}
+  \section{Kesimpulan}
+  \end{lstlisting}
+  \lstinline|article| menggunakan bagian. Kelas \lstinline|report| dan
+  \lstinline|book| juga menyediakan \lstinline|\chapter|.
+  Versi berbintang, seperti \lstinline|\section*{Ucapan terima kasih}|,
+  tidak diberi nomor.
+  \tugas{Buat empat bagian utama laporan sebelum mengisi paragrafnya.}
+  \end{frame}
+  \begin{frame}[fragile]{Paragraf dan penekanan dalam naskah}
+  \begin{lstlisting}
+  Kami mengukur waktu untuk \textbf{sepuluh getaran}.
 
-\smallskip
-Satu getaran berakhir ketika beban kembali ke titik awal dengan \emph{arah gerak yang sama}.
+  Satu getaran berakhir ketika beban kembali ke titik
+  awal dengan \emph{arah gerak yang sama}.
+  \end{lstlisting}
+  Kami mengukur waktu untuk \textbf{sepuluh getaran}.
 
-\tugas{Hapus baris kosong, lalu kompilasi. Apa yang berubah?}
-\end{frame}
-\begin{frame}[fragile]{Baris baru, spasi, dan karakter khusus}
-\begin{lstlisting}
-Baris sumber pertama
-masih menjadi paragraf yang sama.
+  \smallskip
+  Satu getaran berakhir ketika beban kembali ke titik awal dengan \emph{arah gerak yang sama}.
 
-Ini paragraf baru. Nilai galat adalah 2\%.
-Tabel~1 tidak memisahkan kata dan nomor.
-Simbol khusus: \& \_ \# \$ \{ \}
-\end{lstlisting}
-Beberapa spasi biasa dianggap satu spasi. Satu baris kosong memulai
-paragraf baru. \lstinline|\\| memutus baris dalam konteks yang sesuai,
-misalnya alamat; jangan gunakan sebagai pengganti paragraf.
-\medskip
+  \tugas{Hapus baris kosong, lalu kompilasi. Apa yang berubah?}
+  \end{frame}
+  \begin{frame}[fragile]{Baris baru, spasi, dan karakter khusus}
+  \begin{lstlisting}
+  Baris sumber pertama
+  masih menjadi paragraf yang sama.
 
-Tanda \lstinline|%| memulai komentar sampai akhir baris sumber.
-\end{frame}
-\begin{frame}[fragile]{Penekanan dan perataan teks}
-\begin{lstlisting}
-\textbf{Tebal}, \textit{miring}, \underline{garis bawah}.
-\emph{Penekanan mengikuti konteks jenis huruf.}
-\begin{center}
-  Laporan pengukuran periode ayunan
-\end{center}
-\begin{flushleft}
-  Kelompok A
-\end{flushleft}
-\end{lstlisting}
-Gunakan \lstinline|flushright| untuk rata kanan. Teks biasa pada
-\lstinline|article| diratakan kiri dan kanan secara otomatis.
-\tugas{Beri penekanan pada istilah penting tanpa memformat seluruh paragraf.}
-\end{frame}
-\begin{frame}[fragile]{Alat, bahan, dan langkah kerja}
-\begin{lstlisting}
-\section{Metode}
-\begin{itemize}
-  \item Tali, beban, dan penyangga
-  \item Mistar dan pencatat waktu
-\end{itemize}
-\begin{enumerate}
-  \item Ukur panjang dari titik gantung ke pusat beban.
-  \item Catat waktu untuk sepuluh getaran.
-\end{enumerate}
-\end{lstlisting}
-\tugas{Tambahkan satu langkah agar kelompok lain dapat mengulang pengukuran dengan cara yang sama.}
-\end{frame}
-\begin{frame}[fragile]{Daftar istilah dan catatan tambahan}
-\begin{lstlisting}
-\begin{description}
-  \item[Periode] Waktu untuk satu getaran.
-  \item[Panjang] Jarak titik gantung ke pusat beban.
-\end{description}
-Data ini bersifat ilustratif.\footnote{Bukan hasil eksperimen.}
-Periksa pengukuran awal.\marginpar{Ukur ulang}
-\end{lstlisting}
-\lstinline|\footnote| menambah catatan kaki; \lstinline|\marginpar|
-menambah catatan margin pada dokumen artikel.
-Catatan margin memerlukan ruang dan dapat bertumpuk.
-\tugas{Tambahkan satu catatan kaki yang menjelaskan asal data.}
-\end{frame}
-\begin{frame}[fragile]{Membaca kesalahan kompilasi}
-\begin{description}
-\item[Perintah tidak dikenal] Periksa ejaan perintah dan paket yang diperlukan.
-\item[Kurung atau lingkungan] Cocokkan \lstinline|{| dengan \lstinline|}|,
-serta \lstinline|\begin| dengan \lstinline|\end|.
-\item[Mode matematika] Indeks dan pangkat harus berada di dalam rumus.
-\item[Urutan perbaikan] Baca kesalahan pertama pada log, periksa juga baris
-sebelumnya, ubah satu hal, lalu kompilasi kembali.
-\end{description}
-\texttt{Overfull} adalah peringatan teks melewati ruang yang tersedia;
-berbeda dari kesalahan yang menghentikan kompilasi.
-\end{frame}
-\begin{frame}[fragile]{Uji kompilasi berpasangan}
-Pada salinan berkas, ubah \lstinline|\end{enumerate}| menjadi \lstinline|\end{itemize}|. Prediksi hasilnya, lalu kompilasi.
+  Ini paragraf baru. Nilai galat adalah 2\%.
+  Tabel~1 tidak memisahkan kata dan nomor.
+  Simbol khusus: \& \_ \# \$ \{ \}
+  \end{lstlisting}
+  Beberapa spasi biasa dianggap satu spasi. Satu baris kosong memulai
+  paragraf baru. \lstinline|\\| memutus baris dalam konteks yang sesuai,
+  misalnya alamat; jangan gunakan sebagai pengganti paragraf.
+  \medskip
 
-\medskip
-Tunjukkan baris pertama yang dilaporkan bermasalah kepada rekan. Cocokkan nama lingkungan pembuka dan penutup, perbaiki, lalu kompilasi lagi.
+  Tanda \lstinline|%| memulai komentar sampai akhir baris sumber.
+  \end{frame}
+  \begin{frame}[fragile]{Penekanan dan perataan teks}
+  \begin{lstlisting}
+  \textbf{Tebal}, \textit{miring}, \underline{garis bawah}.
+  \emph{Penekanan mengikuti konteks jenis huruf.}
+  \begin{center}
+    Laporan pengukuran periode ayunan
+  \end{center}
+  \begin{flushleft}
+    Kelompok A
+  \end{flushleft}
+  \end{lstlisting}
+  Gunakan \lstinline|flushright| untuk rata kanan. Teks biasa pada
+  \lstinline|article| diratakan kiri dan kanan secara otomatis.
+  \tugas{Beri penekanan pada istilah penting tanpa memformat seluruh paragraf.}
+  \end{frame}
+  \begin{frame}[fragile]{Alat, bahan, dan langkah kerja}
+  \begin{lstlisting}
+  \section{Metode}
+  \begin{itemize}
+    \item Tali, beban, dan penyangga
+    \item Mistar dan pencatat waktu
+  \end{itemize}
+  \begin{enumerate}
+    \item Ukur panjang dari titik gantung ke pusat beban.
+    \item Catat waktu untuk sepuluh getaran.
+  \end{enumerate}
+  \end{lstlisting}
+  \tugas{Tambahkan satu langkah agar kelompok lain dapat mengulang pengukuran dengan cara yang sama.}
+  \end{frame}
+  \begin{frame}[fragile]{Daftar istilah dan catatan tambahan}
+  \begin{lstlisting}
+  \begin{description}
+    \item[Periode] Waktu untuk satu getaran.
+    \item[Panjang] Jarak titik gantung ke pusat beban.
+  \end{description}
+  Data ini bersifat ilustratif.\footnote{Bukan hasil eksperimen.}
+  Periksa pengukuran awal.\marginpar{Ukur ulang}
+  \end{lstlisting}
+  \lstinline|\footnote| menambah catatan kaki; \lstinline|\marginpar|
+  menambah catatan margin pada dokumen artikel.
+  Catatan margin memerlukan ruang dan dapat bertumpuk.
+  \tugas{Tambahkan satu catatan kaki yang menjelaskan asal data.}
+  \end{frame}
+  \begin{frame}[fragile]{Membaca kesalahan kompilasi}
+  \begin{description}
+  \item[Perintah tidak dikenal] Periksa ejaan perintah dan paket yang diperlukan.
+  \item[Kurung atau lingkungan] Cocokkan \lstinline|{| dengan \lstinline|}|,
+  serta \lstinline|\begin| dengan \lstinline|\end|.
+  \item[Mode matematika] Indeks dan pangkat harus berada di dalam rumus.
+  \item[Urutan perbaikan] Baca kesalahan pertama pada log, periksa juga baris
+  sebelumnya, ubah satu hal, lalu kompilasi kembali.
+  \end{description}
+  \texttt{Overfull} adalah peringatan teks melewati ruang yang tersedia;
+  berbeda dari kesalahan yang menghentikan kompilasi.
+  \end{frame}
+  \begin{frame}[fragile]{Uji kompilasi berpasangan}
+  Pada salinan berkas, ubah \lstinline|\end{enumerate}| menjadi \lstinline|\end{itemize}|. Prediksi hasilnya, lalu kompilasi.
 
-\medskip
-\textbf{Hasil sesi pertama}\quad PDF menampilkan identitas penulis, pertanyaan penelitian, daftar alat, dan langkah bernomor.
-\end{frame}
-\section{Sesi 2. Elemen dokumen akademik}
-\begin{frame}[fragile]{Elemen dokumen akademik}
-\relax{\large Sesi 2 \quad 10.00--11.30 \quad 90 menit}\par\bigskip
-25 menit menulis model periode dan persamaan bernomor\\[3pt]
-25 menit menyusun tabel dari data ilustratif\\[3pt]
-20 menit menggambar alat dan merujuk gambar\\[3pt]
-20 menit menyisipkan sitasi dan memeriksa daftar pustaka
-\end{frame}
-\begin{frame}[fragile]{Panjang tali dan periode ayunan}
-\begin{columns}[c]\column{.37\linewidth}
-\centering\begin{tikzpicture}[scale=1.1]
-\draw[thick] (-1,0)--(1,0);
-\draw[dashed] (0,0)--(0,-2.5);
-\draw[thick] (0,0)--(-65:2.4) node[midway,right] {$L$};
-\fill (-65:2.4) circle (.13);
-\draw (0,-.7) arc(-90:-65:.7);
-\node at (-78:1.03) {$\theta$};
-\end{tikzpicture}
-\column{.58\linewidth}
-Pada simpangan kecil, beban mengikuti model
-\[T\approx2\pi\sqrt{\frac{L}{g}}.\]
-$L$ adalah jarak titik gantung ke pusat beban. $T$ adalah waktu satu getaran. Anggap tali ringan dan redaman kecil.
-\end{columns}
-\medskip
-Jika $L$ menjadi $2L$, model memprediksi periode menjadi $\sqrt{2}$ kali periode awal.
-\end{frame}
-\begin{frame}[fragile]{Rumus di dalam kalimat dan rumus bernomor}
-\begin{lstlisting}
-Satu periode adalah $T=t/N$, dengan $N$ jumlah getaran.
-\begin{equation}\label{eq:periode}
-  T \approx 2\pi\sqrt{\frac{L}{g}}.
-\end{equation}
-Persamaan~\ref{eq:periode} berlaku untuk sudut kecil.
-\end{lstlisting}
-Kurung kurawal mengelompokkan pembilang, penyebut, dan isi akar. Tanda tilde menjaga kata dan nomor rujukan pada baris yang sama.
-\tugas{Kompilasi dua kali. Sisipkan persamaan bernomor sebelum rumus periode dan periksa nomor rujukannya.}
-\end{frame}
-\begin{frame}[fragile]{Indeks, pangkat, kurung, dan pecahan}
-Tambahkan \lstinline|\usepackage{amsmath,amssymb}| di prambule.
-\begin{lstlisting}
-\[
-  T_{10}^2,\quad \frac{a+b}{c},\quad \binom{n}{k},
-  \qquad \left(\frac{T_2}{T_1}\right)^2
-\]
-\end{lstlisting}
-\[
-  T_{10}^2,\quad \frac{a+b}{c},\quad \binom{n}{k},
-  \qquad \left(\frac{T_2}{T_1}\right)^2
-\]
-Gunakan kurung kurawal untuk indeks atau pangkat lebih dari satu karakter.
-\lstinline|\left| dan \lstinline|\right| membentuk pasangan pembatas otomatis.
-\tugas{Tulis akar kuadrat dari rasio panjang dua tali.}
-\end{frame}
-\begin{frame}[fragile]{Matriks dan vektor}
-\begin{lstlisting}
-\[
-  A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix},
-  \qquad
-  \mathbf{t} = \begin{bmatrix} T_1 \\ T_2 \end{bmatrix}
-\]
-\end{lstlisting}
-\[
-A=\begin{pmatrix}1&2\\3&4\end{pmatrix},\qquad
-\mathbf{t}=\begin{bmatrix}T_1\\T_2\end{bmatrix}
-\]
-\lstinline|&| memisahkan kolom dan \lstinline|\\| mengakhiri baris.
-\lstinline|pmatrix| memakai tanda kurung; \lstinline|bmatrix| memakai kurung siku.
-\tugas{Ubah matriks menjadi dua baris dan tiga kolom.}
-\end{frame}
-\begin{frame}[fragile]{Meratakan beberapa persamaan}
-\begin{lstlisting}
-\begin{align}
-  T_1 &= \frac{12{,}7}{10} = 1{,}27 \label{eq:t1}\\
-  g_1 &= \frac{4\pi^2 L_1}{T_1^2}
-       \approx 9{,}79 \label{eq:g1}
-\end{align}
-\end{lstlisting}
-\begin{align*}
-T_1 &= \frac{12{,}7}{10} = 1{,}27\\
-g_1 &= \frac{4\pi^2 L_1}{T_1^2}\approx9{,}79
-\end{align*}
-Tempatkan \lstinline|&| sebelum tanda sama dengan.
-\lstinline|align| memberi nomor setiap baris; \lstinline|align*| menghilangkannya.
-Jangan bungkus \lstinline|align| dengan tanda dolar atau \lstinline|\[...\]|.
-\end{frame}
-\begin{frame}[fragile]{Operator, jumlah, integral, dan limit}
-\begin{lstlisting}
-\[
+  \medskip
+  Tunjukkan baris pertama yang dilaporkan bermasalah kepada rekan. Cocokkan nama lingkungan pembuka dan penutup, perbaiki, lalu kompilasi lagi.
+
+  \medskip
+  \textbf{Hasil sesi pertama}\quad PDF menampilkan identitas penulis, pertanyaan penelitian, daftar alat, dan langkah bernomor.
+  \end{frame}
+  \section{Sesi 2. Elemen dokumen akademik}
+  \begin{frame}[fragile]{Elemen dokumen akademik}
+  \relax{\large Sesi 2 \quad 10.00--11.30 \quad 90 menit}\par\bigskip
+  25 menit menulis model periode dan persamaan bernomor\\[3pt]
+  25 menit menyusun tabel dari data ilustratif\\[3pt]
+  20 menit menggambar alat dan merujuk gambar\\[3pt]
+  20 menit menyisipkan sitasi dan memeriksa daftar pustaka
+  \end{frame}
+  \begin{frame}[fragile]{Panjang tali dan periode ayunan}
+  \begin{columns}[c]\column{.37\linewidth}
+  \centering\begin{tikzpicture}[scale=1.1]
+  \draw[thick] (-1,0)--(1,0);
+  \draw[dashed] (0,0)--(0,-2.5);
+  \draw[thick] (0,0)--(-65:2.4) node[midway,right] {$L$};
+  \fill (-65:2.4) circle (.13);
+  \draw (0,-.7) arc(-90:-65:.7);
+  \node at (-78:1.03) {$\theta$};
+  \end{tikzpicture}
+  \column{.58\linewidth}
+  Pada simpangan kecil, beban mengikuti model
+  \[T\approx2\pi\sqrt{\frac{L}{g}}.\]
+  $L$ adalah jarak titik gantung ke pusat beban. $T$ adalah waktu satu getaran. Anggap tali ringan dan redaman kecil.
+  \end{columns}
+  \medskip
+  Jika $L$ menjadi $2L$, model memprediksi periode menjadi $\sqrt{2}$ kali periode awal.
+  \end{frame}
+  \begin{frame}[fragile]{Rumus di dalam kalimat dan rumus bernomor}
+  \begin{lstlisting}
+  Satu periode adalah $T=t/N$, dengan $N$ jumlah getaran.
+  \begin{equation}\label{eq:periode}
+    T \approx 2\pi\sqrt{\frac{L}{g}}.
+  \end{equation}
+  Persamaan~\ref{eq:periode} berlaku untuk sudut kecil.
+  \end{lstlisting}
+  Kurung kurawal mengelompokkan pembilang, penyebut, dan isi akar. Tanda tilde menjaga kata dan nomor rujukan pada baris yang sama.
+  \tugas{Kompilasi dua kali. Sisipkan persamaan bernomor sebelum rumus periode dan periksa nomor rujukannya.}
+  \end{frame}
+  \begin{frame}[fragile]{Indeks, pangkat, kurung, dan pecahan}
+  Tambahkan \lstinline|\usepackage{amsmath,amssymb}| di \emph{preambule}.
+  \begin{lstlisting}
+  \[
+    T_{10}^2,\quad \frac{a+b}{c},\quad \binom{n}{k},
+    \qquad \left(\frac{T_2}{T_1}\right)^2
+  \]
+  \end{lstlisting}
+  \[
+    T_{10}^2,\quad \frac{a+b}{c},\quad \binom{n}{k},
+    \qquad \left(\frac{T_2}{T_1}\right)^2
+  \]
+  Gunakan kurung kurawal untuk indeks atau pangkat lebih dari satu karakter.
+  \lstinline|\left| dan \lstinline|\right| membentuk pasangan pembatas otomatis.
+  \tugas{Tulis akar kuadrat dari rasio panjang dua tali.}
+  \end{frame}
+  \begin{frame}[fragile]{Matriks dan vektor}
+  \begin{lstlisting}
+  \[
+    A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix},
+    \qquad
+    \mathbf{t} = \begin{bmatrix} T_1 \\ T_2 \end{bmatrix}
+  \]
+  \end{lstlisting}
+  \[
+  A=\begin{pmatrix}1&2\\3&4\end{pmatrix},\qquad
+  \mathbf{t}=\begin{bmatrix}T_1\\T_2\end{bmatrix}
+  \]
+  \lstinline|&| memisahkan kolom dan \lstinline|\\| mengakhiri baris.
+  \lstinline|pmatrix| memakai tanda kurung; \lstinline|bmatrix| memakai kurung siku.
+  \tugas{Ubah matriks menjadi dua baris dan tiga kolom.}
+  \end{frame}
+  \begin{frame}[fragile]{Meratakan beberapa persamaan}
+  \begin{lstlisting}
+  \begin{align}
+    T_1 &= \frac{12{,}7}{10} = 1{,}27 \label{eq:t1}\\
+    g_1 &= \frac{4\pi^2 L_1}{T_1^2}
+        \approx 9{,}79 \label{eq:g1}
+  \end{align}
+  \end{lstlisting}
+  \begin{align*}
+  T_1 &= \frac{12{,}7}{10} = 1{,}27\\
+  g_1 &= \frac{4\pi^2 L_1}{T_1^2}\approx9{,}79
+  \end{align*}
+  Tempatkan \lstinline|&| sebelum tanda sama dengan.
+  \lstinline|align| memberi nomor setiap baris; \lstinline|align*| menghilangkannya.
+  Jangan bungkus \lstinline|align| dengan tanda dolar atau \lstinline|\[...\]|.
+  \end{frame}
+  \begin{frame}[fragile]{Operator, jumlah, integral, dan limit}
+  \begin{lstlisting}
+  \[
+    \bar{T}=\frac{1}{n}\sum_{i=1}^{n}T_i,\qquad
+    \int_0^t v(\tau)\,\mathrm{d}\tau,\qquad
+    \lim_{\theta\to0}\frac{\sin\theta}{\theta}=1
+  \]
+  \end{lstlisting}
+  \[
   \bar{T}=\frac{1}{n}\sum_{i=1}^{n}T_i,\qquad
   \int_0^t v(\tau)\,\mathrm{d}\tau,\qquad
   \lim_{\theta\to0}\frac{\sin\theta}{\theta}=1
-\]
-\end{lstlisting}
-\[
-\bar{T}=\frac{1}{n}\sum_{i=1}^{n}T_i,\qquad
-\int_0^t v(\tau)\,\mathrm{d}\tau,\qquad
-\lim_{\theta\to0}\frac{\sin\theta}{\theta}=1
-\]
-Gunakan \lstinline|\sin|, \lstinline|\log|, dan \lstinline|\lim|
-agar nama operator tegak dengan spasi yang sesuai.
-\tugas{Tulis rata-rata tiga pengukuran periode dengan notasi jumlah.}
-\end{frame}
-\begin{frame}[fragile]{Huruf, simbol, dan spasi matematika}
-\begin{lstlisting}
-$\alpha,\ \theta,\ \Delta,\ \pi$
-$\mathbf{x}\in\mathbb{R}^n$
-$T = 1{,}27\,\mathrm{s}$
-\end{lstlisting}
-$\alpha,\ \theta,\ \Delta,\ \pi$ \qquad
-$\mathbf{x}\in\mathbb{R}^n$ \qquad $T=1{,}27\,\mathrm{s}$
-\medskip
+  \]
+  Gunakan \lstinline|\sin|, \lstinline|\log|, dan \lstinline|\lim|
+  agar nama operator tegak dengan spasi yang sesuai.
+  \tugas{Tulis rata-rata tiga pengukuran periode dengan notasi jumlah.}
+  \end{frame}
+  \begin{frame}[fragile]{Huruf, simbol, dan spasi matematika}
+  \begin{lstlisting}
+  $\alpha,\ \theta,\ \Delta,\ \pi$
+  $\mathbf{x}\in\mathbb{R}^n$
+  $T = 1{,}27\,\mathrm{s}$
+  \end{lstlisting}
+  $\alpha,\ \theta,\ \Delta,\ \pi$ \qquad
+  $\mathbf{x}\in\mathbb{R}^n$ \qquad $T=1{,}27\,\mathrm{s}$
+  \medskip
 
-Variabel dicetak miring; satuan menggunakan huruf tegak.
-\lstinline|\,| memberi spasi tipis. Kurung pada \lstinline|{,}|
-menghindari spasi tanda baca pada desimal.
-Rumus terpisah memberi lebih banyak ruang daripada rumus dalam kalimat.
-\end{frame}
-\begin{frame}[fragile]{Dari sepuluh getaran ke satu periode}
-\centering
-\begin{tabular}{rrrr}\toprule
-$L$ (m)&$N$&$t$ (s)&$T=t/N$ (s)\\\midrule
-0,40&10&12,7&1,27\\
-0,60&10&15,6&1,56\\
-0,80&10&18,0&1,80\\\bottomrule
-\end{tabular}
-\par\medskip\raggedright
-Data ilustratif untuk latihan. Dua baris mana yang dapat digunakan untuk menguji prediksi saat panjang tali dilipatduakan?
-\tugas{Bandingkan $1{,}80/1{,}27$ dengan $\sqrt{2}$. Simpan hasilnya untuk pembahasan.}
-\end{frame}
-\begin{frame}[fragile]{Struktur tabel dan nomor rujukannya}
-\begin{lstlisting}
-\begin{table}[htbp]
+  Variabel dicetak miring; satuan menggunakan huruf tegak.
+  \lstinline|\,| memberi spasi tipis. Kurung pada \lstinline|{,}|
+  menghindari spasi tanda baca pada desimal.
+  Rumus terpisah memberi lebih banyak ruang daripada rumus dalam kalimat.
+  \end{frame}
+  \begin{frame}[fragile]{Dari sepuluh getaran ke satu periode}
   \centering
-  \caption{Periode untuk setiap panjang tali}\label{tab:data}
-  \begin{tabular}{rrrr}
-    $L$ (m) & $N$ & $t$ (s) & $T$ (s) \\ \hline
-    0,40 & 10 & 12,7 & 1,27 \\
+  \begin{tabular}{rrrr}\toprule
+  $L$ (m)&$N$&$t$ (s)&$T=t/N$ (s)\\\midrule
+  0,40&10&12,7&1,27\\
+  0,60&10&15,6&1,56\\
+  0,80&10&18,0&1,80\\\bottomrule
   \end{tabular}
-\end{table}
-Data pada Tabel~\ref{tab:data} menunjukkan ...
-\end{lstlisting}
-\tugas{Lengkapi dua baris berikutnya. Setiap baris data memiliki empat sel yang dipisahkan oleh tiga tanda \texttt{\&}.}
-\end{frame}
-\begin{frame}[fragile]{Gambar alat yang dapat disunting}
-Muat \lstinline|\usepackage{tikz}| di prambule. Tempatkan kode berikut pada bagian metode.
-\begin{lstlisting}
-\begin{figure}[htbp]
-  \centering
-  \begin{tikzpicture}
-    \draw (-1,0)--(1,0);
-    \draw[dashed] (0,0)--(0,-2);
-    \draw (0,0)--(-65:2) node[midway,right] {$L$};
-    \fill (-65:2) circle (0.1);
-  \end{tikzpicture}
-  \caption{Pengukuran panjang ayunan}\label{fig:alat}
-\end{figure}
-\end{lstlisting}
-\end{frame}
-\begin{frame}[fragile]{Memasukkan gambar dari berkas}
-Muat \lstinline|\usepackage{graphicx}| di prambule.
-Unggah gambar sendiri dan gunakan nama berkas yang sesuai.
-\begin{lstlisting}
-\begin{figure}[htbp]
-  \centering
-  \includegraphics[width=.6\linewidth]{figures/alat.png}
-  \caption{Perangkat pengukuran}\label{fig:foto}
-\end{figure}
-Lihat Gambar~\ref{fig:foto}.
-\end{lstlisting}
-PDF cocok untuk gambar vektor; PNG atau JPEG untuk gambar raster.
-Sesuaikan ukuran dengan \lstinline|\linewidth| agar mengikuti lebar teks.
-\end{frame}
-\begin{frame}[fragile]{Bagaimana LaTeX menempatkan gambar?}
-Lingkungan \lstinline|figure| dan \lstinline|table| memberi LaTeX ruang untuk memilih letak. Opsi \lstinline|[htbp]| mengizinkan posisi di sekitar teks, atas halaman, bawah halaman, atau halaman khusus objek.
+  \par\medskip\raggedright
+  Data ilustratif untuk latihan. Dua baris mana yang dapat digunakan untuk menguji prediksi saat panjang tali dilipatduakan?
+  \tugas{Bandingkan $1{,}80/1{,}27$ dengan $\sqrt{2}$. Simpan hasilnya untuk pembahasan.}
+  \end{frame}
+  \begin{frame}[fragile]{Struktur tabel dan nomor rujukannya}
+  \begin{lstlisting}
+  \begin{table}[htbp]
+    \centering
+    \caption{Periode untuk setiap panjang tali}\label{tab:data}
+    \begin{tabular}{rrrr}
+      $L$ (m) & $N$ & $t$ (s) & $T$ (s) \\ \hline
+      0,40 & 10 & 12,7 & 1,27 \\
+    \end{tabular}
+  \end{table}
+  Data pada Tabel~\ref{tab:data} menunjukkan ...
+  \end{lstlisting}
+  \tugas{Lengkapi dua baris berikutnya. Setiap baris data memiliki empat sel yang dipisahkan oleh tiga tanda \texttt{\&}.}
+  \end{frame}
+  \begin{frame}[fragile]{Gambar alat yang dapat disunting}
+  Muat \lstinline|\usepackage{tikz}| di \emph{preambule}. Tempatkan kode berikut pada bagian metode.
+  \begin{lstlisting}
+  \begin{figure}[htbp]
+    \centering
+    \begin{tikzpicture}
+      \draw (-1,0)--(1,0);
+      \draw[dashed] (0,0)--(0,-2);
+      \draw (0,0)--(-65:2) node[midway,right] {$L$};
+      \fill (-65:2) circle (0.1);
+    \end{tikzpicture}
+    \caption{Pengukuran panjang ayunan}\label{fig:alat}
+  \end{figure}
+  \end{lstlisting}
+  \end{frame}
+  \begin{frame}[fragile]{Memasukkan gambar dari berkas}
+  Muat \lstinline|\usepackage{graphicx}| di \emph{preambule}.
+  Unggah gambar sendiri dan gunakan nama berkas yang sesuai.
+  \begin{lstlisting}
+  \begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.6\linewidth]{figures/alat.png}
+    \caption{Perangkat pengukuran}\label{fig:foto}
+  \end{figure}
+  Lihat Gambar~\ref{fig:foto}.
+  \end{lstlisting}
+  PDF cocok untuk gambar vektor; PNG atau JPEG untuk gambar raster.
+  Sesuaikan ukuran dengan \lstinline|\linewidth| agar mengikuti lebar teks.
+  \end{frame}
+  \begin{frame}[fragile]{Bagaimana LaTeX menempatkan gambar?}
+  Lingkungan \lstinline|figure| dan \lstinline|table| memberi LaTeX ruang untuk memilih letak. Opsi \lstinline|[htbp]| mengizinkan posisi di sekitar teks, atas halaman, bawah halaman, atau halaman khusus objek.
 
-\medskip
-Letakkan \lstinline|\label| sesudah \lstinline|\caption| agar kuncinya merekam nomor gambar atau tabel.
-\tugas{Tulis kalimat yang menjelaskan pengukuran $L$ dan merujuk \texttt{fig:alat}. Tambahkan satu paragraf di depan gambar, lalu periksa rujukannya.}
-\end{frame}
-\begin{frame}[fragile]{Sitasi pertama dan daftar pustaka}
-\begin{lstlisting}
-Penomoran otomatis dijelaskan dalam manual \cite{latexref}.
+  \medskip
+  Letakkan \lstinline|\label| sesudah \lstinline|\caption| agar kuncinya merekam nomor gambar atau tabel.
+  \tugas{Tulis kalimat yang menjelaskan pengukuran $L$ dan merujuk \texttt{fig:alat}. Tambahkan satu paragraf di depan gambar, lalu periksa rujukannya.}
+  \end{frame}
+  \begin{frame}[fragile]{Sitasi pertama dan daftar pustaka}
+  \begin{lstlisting}
+  Penomoran otomatis dijelaskan dalam manual \cite{latexref}.
 
-\begin{thebibliography}{9}
-  \bibitem{latexref}
-  \emph{LaTeX2e: An unofficial reference manual}.
-  Juni 2026, Bab 7.
-\end{thebibliography}
-\end{lstlisting}
-Ketik sitasi di bagian yang membahas penomoran. Tempatkan daftar pustaka sebelum \lstinline|\end{document}|. Kompilasi kembali hingga nomor sitasi muncul.
-\end{frame}
-\section{Sesi 3. Proyek dokumen akademik lengkap}
-\begin{frame}{Proyek dokumen akademik lengkap}
-\relax{\large Sesi 3 \quad 13.00--14.15 \quad 75 menit}\par\bigskip
-15 menit menyiapkan struktur dan metode\\[3pt]
-25 menit menggabungkan persamaan, tabel, dan gambar\\[3pt]
-20 menit menulis pembahasan, sitasi, dan daftar pustaka\\[3pt]
-15 menit menelaah dan merevisi laporan
-\medskip
+  \begin{thebibliography}{9}
+    \bibitem{latexref}
+    \emph{LaTeX2e: An unofficial reference manual}.
+    Juni 2026, Bab 7.
+  \end{thebibliography}
+  \end{lstlisting}
+  Ketik sitasi di bagian yang membahas penomoran. Tempatkan daftar pustaka sebelum \lstinline|\end{document}|. Kompilasi kembali hingga nomor sitasi muncul.
+  \end{frame}
+  \section{Sesi 3. Proyek dokumen akademik lengkap}
+  \begin{frame}{Proyek dokumen akademik lengkap}
+  \relax{\large Sesi 3 \quad 13.00--14.15 \quad 75 menit}\par\bigskip
+  15 menit menyiapkan struktur dan metode\\[3pt]
+  25 menit menggabungkan persamaan, tabel, dan gambar\\[3pt]
+  20 menit menulis pembahasan, sitasi, dan daftar pustaka\\[3pt]
+  15 menit menelaah dan merevisi laporan
+  \medskip
 
-\textbf{Hasil sesi}\quad Laporan pendek dengan teks, bagian, persamaan,
-tabel, gambar, sitasi, dan daftar pustaka.
-\end{frame}
-\begin{frame}[fragile]{Menit 0--15 / Kerangka laporan}
-Lanjutkan berkas pagi ini. Gunakan kelas \lstinline|article| dan
-paket yang memang dibutuhkan. Setelah \lstinline|\maketitle|, tulis:
-\begin{lstlisting}
-\begin{abstract}
-Kami membandingkan periode ayunan pada beberapa panjang tali.
-\end{abstract}
-\section{Pendahuluan}\label{sec:pendahuluan}
-\section{Metode}\label{sec:metode}
-\section{Hasil dan pembahasan}\label{sec:hasil}
-\section{Kesimpulan}\label{sec:kesimpulan}
-\end{lstlisting}
-\tugas{Nyatakan pertanyaan, asumsi sudut kecil, dan cara mengukur satu periode.}
-\end{frame}
-\begin{frame}{Menit 15--40 / Data, model, dan gambar}
-\begin{enumerate}
-\item Masukkan model periode, definisi variabel, dan satuannya.
-\item Lengkapi tabel tiga panjang tali dengan periode dan estimasi
-$g=4\pi^2L/T^2$.
-\item Masukkan diagram atau foto alat; beri keterangan dan label.
-\item Rujuk persamaan, tabel, dan gambar dari paragraf pembahasan.
-\end{enumerate}
-\medskip
-\textbf{Titik periksa}\quad Untuk $L=0{,}60$ m dan $T=1{,}56$ s,
-estimasi $g$ sekitar $9{,}73$ m/s$^2$.
-\tugas{Nyatakan bahwa data latihan bersifat ilustratif.}
-\end{frame}
-\begin{frame}[fragile]{Contoh perhitungan yang dapat diperiksa}
-\begin{lstlisting}
-\begin{align*}
-  T_1 &= \frac{12{,}7}{10}\,\mathrm{s}
-       = 1{,}27\,\mathrm{s},\\
-  g_1 &= \frac{4\pi^2 L_1}{T_1^2}
-       \approx 9{,}79\,\mathrm{m/s^2}.
-\end{align*}
-Data pada Tabel~\ref{tab:data} mendukung ...
-\end{lstlisting}
-Jelaskan arti hasil perhitungan, bukan hanya menampilkan rumus.
-\tugas{Bandingkan $1{,}80/1{,}27$ dengan $\sqrt{2}$.
-Apakah periode menjadi dua kali lipat ketika panjang dilipatduakan?}
-\end{frame}
-\begin{frame}{Menit 40--60 / Pembahasan dan sumber}
-\begin{itemize}
-\item Tulis satu paragraf yang membandingkan prediksi model dan data.
-\item Jelaskan satu keterbatasan: waktu reaksi, pengukuran panjang,
-atau simpangan yang terlalu besar.
-\item Tulis kesimpulan yang menjawab pertanyaan penelitian.
-\item Sitasi sumber yang benar-benar digunakan dan lengkapi daftar pustaka.
-\end{itemize}
-\medskip
-Gunakan kunci rujukan, bukan nomor yang diketik manual.
-\tugas{Baca setiap sitasi dan pastikan entri sumbernya sesuai.}
-\end{frame}
-\begin{frame}{Menit 60--75 / Telaah berpasangan}
-\begin{enumerate}
-\item \textbf{5 menit:} tukar sumber beserta gambar, lalu kompilasi.
-\item \textbf{5 menit:} periksa satu perhitungan dan semua rujukan;
-beri satu koreksi isi serta satu koreksi tampilan.
-\item \textbf{5 menit:} terapkan koreksi dan simpan versi laporan.
-\end{enumerate}
-\medskip
-\textbf{Kriteria selesai}\quad Ketujuh elemen hadir, rujukan terisi,
-sumber dapat dikompilasi, dan kesimpulan menjawab pertanyaan.
-\medskip
+  \textbf{Hasil sesi}\quad Laporan pendek dengan teks, bagian, persamaan,
+  tabel, gambar, sitasi, dan daftar pustaka.
+  \end{frame}
+  \begin{frame}[fragile]{Menit 0--15 / Kerangka laporan}
+  Lanjutkan berkas pagi ini. Gunakan kelas \lstinline|article| dan
+  paket yang memang dibutuhkan. Setelah \lstinline|\maketitle|, tulis:
+  \begin{lstlisting}
+  \begin{abstract}
+  Kami membandingkan periode ayunan pada beberapa panjang tali.
+  \end{abstract}
+  \section{Pendahuluan}\label{sec:pendahuluan}
+  \section{Metode}\label{sec:metode}
+  \section{Hasil dan pembahasan}\label{sec:hasil}
+  \section{Kesimpulan}\label{sec:kesimpulan}
+  \end{lstlisting}
+  \tugas{Nyatakan pertanyaan, asumsi sudut kecil, dan cara mengukur satu periode.}
+  \end{frame}
+  \begin{frame}{Menit 15--40 / Data, model, dan gambar}
+  \begin{enumerate}
+  \item Masukkan model periode, definisi variabel, dan satuannya.
+  \item Lengkapi tabel tiga panjang tali dengan periode dan estimasi
+  $g=4\pi^2L/T^2$.
+  \item Masukkan diagram atau foto alat; beri keterangan dan label.
+  \item Rujuk persamaan, tabel, dan gambar dari paragraf pembahasan.
+  \end{enumerate}
+  \medskip
+  \textbf{Titik periksa}\quad Untuk $L=0{,}60$ m dan $T=1{,}56$ s,
+  estimasi $g$ sekitar $9{,}73$ m/s$^2$.
+  \tugas{Nyatakan bahwa data latihan bersifat ilustratif.}
+  \end{frame}
+  \begin{frame}[fragile]{Contoh perhitungan yang dapat diperiksa}
+  \begin{lstlisting}
+  \begin{align*}
+    T_1 &= \frac{12{,}7}{10}\,\mathrm{s}
+        = 1{,}27\,\mathrm{s},\\
+    g_1 &= \frac{4\pi^2 L_1}{T_1^2}
+        \approx 9{,}79\,\mathrm{m/s^2}.
+  \end{align*}
+  Data pada Tabel~\ref{tab:data} mendukung ...
+  \end{lstlisting}
+  Jelaskan arti hasil perhitungan, bukan hanya menampilkan rumus.
+  \tugas{Bandingkan $1{,}80/1{,}27$ dengan $\sqrt{2}$.
+  Apakah periode menjadi dua kali lipat ketika panjang dilipatduakan?}
+  \end{frame}
+  \begin{frame}{Menit 40--60 / Pembahasan dan sumber}
+  \begin{itemize}
+  \item Tulis satu paragraf yang membandingkan prediksi model dan data.
+  \item Jelaskan satu keterbatasan: waktu reaksi, pengukuran panjang,
+  atau simpangan yang terlalu besar.
+  \item Tulis kesimpulan yang menjawab pertanyaan penelitian.
+  \item Sitasi sumber yang benar-benar digunakan dan lengkapi daftar pustaka.
+  \end{itemize}
+  \medskip
+  Gunakan kunci rujukan, bukan nomor yang diketik manual.
+  \tugas{Baca setiap sitasi dan pastikan entri sumbernya sesuai.}
+  \end{frame}
+  \begin{frame}{Menit 60--75 / Telaah berpasangan}
+  \begin{enumerate}
+  \item \textbf{5 menit:} tukar sumber beserta gambar, lalu kompilasi.
+  \item \textbf{5 menit:} periksa satu perhitungan dan semua rujukan;
+  beri satu koreksi isi serta satu koreksi tampilan.
+  \item \textbf{5 menit:} terapkan koreksi dan simpan versi laporan.
+  \end{enumerate}
+  \medskip
+  \textbf{Kriteria selesai}\quad Ketujuh elemen hadir, rujukan terisi,
+  sumber dapat dikompilasi, dan kesimpulan menjawab pertanyaan.
+  \medskip
 
-Laporan ini menjadi bahan penataan ulang pada sesi berikutnya.
-\end{frame}
-\section{Sesi 4. Manajemen proyek LaTeX untuk dokumen akademik besar}
-\begin{frame}{Manajemen proyek dokumen akademik besar}
-\relax{\large Sesi 4 \quad 14.30--16.00 \quad 90 menit}\par\bigskip
-25 menit mengatur folder, berkas utama, dan berkas bagian\\[3pt]
-20 menit memusatkan prambule dan definisi yang dipakai ulang\\[3pt]
-20 menit mengelola bibliografi dan rujukan antarberkas\\[3pt]
-15 menit memeriksa detail dan mendiagnosis masalah\\[3pt]
-10 menit menelaah proyek dan menyerahkan hasil
-\medskip
+  Laporan ini menjadi bahan penataan ulang pada sesi berikutnya.
+  \end{frame}
+  \section{Sesi 4. Manajemen proyek LaTeX untuk dokumen akademik besar}
+  \begin{frame}{Manajemen proyek dokumen akademik besar}
+  \relax{\large Sesi 4 \quad 14.30--16.00 \quad 90 menit}\par\bigskip
+  25 menit mengatur folder, berkas utama, dan berkas bagian\\[3pt]
+  20 menit memusatkan \emph{preambule} dan definisi yang dipakai ulang\\[3pt]
+  20 menit mengelola bibliografi dan rujukan antarberkas\\[3pt]
+  15 menit memeriksa detail dan mendiagnosis masalah\\[3pt]
+  10 menit menelaah proyek dan menyerahkan hasil
+  \medskip
 
-\textbf{Hasil sesi}\quad Proyek beberapa berkas yang mudah dikembangkan
-menjadi laporan panjang, skripsi, atau buku.
-\end{frame}
-\begin{frame}{Kapan dokumen perlu dipisah?}
-\begin{itemize}
-\item Naskah memiliki banyak bagian, gambar, dan referensi.
-\item Beberapa orang mengerjakan bagian berbeda.
-\item Pengaturan tampilan yang sama muncul berulang kali.
-\item Menemukan sumber kesalahan mulai memerlukan waktu lama.
-\end{itemize}
-\medskip
-Pertahankan satu berkas utama. Pisahkan isi menurut tanggung jawab:
-pengaturan, bagian naskah, gambar, dan data bibliografi.
-\tugas{Duplikasi proyek sesi 3 sebagai titik pemulihan sebelum menata ulang.}
-\end{frame}
-\begin{frame}[fragile]{Struktur folder yang sederhana}
-\begin{lstlisting}[basicstyle=\ttfamily\small\color{codeink}]
-main.tex
-config/
-  preamble.tex
-sections/
-  pendahuluan.tex
-  metode.tex
-  hasil.tex
-  kesimpulan.tex
-figures/
-  alat.png
-references.bib
-\end{lstlisting}
-Gunakan nama singkat, konsisten, dan tanpa spasi.
-Berkas gambar harus benar-benar tersedia pada jalur yang dipanggil.
-\end{frame}
-\begin{frame}[fragile]{Berkas utama sebagai pengendali}
-\begin{lstlisting}
-\documentclass[11pt,a4paper]{article}
-\input{config/preamble}
-\title{Mengukur periode ayunan}
-\author{Nama peserta}
-\begin{document}
-\maketitle
-\tableofcontents
-\input{sections/pendahuluan}
-\input{sections/metode}
-\input{sections/hasil}
-\input{sections/kesimpulan}
-\printbibliography
-\end{document}
-\end{lstlisting}
-\end{frame}
-\begin{frame}[fragile]{Isi berkas bagian}
-\small
-Contoh isi \texttt{sections/metode.tex}:
-\begin{lstlisting}
-\section{Metode}\label{sec:metode}
-Panjang tali diukur dari titik gantung ke pusat beban.
-Waktu untuk sepuluh getaran dibagi sepuluh.
+  \textbf{Hasil sesi}\quad Proyek beberapa berkas yang mudah dikembangkan
+  menjadi laporan panjang, skripsi, atau buku.
+  \end{frame}
+  \begin{frame}{Kapan dokumen perlu dipisah?}
+  \begin{itemize}
+  \item Naskah memiliki banyak bagian, gambar, dan referensi.
+  \item Beberapa orang mengerjakan bagian berbeda.
+  \item Pengaturan tampilan yang sama muncul berulang kali.
+  \item Menemukan sumber kesalahan mulai memerlukan waktu lama.
+  \end{itemize}
+  \medskip
+  Pertahankan satu berkas utama. Pisahkan isi menurut tanggung jawab:
+  pengaturan, bagian naskah, gambar, dan data bibliografi.
+  \tugas{Duplikasi proyek sesi 3 sebagai titik pemulihan sebelum menata ulang.}
+  \end{frame}
+  \begin{frame}[fragile]{Struktur folder yang sederhana}
+  \begin{lstlisting}[basicstyle=\ttfamily\small\color{codeink}]
+  main.tex
+  config/
+    preamble.tex
+  sections/
+    pendahuluan.tex
+    metode.tex
+    hasil.tex
+    kesimpulan.tex
+  figures/
+    alat.png
+  references.bib
+  \end{lstlisting}
+  Gunakan nama singkat, konsisten, dan tanpa spasi.
+  Berkas gambar harus benar-benar tersedia pada jalur yang dipanggil.
+  \end{frame}
+  \begin{frame}[fragile]{Berkas utama sebagai pengendali}
+  \begin{lstlisting}
+  \documentclass[11pt,a4paper]{article}
+  \input{config/preamble}
+  \title{Mengukur periode ayunan}
+  \author{Nama peserta}
+  \begin{document}
+  \maketitle
+  \tableofcontents
+  \input{sections/pendahuluan}
+  \input{sections/metode}
+  \input{sections/hasil}
+  \input{sections/kesimpulan}
+  \printbibliography
+  \end{document}
+  \end{lstlisting}
+  \end{frame}
+  \begin{frame}[fragile]{Isi berkas bagian}
+  \small
+  Contoh isi \texttt{sections/metode.tex}:
+  \begin{lstlisting}
+  \section{Metode}\label{sec:metode}
+  Panjang tali diukur dari titik gantung ke pusat beban.
+  Waktu untuk sepuluh getaran dibagi sepuluh.
 
-Hasilnya disajikan pada Bagian~\ref{sec:hasil}.
-\end{lstlisting}
-Berkas bagian tidak memuat \lstinline|\documentclass|,
-\lstinline|\begin{document}|, atau \lstinline|\end{document}|.
-\medskip
+  Hasilnya disajikan pada Bagian~\ref{sec:hasil}.
+  \end{lstlisting}
+  Berkas bagian tidak memuat \lstinline|\documentclass|,
+  \lstinline|\begin{document}|, atau \lstinline|\end{document}|.
+  \medskip
 
-Kompilasi \texttt{main.tex}. Semua label di bagian yang dimuat
-berbagi ruang nama yang sama; setiap label harus unik.
-\tugas{Pindahkan empat bagian laporan dan bandingkan PDF sebelum serta sesudahnya.}
-\end{frame}
-\begin{frame}[fragile]{Memilih input atau include}
-\small
-\begin{description}
-\item[\texttt{input}] Menyisipkan isi berkas pada tempat pemanggilan,
-tanpa memulai halaman baru. Cocok untuk bagian artikel dan konfigurasi.
-\item[\texttt{include}] Memisahkan bagian dengan pergantian halaman
-dan berkas bantu tersendiri. Cocok untuk bab laporan atau buku.
-\end{description}
-\begin{lstlisting}
-% Kelas report/book; kompilasi semua bab terlebih dahulu.
-\includeonly{chapters/metode}
-% Di dalam document:
-\include{chapters/pendahuluan}
-\include{chapters/metode}
-\end{lstlisting}
-\lstinline|\includeonly| memerlukan berkas bantu kompilasi lengkap
-untuk mempertahankan rujukan bab yang dilewati.
-\end{frame}
-\begin{frame}[fragile]{Satu tempat untuk pengaturan bersama}
-Isi \texttt{config/preamble.tex}:
-\begin{lstlisting}
-\usepackage[indonesian]{babel}
-\usepackage{amsmath,amssymb,graphicx,booktabs}
-\usepackage{tikz} % jika diagram TikZ digunakan
-\usepackage{standalone}
-\usepackage[backend=biber,style=numeric]{biblatex}
-\addbibresource{references.bib}
-\usepackage{hyperref}
-\graphicspath{{figures/}}
-\newcommand{\periode}[1]{T_{#1}}
-\newcommand{\satuan}[1]{\,\mathrm{#1}}
-\end{lstlisting}
-Muat paket sekali dengan opsi yang konsisten. Pada contoh ini,
-\lstinline|hyperref| dimuat setelah paket lainnya.
-Jalur berkas dihitung dari direktori kompilasi berkas utama.
-\end{frame}
-\begin{frame}[fragile]{Perintah ulang pakai untuk detail konsisten}
-Definisi di prambule:
-\begin{lstlisting}
-\newcommand{\periode}[1]{T_{#1}}
-\newcommand{\satuan}[1]{\,\mathrm{#1}}
-\end{lstlisting}
-Penggunaan di berkas bagian:
-\begin{lstlisting}
-$\periode{1}=1{,}27\satuan{s}$
-$\periode{2}=1{,}56\satuan{s}$
-\end{lstlisting}
-Argumen \lstinline|#1| diganti dengan isi kurung.
-Kedua perintah contoh dipakai di dalam mode matematika.
-\tugas{Ganti dua penulisan periode; ubah definisi sekali dan periksa keduanya.}
-\end{frame}
-\begin{frame}[fragile]{Lingkungan untuk catatan yang berulang}
-Definisikan sekali di prambule:
-\begin{lstlisting}
-\newenvironment{catatan}
-  {\begin{quote}\small\textbf{Catatan.}\ }
-  {\end{quote}}
-\end{lstlisting}
-Gunakan di bagian mana pun:
-\begin{lstlisting}
-\begin{catatan}
-Data pada tabel digunakan untuk latihan penulisan.
-\end{catatan}
-\end{lstlisting}
-\tugas{Tambahkan dua catatan dan ubah gaya bersama dari satu definisi.}
-\end{frame}
-\begin{frame}[fragile]{Memindahkan referensi ke basis data}
-\small
-Buat \texttt{references.bib}. Contoh berikut adalah entri latihan
-fiktif; ganti dengan sumber yang benar-benar digunakan.
-\begin{lstlisting}
-@book{contoh2026,
-  author    = {Penulis, Nama},
-  title     = {Contoh Buku untuk Latihan},
-  year      = {2026},
-  publisher = {Penerbit Contoh}
-}
-\end{lstlisting}
-Di berkas isi, gunakan \lstinline|\cite{contoh2026}|.
-Di akhir berkas utama, gunakan \lstinline|\printbibliography|.
-\medskip
+  Kompilasi \texttt{main.tex}. Semua label di bagian yang dimuat
+  berbagi ruang nama yang sama; setiap label harus unik.
+  \tugas{Pindahkan empat bagian laporan dan bandingkan PDF sebelum serta sesudahnya.}
+  \end{frame}
+  \begin{frame}[fragile]{Memilih input atau include}
+  \small
+  \begin{description}
+  \item[\texttt{input}] Menyisipkan isi berkas pada tempat pemanggilan,
+  tanpa memulai halaman baru. Cocok untuk bagian artikel dan konfigurasi.
+  \item[\texttt{include}] Memisahkan bagian dengan pergantian halaman
+  dan berkas bantu tersendiri. Cocok untuk bab laporan atau buku.
+  \end{description}
+  \begin{lstlisting}
+  % Kelas report/book; kompilasi semua bab terlebih dahulu.
+  \includeonly{chapters/metode}
+  % Di dalam document:
+  \include{chapters/pendahuluan}
+  \include{chapters/metode}
+  \end{lstlisting}
+  \lstinline|\includeonly| memerlukan berkas bantu kompilasi lengkap
+  untuk mempertahankan rujukan bab yang dilewati.
+  \end{frame}
+  \begin{frame}[fragile]{Satu tempat untuk pengaturan bersama}
+  Isi \texttt{config/preamble.tex}:
+  \begin{lstlisting}
+  \usepackage[indonesian]{babel}
+  \usepackage{amsmath,amssymb,graphicx,booktabs}
+  \usepackage{tikz} % jika diagram TikZ digunakan
+  \usepackage{standalone}
+  \usepackage[backend=biber,style=numeric]{biblatex}
+  \addbibresource{references.bib}
+  \usepackage{hyperref}
+  \graphicspath{{figures/}}
+  \newcommand{\periode}[1]{T_{#1}}
+  \newcommand{\satuan}[1]{\,\mathrm{#1}}
+  \end{lstlisting}
+  Muat paket sekali dengan opsi yang konsisten. Pada contoh ini,
+  \lstinline|hyperref| dimuat setelah paket lainnya.
+  Jalur berkas dihitung dari direktori kompilasi berkas utama.
+  \end{frame}
+  \begin{frame}[fragile]{Perintah ulang pakai untuk detail konsisten}
+  Definisi di \emph{preambule}:
+  \begin{lstlisting}
+  \newcommand{\periode}[1]{T_{#1}}
+  \newcommand{\satuan}[1]{\,\mathrm{#1}}
+  \end{lstlisting}
+  Penggunaan di berkas bagian:
+  \begin{lstlisting}
+  $\periode{1}=1{,}27\satuan{s}$
+  $\periode{2}=1{,}56\satuan{s}$
+  \end{lstlisting}
+  Argumen \lstinline|#1| diganti dengan isi kurung.
+  Kedua perintah contoh dipakai di dalam mode matematika.
+  \tugas{Ganti dua penulisan periode; ubah definisi sekali dan periksa keduanya.}
+  \end{frame}
+  \begin{frame}[fragile]{Lingkungan untuk catatan yang berulang}
+  Definisikan sekali di \emph{preambule}:
+  \begin{lstlisting}
+  \newenvironment{catatan}
+    {\begin{quote}\small\textbf{Catatan.}\ }
+    {\end{quote}}
+  \end{lstlisting}
+  Gunakan di bagian mana pun:
+  \begin{lstlisting}
+  \begin{catatan}
+  Data pada tabel digunakan untuk latihan penulisan.
+  \end{catatan}
+  \end{lstlisting}
+  \tugas{Tambahkan dua catatan dan ubah gaya bersama dari satu definisi.}
+  \end{frame}
+  \begin{frame}[fragile]{Memindahkan referensi ke basis data}
+  \small
+  Buat \texttt{references.bib}. Contoh berikut adalah entri latihan
+  fiktif; ganti dengan sumber yang benar-benar digunakan.
+  \begin{lstlisting}
+  @book{contoh2026,
+    author    = {Penulis, Nama},
+    title     = {Contoh Buku untuk Latihan},
+    year      = {2026},
+    publisher = {Penerbit Contoh}
+  }
+  \end{lstlisting}
+  Di berkas isi, gunakan \lstinline|\cite{contoh2026}|.
+  Di akhir berkas utama, gunakan \lstinline|\printbibliography|.
+  \medskip
 
-Hapus lingkungan \lstinline|thebibliography| lama setelah entri sumber
-dipindahkan. Kunci setiap entri harus unik.
-\end{frame}
-\begin{frame}[fragile]{Alur kompilasi bibliografi}
-\small
-Contoh sesi ini menggunakan \textbf{biblatex + Biber}.
-Dengan pengaturan \lstinline|backend=biber|, urutan manual lokal adalah:
-\begin{lstlisting}[style=terminal]
-pdflatex main
-biber main
-pdflatex main
-pdflatex main
-\end{lstlisting}
-\lstinline|latexmk -pdf main.tex| biasanya mengelola urutan ini.
-Di Overleaf, kompilasi proyek dari \texttt{main.tex}.
-\medskip
+  Hapus lingkungan \lstinline|thebibliography| lama setelah entri sumber
+  dipindahkan. Kunci setiap entri harus unik.
+  \end{frame}
+  \begin{frame}[fragile]{Alur kompilasi bibliografi}
+  \small
+  Contoh sesi ini menggunakan \textbf{biblatex + Biber}.
+  Dengan pengaturan \lstinline|backend=biber|, urutan manual lokal adalah:
+  \begin{lstlisting}[style=terminal]
+  pdflatex main
+  biber main
+  pdflatex main
+  pdflatex main
+  \end{lstlisting}
+  \lstinline|latexmk -pdf main.tex| biasanya mengelola urutan ini.
+  Di Overleaf, kompilasi proyek dari \texttt{main.tex}.
+  \medskip
 
-Template lama dapat menggunakan BibTeX dengan
-\lstinline|\bibliographystyle| dan \lstinline|\bibliography|.
-Ikuti sistem template; jangan gabungkan dua sistem dalam proyek yang sama.
-\end{frame}
-\begin{frame}[fragile]{Rujukan antarberkas dan penamaan label}
-\begin{lstlisting}
-% sections/metode.tex
-\section{Metode}\label{sec:metode}
-% sections/hasil.tex
-Metode pada Bagian~\ref{sec:metode} digunakan untuk ...
-Persamaan~\eqref{eq:periode} memprediksi ...
-Data terdapat pada Tabel~\ref{tab:data}.
-\end{lstlisting}
-Gunakan awalan yang membantu pencarian:
-\texttt{sec:}, \texttt{eq:}, \texttt{fig:}, dan \texttt{tab:}.
-Label gambar dan tabel ditempatkan setelah keterangan.
-\tugas{Sisipkan satu persamaan baru dan pastikan rujukan nomor tetap benar.}
-\end{frame}
-\begin{frame}[fragile]{Detail kecil: nomor, daftar, dan spasi}
-\begin{lstlisting}
-\tableofcontents
-\listoffigures
-\listoftables
-% Di bagian yang sesuai:
-Lihat Gambar~\ref{fig:alat}.
-$g=9{,}81\,\mathrm{m/s^2}$
-\end{lstlisting}
-\begin{itemize}
-\item Biarkan judul bagian dan keterangan mengisi daftar otomatis.
-\item Seragamkan desimal, satuan, singkatan, dan tanda baca.
-\item Jangan mengatur posisi dengan deretan spasi atau pemutus baris.
-\item Kompilasi ulang setelah perubahan judul atau penomoran.
-\end{itemize}
-\end{frame}
-\begin{frame}{Template dan kelas dokumen}
-\begin{itemize}
-\item Mulai dari contoh minimal yang disertakan dalam template.
-\item Kenali berkas utama, kelas \texttt{.cls}, paket \texttt{.sty},
-mesin kompilasi, dan sistem bibliografinya.
-\item Pindahkan isi secara bertahap dan kompilasi setiap tahap.
-\item Simpan penyesuaian di prambule atau berkas konfigurasi sendiri.
-\end{itemize}
-\medskip
-Jangan mengubah \lstinline|article| menjadi \lstinline|book| tanpa
-meninjau hierarki bab, halaman judul, dan penomoran.
-Pengaturan tata letak mendalam dilanjutkan pada Hari 3.
-\end{frame}
-\begin{frame}[fragile]{Mendiagnosis proyek besar}
-\small
-\begin{tabular}{@{}p{.36\linewidth}p{.59\linewidth}@{}}
-\toprule
-Gejala & Pemeriksaan pertama\\\midrule
-Berkas tidak ditemukan & Cocokkan nama, huruf besar/kecil, dan jalur dari berkas utama.\\
-Perintah tidak dikenal & Periksa ejaan, paket, dan urutan definisi.\\
-Label ganda atau \texttt{??} & Cari label yang berulang atau salah, lalu kompilasi ulang.\\
-Sitasi tidak terisi & Periksa kunci, berkas \texttt{.bib}, dan log Biber.\\
-\texttt{Overfull} & Periksa baris, tabel, atau gambar yang terlalu lebar.\\
-\bottomrule
-\end{tabular}
-\tugas{Pada salinan proyek, ubah satu jalur berkas. Baca kesalahan pertama,
-temukan penyebabnya, lalu pulihkan jalur tersebut.}
-\end{frame}
-\begin{frame}{Menit 80--90 / Serah-terima proyek}
-\begin{enumerate}
-\item \textbf{4 menit:} rekan membuka salinan proyek lengkap dan
-mengompilasi berkas utama.
-\item \textbf{3 menit:} periksa daftar isi, nomor, rujukan, sitasi,
-keterangan gambar, serta teks yang melewati margin.
-\item \textbf{3 menit:} terapkan koreksi dan simpan sumber beserta PDF.
-\end{enumerate}
-\medskip
-Sertakan seluruh berkas bagian, konfigurasi, gambar, dan
-\texttt{.bib}. Catat berkas utama dan mesin kompilasi yang digunakan.
-\medskip
+  Template lama dapat menggunakan BibTeX dengan
+  \lstinline|\bibliographystyle| dan \lstinline|\bibliography|.
+  Ikuti sistem template; jangan gabungkan dua sistem dalam proyek yang sama.
+  \end{frame}
+  \begin{frame}[fragile]{Rujukan antarberkas dan penamaan label}
+  \begin{lstlisting}
+  % sections/metode.tex
+  \section{Metode}\label{sec:metode}
+  % sections/hasil.tex
+  Metode pada Bagian~\ref{sec:metode} digunakan untuk ...
+  Persamaan~\eqref{eq:periode} memprediksi ...
+  Data terdapat pada Tabel~\ref{tab:data}.
+  \end{lstlisting}
+  Gunakan awalan yang membantu pencarian:
+  \texttt{sec:}, \texttt{eq:}, \texttt{fig:}, dan \texttt{tab:}.
+  Label gambar dan tabel ditempatkan setelah keterangan.
+  \tugas{Sisipkan satu persamaan baru dan pastikan rujukan nomor tetap benar.}
+  \end{frame}
+  \begin{frame}[fragile]{Detail kecil: nomor, daftar, dan spasi}
+  \begin{lstlisting}
+  \tableofcontents
+  \listoffigures
+  \listoftables
+  % Di bagian yang sesuai:
+  Lihat Gambar~\ref{fig:alat}.
+  $g=9{,}81\,\mathrm{m/s^2}$
+  \end{lstlisting}
+  \begin{itemize}
+  \item Biarkan judul bagian dan keterangan mengisi daftar otomatis.
+  \item Seragamkan desimal, satuan, singkatan, dan tanda baca.
+  \item Jangan mengatur posisi dengan deretan spasi atau pemutus baris.
+  \item Kompilasi ulang setelah perubahan judul atau penomoran.
+  \end{itemize}
+  \end{frame}
+  \begin{frame}{Template dan kelas dokumen}
+  \begin{itemize}
+  \item Mulai dari contoh minimal yang disertakan dalam template.
+  \item Kenali berkas utama, kelas \texttt{.cls}, paket \texttt{.sty},
+  mesin kompilasi, dan sistem bibliografinya.
+  \item Pindahkan isi secara bertahap dan kompilasi setiap tahap.
+  \item Simpan penyesuaian di \emph{preambule} atau berkas konfigurasi sendiri.
+  \end{itemize}
+  \medskip
+  Jangan mengubah \lstinline|article| menjadi \lstinline|book| tanpa
+  meninjau hierarki bab, halaman judul, dan penomoran.
+  Pengaturan tata letak mendalam dilanjutkan pada Hari 3.
+  \end{frame}
+  \begin{frame}[fragile]{Mendiagnosis proyek besar}
+  \small
+  \begin{tabular}{@{}p{.36\linewidth}p{.59\linewidth}@{}}
+  \toprule
+  Gejala & Pemeriksaan pertama\\\midrule
+  Berkas tidak ditemukan & Cocokkan nama, huruf besar/kecil, dan jalur dari berkas utama.\\
+  Perintah tidak dikenal & Periksa ejaan, paket, dan urutan definisi.\\
+  Label ganda atau \texttt{??} & Cari label yang berulang atau salah, lalu kompilasi ulang.\\
+  Sitasi tidak terisi & Periksa kunci, berkas \texttt{.bib}, dan log Biber.\\
+  \texttt{Overfull} & Periksa baris, tabel, atau gambar yang terlalu lebar.\\
+  \bottomrule
+  \end{tabular}
+  \tugas{Pada salinan proyek, ubah satu jalur berkas. Baca kesalahan pertama,
+  temukan penyebabnya, lalu pulihkan jalur tersebut.}
+  \end{frame}
+  \begin{frame}{Menit 80--90 / Serah-terima proyek}
+  \begin{enumerate}
+  \item \textbf{4 menit:} rekan membuka salinan proyek lengkap dan
+  mengompilasi berkas utama.
+  \item \textbf{3 menit:} periksa daftar isi, nomor, rujukan, sitasi,
+  keterangan gambar, serta teks yang melewati margin.
+  \item \textbf{3 menit:} terapkan koreksi dan simpan sumber beserta PDF.
+  \end{enumerate}
+  \medskip
+  Sertakan seluruh berkas bagian, konfigurasi, gambar, dan
+  \texttt{.bib}. Catat berkas utama dan mesin kompilasi yang digunakan.
+  \medskip
 
-Simpan tabel dan kesimpulan untuk presentasi Beamer pada Hari 2.
-\end{frame}
-\begin{frame}{Capaian akhir Hari 1}
-\begin{itemize}
-\item Membuat dan memperbaiki dokumen LaTeX dasar.
-\item Menulis elemen akademik dengan nomor dan rujukan otomatis.
-\item Menggabungkan elemen tersebut menjadi laporan utuh.
-\item Memisahkan proyek menjadi berkas yang terorganisasi.
-\item Menjaga konsistensi detail dari definisi dan pengaturan bersama.
-\end{itemize}
-\medskip
-\textbf{Dua keluaran}\quad PDF yang siap dibaca dan proyek sumber
-yang dapat dikompilasi ulang oleh orang lain.
-\end{frame}
+  Simpan tabel dan kesimpulan untuk presentasi Beamer pada Hari 2.
+  \end{frame}
+  \begin{frame}{Capaian akhir Hari 1}
+  \begin{itemize}
+  \item Membuat dan memperbaiki dokumen LaTeX dasar.
+  \item Menulis elemen akademik dengan nomor dan rujukan otomatis.
+  \item Menggabungkan elemen tersebut menjadi laporan utuh.
+  \item Memisahkan proyek menjadi berkas yang terorganisasi.
+  \item Menjaga konsistensi detail dari definisi dan pengaturan bersama.
+  \end{itemize}
+  \medskip
+  \textbf{Dua keluaran}\quad PDF yang siap dibaca dan proyek sumber
+  yang dapat dikompilasi ulang oleh orang lain.
+  \end{frame}
 \end{document}
