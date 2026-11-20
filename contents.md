@@ -37,7 +37,7 @@ Program berlangsung selama empat hari dengan satu presentasi Beamer per hari. Aw
 - Footnotes dan margin notes
 - Errors dan debugging dasar
 
-Alokasi waktu: 10 menit pengenalan dan alur kerja, 15 menit dokumen pertama dan prambule, 35 menit struktur dan format, serta 15 menit debugging.
+Alokasi waktu: 10 menit pengenalan dan alur kerja, 15 menit dokumen pertama dan *preambule*, 35 menit struktur dan format, serta 15 menit debugging.
 
 Hasil sesi: dokumen yang dapat dikompilasi dengan identitas penulis, struktur bagian, paragraf, daftar, dan catatan.
 
@@ -96,7 +96,7 @@ Hasil sesi: laporan akademik pendek yang memuat teks, struktur bagian, persamaan
 - Mendiagnosis kesalahan kompilasi dan peringatan layout
 - Menelaah, mengemas, dan menyerahkan proyek sumber beserta PDF final
 
-Alokasi waktu: 25 menit struktur proyek, 20 menit prambule dan definisi ulang pakai, 20 menit bibliografi dan rujukan, 15 menit pemeriksaan detail, serta 10 menit telaah dan penyerahan.
+Alokasi waktu: 25 menit struktur proyek, 20 menit *preambule* dan definisi ulang pakai, 20 menit bibliografi dan rujukan, 15 menit pemeriksaan detail, serta 10 menit telaah dan penyerahan.
 
 Hasil sesi: proyek beberapa berkas yang dapat dikompilasi ulang dan dikembangkan menjadi laporan panjang, skripsi, atau buku. Penyesuaian tata letak dan template secara mendalam dilanjutkan pada Hari 3.
 
@@ -244,17 +244,18 @@ Hasil sesi: peta dependensi dan rancangan antarmuka untuk satu komponen yang aka
 
 Hasil sesi: paket `.sty` kecil dengan metadata, dependensi, perintah, environment, contoh, dan uji minimal.
 
-### Sesi 3 — Menulis kelas dan mendistribusikannya
+### Sesi 3 — Peta kuliah dan mind map dengan TikZ
 
 13.00–14.30 (90 menit).
 
-- Memilih kapan perlu kelas baru dan kapan cukup memakai paket
-- Meneruskan opsi ke `article` atau `report` dengan `\LoadClass`
-- Mengatur metadata, halaman judul, heading, header, footer, dan margin
-- Menyusun kelas mini yang mewarisi kelas standar
-- Menyiapkan README, changelog, contoh, lisensi, dan kompilasi bersih
+- Menyusun konsep bertingkat dengan tree dan `child`
+- Mengubah tree menjadi mind map dengan arah, jarak, sudut, dan warna cabang
+- Menamai node dan menambahkan relasi lintas cabang
+- Membuat anotasi target belajar dan makro pertemuan
+- Menempatkan latar pada background layer dan menghubungkannya dengan kalender
+- Menguji keterbacaan, kompilasi, dan pemeliharaan kode
 
-Hasil sesi: kelas atau paket siap uji yang dapat dipakai pada proyek baru tanpa menyalin ulang konfigurasi.
+Hasil sesi: peta kuliah atau peta konsep yang dapat dipakai pada dokumen atau presentasi, lengkap dengan anotasi target belajar dan jadwal.
 
 ## Prioritas materi
 
