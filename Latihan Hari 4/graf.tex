@@ -1,0 +1,125 @@
+\documentclass{article}
+\usepackage[margin=1in]{geometry}
+
+\usepackage{tikz, pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{graphs, graphdrawing, shapes.geometric}
+\usegdlibrary{trees, layered, force, circular}
+\lstset{basicstyle=\ttfamily\tiny, breaklines=true, columns=fullflexible, keepspaces=true}
+
+
+\begin{document}
+\centering
+    % \begin{center}
+    %     \begin{tikzpicture}
+    %         \graph [layered layout, 
+    %                 edges=rounded corners,
+    %                 sibling distance=8mm, 
+    %                 level distance=8mm,] 
+    %                 {
+    %                 a -> { b, c -> { d, e } } -> f -> a
+    %                 };
+    %     \end{tikzpicture}\\
+    %     \vspace{1cm}
+    %     % \begin{tikzpicture}
+    %     %     \graph [spring layout, vertical=C to H] { C -- H -- O -- CO$_2$};
+    %     % \end{tikzpicture}\\
+    %     % \vspace{1cm}
+    %     % \begin{tikzpicture}
+    %     %     \graph [simple necklace layout, node distance=1cm, node sep=0pt,
+    %     %     nodes={draw, circle, as=.}] {
+    %     %     1 -- 2[minimum size=2cm] -- 3 -- 4 [node pre sep=5mm] --5 -- 6 -- 7 -- 8[orient=up] -- 1
+    %     %     };
+    %     % \end{tikzpicture}\\
+    %     \begin{tikzpicture}
+    %         \graph [layered layout, 
+    %                 level distance=0cm, 
+    %                 nodes=draw]
+    %                 { Kepala Kantor -- {VP1,VP2[level pre sep=1mm],VP3[level pre sep=5mm]} -- HRD[level pre sep=5mm] };
+    %     \end{tikzpicture}\\
+    %     \vspace{1cm}
+    % \end{center}
+
+    % \newpage
+
+    % \begin{center}
+    % %     \begin{tikzpicture}
+    % %         \graph [tree layout, 
+    % %                 sibling distance=0cm, 
+    % %                 sibling sep=0pt,
+    % %                 nodes={circle, draw}] 
+    % %                 {
+    % %                     1 -- {2, 3[sibling distance=1cm], 4--8, 5--6, 5--7}
+    % %                 };
+    % %     \end{tikzpicture}       
+    % %     \vspace{1cm}
+    %     \begin{tikzpicture}
+    %         \graph [binary tree layout, sibling distance=4mm, level distance=8mm,
+    %         components go right top aligned, component sep=1em,
+    %         nodes=draw] {
+    %         1 -> 2 -> {3 -> 4, 5, 6};
+    %         a -> b -> c -> d -> e;
+    %         };
+    %     \end{tikzpicture}
+    %     \vspace{1cm}
+    % \end{center}
+
+\begin{tikzpicture}
+    \graph [spring layout] {
+    a [desired at={(1,2)}] -- b -- c -- a
+    };
+    \draw[help lines=gray!40] (-2,-2) grid (3,3);
+    \draw (0,0);
+\end{tikzpicture}\\
+\vspace{1in}
+\begin{tikzpicture}
+\draw[help lines=gray!40] (-2,-2) grid (3,3);
+\graph [layered layout, nodes = draw] {
+a [x=1, y=2] -- { b, c } -- { e, f[x=5,y=2] } -- a
+};
+\end{tikzpicture}
+
+\vspace{1in}
+\newpage
+
+\begin{tikzpicture}
+\graph [spring layout] {
+a -- { b, c, d, e -- {f, g, h} };
+h -- [orient=30] a;
+};
+\end{tikzpicture}
+
+\vspace{1in}
+
+\begin{tikzpicture}
+\graph [spring layout] {
+a -- { b, c, d, e -- {f, g, h} };
+h -- [orient'=30] a;
+};
+\end{tikzpicture}
+
+\vspace{1in}
+
+\begin{tikzpicture}
+\graph [spring layout] {
+a [orient=left, orient head=f] -- { b, c, d, e -- {f, g, h} };
+{ h, g } -- a;
+};
+\end{tikzpicture}
+
+
+\vspace{1in}
+\begin{tikzpicture}
+\graph [layered layout, grow=right, nodes = draw] {
+        {a,b,c} 
+        -- [complete bipartite] {e,d,f,g,h}
+        -- [complete bipartite] {1,2,3,5,6,7} 
+        -- [complete bipartite] {8,9,10} 
+        -- [complete bipartite] {output} ;
+};
+\end{tikzpicture}
+    
+\end{document}
