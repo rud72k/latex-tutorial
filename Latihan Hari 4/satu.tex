@@ -1,0 +1,59 @@
+\documentclass{article}
+\usepackage{tikz}
+\begin{document}
+% \begin{figure}
+%     \centering
+%         \begin{tikzpicture}
+%         \end{tikzpicture}
+%     \caption{gambar 1}
+%     \label{fig:placeholder}
+% \end{figure}
+
+\tikz \draw (2,0) -- (3,1) ;
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+    \fill[blue!10](0,0) circle (2) ;
+    \draw[thick](0,0) -- (2,0);
+    \fill (30:2cm) circle (2pt) node[right] {Polar};
+    % \fill (0:2cm) -- (30:2cm) -- (0,0) -- (0:2cm);
+    \draw[help lines,gray!40] (-3,-3) grid (3,3);
+\end{tikzpicture}
+
+\vspace{2cm}
+
+\begin{tikzpicture}
+    \draw[red,thick] (0,0) -- (2,0) -- (2,1);
+    \draw[blue,thick] (0,0) -- +(1,0) -- +(0,1);
+    \draw[green, thick] (0,0) -- ++(-1,0) -- ++(0,-1);
+    \draw[help lines,gray!40] (-3,-3) grid (3,3);
+\end{tikzpicture}
+
+\vspace{2cm}
+\newpage
+
+\begin{tikzpicture}
+    \draw[blue,thick] (0,0) -- (2,0);
+    \fill[blue!20] (0,0) circle (4mm);
+    \filldraw[fill=orange!20,draw=black]
+    (1,0) rectangle (2,1);
+    \node[above] at (1,1) {$\sqrt{gH}$};
+    % \filldraw[thick, red!50!blue, draw=green] (-3,-3) -- (-2,-2) -- (-1,-3) -- 
+    % % \filldraw[thick, red!50!blue, draw=green] 
+    % (0,-1) -- (1,0) -- (2,-1) -- cycle;
+    
+    \draw[help lines,gray!40] (-3,-3) grid (3,3);
+\end{tikzpicture}
+
+
+\newpage
+
+\begin{figure}
+    \centering
+        \input{Latihan Hari 4/gambar/phytagoras}
+    \caption{Contoh aturan Phytagoras pada segitiga siku-siku}
+    \label{fig:phytagoras}
+\end{figure}
+
+\end{document}
