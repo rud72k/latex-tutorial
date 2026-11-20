@@ -67,7 +67,7 @@ Halo, LaTeX!
 \end{document}
 \end{lstlisting}
 
-Perintah \verb|\documentclass| memilih kelas dokumen. Tulis isi di antara \verb|\begin{document}| dan \verb|\end{document}|. Bagian sebelumnya disebut prambule. Di sana penulis memuat paket dan menetapkan judul.
+Perintah \verb|\documentclass| memilih kelas dokumen. Tulis isi di antara \verb|\begin{document}| dan \verb|\end{document}|. Bagian sebelumnya disebut \emph{preambule}. Di sana penulis memuat paket dan menetapkan judul.
 
 \subsection{Kompilasi dan struktur berkas}
 Alur kerja umum adalah: tulis sumber, kompilasi, baca pesan kesalahan, periksa PDF, lalu ulangi. Gunakan nama berkas yang jelas, misalnya \kode{eksperimen.tex}. Untuk proyek besar, pisahkan isi ke beberapa berkas dengan \kode{input} atau \kode{include}.
@@ -310,7 +310,7 @@ Untuk mencoba alur \texttt{biblatex}, buat berkas \texttt{pustaka.bib} dengan sa
   year   = {2026}
 }
 \end{lstlisting}
-Muat \verb|\usepackage[backend=biber]{biblatex}| dan \verb|\addbibresource{pustaka.bib}| di prambule. Di dalam bab, tulis \verb|Diagram dibuat dengan TikZ \cite{pgf}.| Cetak daftar pustaka dengan \verb|\printbibliography|. Untuk kompilasi manual, jalankan XeLaTeX, Biber pada nama dasar berkas utama, lalu XeLaTeX dua kali.
+Muat \verb|\usepackage[backend=biber]{biblatex}| dan \verb|\addbibresource{pustaka.bib}| di \emph{preambule}. Di dalam bab, tulis \verb|Diagram dibuat dengan TikZ \cite{pgf}.| Cetak daftar pustaka dengan \verb|\printbibliography|. Untuk kompilasi manual, jalankan XeLaTeX, Biber pada nama dasar berkas utama, lalu XeLaTeX dua kali.
 
 \section{Sesi 4: Pengerjaan dan finalisasi}
 Gunakan daftar pemeriksaan berikut:
@@ -379,7 +379,7 @@ $90^\circ$ & & & tidak terdefinisi\\
 \appendix
 \chapter{Contoh untuk bahan ajar dan buku}
 \section{Menulis langkah perhitungan}
-Muat \verb|\usepackage{amsmath}| di prambule. Pada lingkungan \texttt{align}, tanda \verb|&| menandai titik perataan. Untuk mencoba contoh ini, ubah waktu sepuluh getaran menjadi 15,6 s dan panjang menjadi 0,60 m, lalu perbarui hasilnya.
+Muat \verb|\usepackage{amsmath}| di \emph{preambule}. Pada lingkungan \texttt{align}, tanda \verb|&| menandai titik perataan. Untuk mencoba contoh ini, ubah waktu sepuluh getaran menjadi 15,6 s dan panjang menjadi 0,60 m, lalu perbarui hasilnya.
 \begin{lstlisting}
 \begin{align}
   T_1 &= \frac{t_1}{N} = \frac{12{,}7}{10}\,\mathrm{s},\\
@@ -396,7 +396,7 @@ Untuk soal matriks, integral, dan penjumlahan, coba tiga bentuk ini di dalam isi
 \]
 \end{lstlisting}
 \section{Mengubah data menjadi grafik}
-Muat \verb|\usepackage{pgfplots}| dan \verb|\pgfplotsset{compat=1.18}| di prambule. Salin contoh ini ke dalam laporan atau sebuah \emph{frame}. Setiap pasangan koordinat memuat panjang dan kuadrat periode. PGFPlots membaca titik sebagai pemisah desimal dalam data sumber.
+Muat \verb|\usepackage{pgfplots}| dan \verb|\pgfplotsset{compat=1.18}| di \emph{preambule}. Salin contoh ini ke dalam laporan atau sebuah \emph{frame}. Setiap pasangan koordinat memuat panjang dan kuadrat periode. PGFPlots membaca titik sebagai pemisah desimal dalam data sumber.
 \begin{lstlisting}
 \begin{tikzpicture}
   \begin{axis}[width=.75\linewidth,height=4.6cm,
@@ -409,7 +409,7 @@ Muat \verb|\usepackage{pgfplots}| dan \verb|\pgfplotsset{compat=1.18}| di prambu
 \section{Menyiapkan templat buku guru}
 Gunakan \verb|\footnote{...}| untuk keterangan yang dibaca di kaki halaman dan \verb|\marginpar{...}| untuk petunjuk singkat di tepi halaman. Dalam buku dua sisi, periksa posisi catatan pada halaman kiri dan kanan. Untuk lembar soal dua kolom, muat paket \texttt{multicol}, lalu apit daftar soal dengan \verb|\begin{multicols}{2}| dan \verb|\end{multicols}|.
 
-Jika penerbit meminta indeks, muat \texttt{makeidx} dan jalankan \verb|\makeindex| di prambule. Tandai kemunculan istilah dengan \verb|periode\index{periode}| dan tempatkan \verb|\printindex| di belakang buku. Setelah kompilasi pertama, jalankan \texttt{makeindex} pada nama dasar berkas utama, lalu kompilasi ulang. Indeks menunjukkan halaman tempat istilah muncul. Glosarium memberi definisi istilah, sedangkan daftar lambang menjelaskan simbol seperti $L$, $T$, dan $g$ beserta satuannya.
+Jika penerbit meminta indeks, muat \texttt{makeidx} dan jalankan \verb|\makeindex| di \emph{preambule}. Tandai kemunculan istilah dengan \verb|periode\index{periode}| dan tempatkan \verb|\printindex| di belakang buku. Setelah kompilasi pertama, jalankan \texttt{makeindex} pada nama dasar berkas utama, lalu kompilasi ulang. Indeks menunjukkan halaman tempat istilah muncul. Glosarium memberi definisi istilah, sedangkan daftar lambang menjelaskan simbol seperti $L$, $T$, dan $g$ beserta satuannya.
 
 \section{Mendiagnosis hasil kompilasi}
 \begin{description}
