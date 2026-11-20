@@ -1,0 +1,614 @@
+\documentclass[aspectratio=169]{beamer}
+\usetheme{metropolis}
+% \usecolortheme{seahorse}
+\usepackage{tikz}
+\usepackage{listings}
+\usepackage{xcolor}
+\usetikzlibrary{graphs, graphdrawing, shapes.geometric}
+\usegdlibrary{trees, layered, force, circular}
+\lstset{basicstyle=\ttfamily\tiny, breaklines=true, columns=fullflexible, keepspaces=true}
+\title{Contoh-Contoh Graph Drawing di TikZ}
+\date{}
+\begin{document}
+\begin{frame}\titlepage\end{frame}
+
+% ==================================================================
+
+\begin{frame}[fragile,allowframebreaks]{Memilih Layout dan Pustaka (28.1)}
+
+
+\textbf{Contoh 1: Layout berlapis dengan panah}
+Opsi yang berakhiran \texttt{layout} memanggil algoritma layout. Di sini \texttt{layered layout} menyusun graf dalam lapisan.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, edges=rounded corners,
+          sibling distance=8mm, level distance=8mm] {
+    a -> { b, c -> { d, e } } -> f -> a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, edges=rounded corners, sibling distance=8mm, level distance=8mm] {
+    a -> { b, c -> { d, e } } -> f -> a
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+% 
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Parameter Graph Drawing (28.2)}
+
+
+\textbf{Contoh 2: Segitiga dengan spring layout dan \texttt{vertical}}
+\texttt{vertical=1 to 2} membuat garis dari node 1 ke node 2 vertikal. Spring layout mengatur sisanya.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout, vertical=1 to 2] { 1--2--3--1 };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout, vertical=1 to 2] { 1--2--3--1 };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Jarak dan Padding (28.3)}
+
+
+\textbf{Contoh 3: Jarak node pada necklace (\texttt{node distance})}
+Jarak antar node ditentukan oleh \texttt{node distance}. Node 2 dibuat lebih besar sehingga jarak minimal tetap terpenuhi.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [simple necklace layout, node distance=1cm, node sep=0pt,
+          nodes={draw, circle, as=.}] {
+    1 -- 2[minimum size=2cm] -- 3 -- 4 -- 5 -- 6 -- 7 -- 8[orient=up]
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [simple necklace layout, node distance=1cm, node sep=0pt,
+          nodes={draw, circle, as=.}] {
+    1 -- 2[minimum size=2cm] -- 3 -- 4 -- 5 -- 6 -- 7 -- 8[orient=up]
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 4: Padding \texttt{node pre sep}}
+Padding ditambahkan di depan node. Node 3 dan 5 memakai padding berbeda.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [simple necklace layout, node distance=0cm, node sep=0mm,
+          nodes={circle, draw}] {
+    1--2--3[node pre sep=5mm]--4--5[node pre sep=1mm]--1
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [simple necklace layout, node distance=0cm, node sep=0mm,
+          nodes={circle, draw}] {
+    1--2--3[node pre sep=5mm]--4--5[node pre sep=1mm]--1
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 5: \texttt{level distance} dengan \texttt{level pre sep}}
+Jarak antar level diatur oleh \texttt{level distance}. Padding per node menambah jarak di sekitarnya.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, level distance=0cm, nodes=draw]
+    { 1 -- {2,3[level pre sep=1mm],4[level pre sep=5mm]} -- 5[level pre sep=5mm] };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, level distance=0cm, nodes=draw]
+    { 1 -- {2,3[level pre sep=1mm],4[level pre sep=5mm]} -- 5[level pre sep=5mm] };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 6: \texttt{sibling distance} pada pohon}
+\texttt{sibling distance=1cm} memberi jarak minimum antar saudara. Dengan \texttt{sibling distance=0cm} dan \texttt{sibling sep=0pt}, saudara akan sangat dekat. Node 3 di-override dengan jarak 1cm.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, sibling distance=0cm, sibling sep=0pt,
+          nodes={circle, draw}] {
+    1 -- {2, 3[sibling distance=1cm], 4, 5}
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, sibling distance=0cm, sibling sep=0pt,
+          nodes={circle, draw}] {
+    1 -- {2, 3[sibling distance=1cm], 4, 5}
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 7: \texttt{sibling pre sep}}
+Padding khusus saudara. Node 3 diberi padding di depannya sebesar 1cm.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, sibling distance=0cm,
+          nodes={circle, draw}, sibling sep=0pt] {
+    1 -- {2, 3[sibling pre sep=1cm], 4, 5}
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, sibling distance=0cm,
+          nodes={circle, draw}, sibling sep=0pt] {
+    1 -- {2, 3[sibling pre sep=1cm], 4, 5}
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 8: Komponen dengan \texttt{component sep}}
+Dua pohon biner yang tidak terhubung. \texttt{components go right top aligned} meletakkan komponen dari kiri ke kanan dan menyejajarkan bagian atasnya.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [binary tree layout, sibling distance=4mm, level distance=8mm,
+          components go right top aligned, component sep=1em,
+          nodes=draw] {
+    1 -> 2 -> {3 -> 4, 5, 6};
+    a -> b -> c -> d -> e;
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [binary tree layout, sibling distance=4mm, level distance=8mm,
+          components go right top aligned, component sep=1em,
+          nodes=draw] {
+    1 -> 2 -> {3 -> 4, 5, 6};
+    a -> b -> c -> d -> e;
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Penjangkaran Graf (28.4)}
+
+
+\textbf{Contoh 9: \texttt{desired at} pada spring layout}
+Node \texttt{a} diinginkan berada di koordinat (1,2). Algoritma spring akan menggeser seluruh graf agar keinginan ini terpenuhi.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout] {
+    a [desired at={(1,2)}] -- b -- c -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout] {
+    a [desired at={(1,2)}] -- b -- c -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 10: Menggunakan \texttt{x} dan \texttt{y}}
+Di dalam graf, kunci \texttt{at} diarahkan ke \texttt{desired at}, sehingga \texttt{x} dan \texttt{y} dapat dipakai langsung.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout] {
+    a [x=1, y=2] -- { b, c } -- { e, f } -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout] {
+    a [x=1, y=2] -- { b, c } -- { e, f } -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 11: Node yang dipaku (\texttt{nail at}) pada spring layout}
+Node \texttt{d} dan \texttt{g} dipaku pada posisi tertentu. Node lain bergerak bebas di sekitarnya.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout] {
+    a [x=1] -- { b, c, d [nail at={(0,1)}], e
+      -- { f, g [nail at={(2,0)}], h } }
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout] {
+    a [x=1] -- { b, c, d [nail at={(0,1)}], e
+      -- { f, g [nail at={(2,0)}], h } }
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 12: \texttt{anchor node} dan \texttt{anchor at}}
+Graf dijangkar pada node \texttt{c}, yang diletakkan di koordinat (1,1).
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, anchor node=c, edges=rounded corners] {
+    a -- { b [x=1,y=1], c [x=1,y=1] } -- d -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, anchor node=c, edges=rounded corners] {
+    a -- { b [x=1,y=1], c [x=1,y=1] } -- d -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 13: \texttt{anchor at} dan \texttt{anchor here}}
+Tanpa \texttt{anchor node}, node dengan \texttt{anchor here} menjadi titik jangkar. Node \texttt{c} diletakkan di \texttt{anchor at}, yaitu (1,2).
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, anchor at={(1,2)}, edges=rounded corners] {
+    a -- { b, c [anchor here] } -- d -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, anchor at={(1,2)}, edges=rounded corners] {
+    a -- { b, c [anchor here] } -- d -- a
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Orientasi Graf (28.5)}
+
+
+\textbf{Contoh 14: Sudut \texttt{orient}}
+\texttt{orient=30} membuat garis dari node \texttt{h} ke node \texttt{a} miring 30 derajat.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout] {
+    a -- { b, c, d, e -- {f, g, h} };
+    h -- [orient=30] a;
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout] {
+    a -- { b, c, d, e -- {f, g, h} };
+    h -- [orient=30] a;
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 15: \texttt{orient'} (membalik graf)}
+\texttt{orient'} sama seperti \texttt{orient}, tetapi bagian graf dibalik terhadap garis.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout] {
+    a -- { b, c, d [> orient'=right], e -- {f, g, h} };
+    h -- a;
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout] {
+    a -- { b, c, d [> orient'=right], e -- {f, g, h} };
+    h -- a;
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 16: \texttt{orient tail} dan \texttt{orient head}}
+Garis orientasi dibuat dari node \texttt{f} ke node \texttt{a}, dengan sudut dasar \texttt{orient=|}.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout] {
+    a [orient=down, orient head=f] -- { b, c, d, e -- {f, g, h} };
+    { h, g } -- a;
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout] {
+    a [orient=down, orient head=f] -- { b, c, d, e -- {f, g, h} };
+    { h, g } -- a;
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 17: \texttt{horizontal} dan \texttt{vertical}}
+\texttt{horizontal=a to b} menyejajarkan garis \texttt{a}--\texttt{b} secara horizontal. \texttt{vertical} melakukan hal yang sama secara vertikal.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [spring layout, horizontal=a to b] { a--b--c--a };
+  \begin{scope}[xshift=5cm]
+    \graph [spring layout, vertical=a to b] { a--b--c--a };
+  \end{scope}
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [spring layout, horizontal=a to b] { a--b--c--a };
+  \begin{scope}[xshift=5cm]
+    \graph [spring layout, vertical=a to b] { a--b--c--a };
+  \end{scope}
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 18: \texttt{grow} ke kanan}
+\texttt{grow=right} membuat semua anak tumbuh ke kanan. Gunakan \texttt{grow'} jika ingin urutan searah jarum jam.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, sibling distance=5mm, grow=right] {
+    a -- { b, c, d, e -- {f, g, h} } -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, sibling distance=5mm, grow=right] {
+    a -- { b, c, d, e -- {f, g, h} } -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 19: \texttt{grow} dengan sudut tertentu}
+Graf bipartit lengkap dengan \texttt{grow=-80} agar anak-anak tumbuh pada sudut -80 derajat.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, grow=-80] {
+    {a,b,c} -- [complete bipartite] {e,d,f}
+            -- [complete bipartite] {g,h,i};
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, grow=-80] {
+    {a,b,c} -- [complete bipartite] {e,d,f}
+            -- [complete bipartite] {g,h,i};
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Menyempurnakan Posisi Node (28.6)}
+
+
+\textbf{Contoh 20: \texttt{nudge}}
+\texttt{nudge} menggeser node setelah algoritma selesai, sehingga tidak memengaruhi algoritma.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [nudge=(up:2mm)] } -- e -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [nudge=(up:2mm)] } -- e -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 21: \texttt{nudge left} dan \texttt{nudge up}}
+Versi singkat dari \texttt{nudge}.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b [nudge left=2mm], c, d [nudge up=2mm] } -- e -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b [nudge left=2mm], c, d [nudge up=2mm] } -- e -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 22: \texttt{regardless at}}
+Node \texttt{d} dipaksa ke (1,0) setelah algoritma. Algoritma tidak tahu tentang posisi ini.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [regardless at={(1,0)}] } -- e -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [regardless at={(1,0)}] } -- e -- a
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 23: \texttt{nail at}}
+Node \texttt{d} dan \texttt{e} ``dipaku'': algoritma diberi tahu posisinya, dan jika gagal, node tetap dipaksa ke sana.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [nail at={(1,0)}] } -- e [nail at={(1.5,-1)}] -- a
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, sibling distance=0, nodes=draw, edges=rounded corners] {
+    a -- { b, c, d [nail at={(1,0)}] } -- e [nail at={(1.5,-1)}] -- a
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Packing Komponen Terhubung (28.7)}
+
+
+\textbf{Contoh 24: \texttt{componentwise}}
+Algoritma necklace biasanya memperlakukan semua node sebagai satu lingkaran. Dengan \texttt{componentwise}, tiap komponen digambar terpisah.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [simple necklace layout, componentwise] {
+    a -- b -- c -- d -- a,
+    1 -- 2 -- 3 -- 1
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [simple necklace layout, componentwise] {
+    a -- b -- c -- d -- a,
+    1 -- 2 -- 3 -- 1
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 25: \texttt{component order}}
+Urutan komponen menurut kemunculan node pertama dalam input.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          component order=by first specified node] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          component order=by first specified node] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 26: \texttt{small components first}}
+Komponen diurutkan dari yang terkecil ke terbesar.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          small components first] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          small components first] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 27: \texttt{component direction}}
+Komponen ditempatkan ke kiri. Kode arah dapat berupa kata (\texttt{left}, \texttt{up}) atau sudut.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          component direction=left] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, nodes={inner sep=1pt, draw, circle},
+          component direction=left] {
+    a, b, c -- d -- e, f -- g
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 28: \texttt{component align}}
+Komponen disejajarkan berdasarkan garis perataan. Nilai \texttt{center} menyejajarkan komponen pada titik tengah proyeksinya.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [binary tree layout, nodes=draw, component align=center] {
+    a, b -- c, d -- e -- f
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [binary tree layout, nodes=draw, component align=center] {
+    a, b -- c, d -- e -- f
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 29: \texttt{component packing}: rectangular dan skyline}
+\texttt{rectangular} membungkus setiap komponen dengan kotak. \texttt{skyline} mendekatkan komponen sejauh mungkin tanpa bersentuhan.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [tree layout, component sep=0pt, component packing=rectangular,
+          level distance=1.5cm, nodes=draw] {
+    a -- long text, longer text -- b
+  };
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+  \graph [tree layout, component sep=0pt, component packing=skyline,
+          level distance=1.5cm, nodes=draw] {
+    a -- long text, longer text -- b
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [tree layout, component sep=0pt, component packing=rectangular,
+          level distance=1.5cm, nodes=draw] {
+    a -- long text, longer text -- b
+  };
+\end{tikzpicture}
+\hspace{1cm}
+\begin{tikzpicture}
+  \graph [tree layout, component sep=0pt, component packing=skyline,
+          level distance=1.5cm, nodes=draw] {
+    a -- long text, longer text -- b
+  };
+\end{tikzpicture}}\end{center}
+
+% ==================================================================
+
+
+\end{frame}
+
+\begin{frame}[fragile,allowframebreaks]{Menganjurkan Edge (28.8)}
+
+
+\textbf{Contoh 30: \texttt{tail anchor} dan \texttt{head anchor}}
+Edge dimulai dari sisi timur node awal dan berakhir di sisi barat node akhir.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, edges={->}, tail anchor=east,
+          head anchor=west, nodes=draw] {
+    a -> b -> c
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, edges={->}, tail anchor=east,
+          head anchor=west, nodes=draw] {
+    a -> b -> c
+  };
+\end{tikzpicture}}\end{center}
+
+
+\textbf{Contoh 31: \texttt{tail cut} dan \texttt{head cut}}
+Dengan \texttt{tail cut=false}, edge tidak dipotong di tepi node awal sehingga masuk ke dalam node.
+\begin{lstlisting}
+\begin{tikzpicture}
+  \graph [layered layout, edges={->}, nodes=draw, tail cut=false] {
+    a -> b -> c
+  };
+\end{tikzpicture}
+\end{lstlisting}
+\begin{center}\scalebox{0.55}{\begin{tikzpicture}
+  \graph [layered layout, edges={->}, nodes=draw, tail cut=false] {
+    a -> b -> c
+  };
+\end{tikzpicture}}\end{center}
+
+
+\end{frame}
+\end{document}
